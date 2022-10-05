@@ -29,6 +29,15 @@ public class MsPacMan extends PacmanController {
 	
 	private MOVE[] allMoves = MOVE.values();
 	
+	public MsPacMan() 
+	{
+		super();
+
+		setName("MsPacMan 12");
+
+		setTeam("Team 12");
+	}
+	
 	@Override
 	public MOVE getMove(Game game, long timeDue) {
 		
