@@ -14,7 +14,7 @@ import pacman.game.GameView;
 public class MsPacMan extends PacmanController {
 
 	
-	int runLimit = 70;	
+	int runLimit = 100;	
 	int eatTimeSecure = 10;
 	
 	
@@ -105,6 +105,7 @@ public class MsPacMan extends PacmanController {
 			
 			else
 			{
+				System.out.println("away multiple");
 				return awayFromMultipleGhosts(game);
 			}
 		}
@@ -158,48 +159,52 @@ public class MsPacMan extends PacmanController {
 		int ghostPP[] = null;
 		int ghostPacman[] = null;
 		
+		int pill = -1;
 		
-		int p;
 		
-		do {
-			p = game.getActivePillsIndices()[rnd.nextInt(game.getActivePillsIndices().length)];
-			pacman = game.getShortestPath(game.getPacmanCurrentNodeIndex(), p ,lastMove);
-			
-			for(GHOST g : ghosts)
-			{	
-				if(g != null)
+	for(int p : game.getActivePillsIndices())
+	{
+		pacman = game.getShortestPath(pacmanPos, p,	lastMove);
+		for(GHOST g : ghosts)
+		{
+			if(g != null)
+			{
+				try {
+					ghostPP = game.getShortestPath(game.getGhostCurrentNodeIndex(g), p,	game.getGhostLastMoveMade(g));
+				} catch (Exception e) {
+					ghostPP = game.getShortestPath(game.getGhostCurrentNodeIndex(g), p);
+				}
+
+				try {
+					ghostPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g), pacmanPos, game.getGhostLastMoveMade(g));
+
+				} catch (Exception e) {
+					ghostPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g),pacmanPos);
+				}
+				
+				if (!collisionRoute(pacman, ghostPacman) && !collisionRoute(pacman, ghostPP) && pillSecure(game, p))
 				{
-					try {
-						ghostPP = game.getShortestPath(game.getGhostCurrentNodeIndex(g), p,	game.getGhostLastMoveMade(g));
-					} catch (Exception e) {
-						ghostPP = game.getShortestPath(game.getGhostCurrentNodeIndex(g), p);
-					}
-
-					try {
-						ghostPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g), pacmanPos, game.getGhostLastMoveMade(g));
-
-					} catch (Exception e) {
-						ghostPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g),pacmanPos);
-					}
-					
-					if (collisionRoute(pacman, ghostPacman) || collisionRoute(pacman, ghostPP))
-					{						
-						p = -1;
-						break;
-					}
+					pill = p;
+					break;
 				}
 			}
-			
-		} while(p == -1);
+			if(pill != -1)
+				break;
+		}
+	}
 		
 		
-		if(p != -1)
+		if(pill != -1)
 			{
-			DrawPath(game, Color.PINK, pacmanPos, p, lastMove);
-			return game.getNextMoveTowardsTarget(pacmanPos, p, lastMove, DM.PATH);
+			DrawPath(game, Color.PINK, pacmanPos, pill, lastMove);
+			return game.getNextMoveTowardsTarget(pacmanPos, pill, lastMove, DM.PATH);
 			}
 		else
+		{
+			System.out.println("random");
 			return allMoves[rnd.nextInt(allMoves.length)];
+		}
+			
 		
 		
 		
@@ -315,8 +320,7 @@ public class MsPacMan extends PacmanController {
 			try{
 			 nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghostType), pill, game.getGhostLastMoveMade(ghostType)) > runLimit;
 			} 
-			catch(Exception e)
-			{
+			catch(Exception e) {
 				nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghostType), pill) > runLimit;
 			}
 			
