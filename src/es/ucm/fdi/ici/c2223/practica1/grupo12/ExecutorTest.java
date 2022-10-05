@@ -16,10 +16,9 @@ public class ExecutorTest {
 		 .build();
 		 //PacmanController pacMan = new HumanController(new KeyBoardInput());
 		 PacmanController pacMan = new MsPacMan();
-		 GhostController ghosts = new Ghosts();
+		 GhostController ghosts = new GhostsP1();
 
 		 System.out.println(
-		 executor.runGame(pacMan, ghosts, 20)
-		 );
+		 executor.runGame(pacMan, ghosts, 20));
 		 }
 }

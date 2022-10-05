@@ -36,7 +36,6 @@ public final class JunctionManager {
 				if (ticks == 0) 
 				{
 					movesToDelete[i] = entry.getKey();
-					System.out.println("borrado el movimiento: " + entry.getKey());
 					
 					i++;
 				}
