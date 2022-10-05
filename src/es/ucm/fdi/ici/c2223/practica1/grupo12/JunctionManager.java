@@ -12,7 +12,7 @@ import pacman.game.Constants.MOVE;
  */
 public final class JunctionManager {
 	
-	private final int TICKS_TO_CLEAR = 8;
+	private final int TICKS_TO_CLEAR = 16;
 	 
 	private HashMap<Integer, HashMap<MOVE, Integer>> junctionMarks;
 	
@@ -24,6 +24,9 @@ public final class JunctionManager {
 	{
 		for (HashMap<MOVE, Integer> junctions : junctionMarks.values()) 
 		{
+			MOVE[] movesToDelete = new MOVE[junctions.size()];
+			
+			int i = 0;
 			for (Entry<MOVE, Integer> entry : junctions.entrySet()) 
 			{
 				int ticks = entry.getValue();
@@ -32,9 +35,17 @@ public final class JunctionManager {
 				
 				if (ticks == 0) 
 				{
-					junctions.remove(entry.getKey());
+					movesToDelete[i] = entry.getKey();
+					System.out.println("borrado el movimiento: " + entry.getKey());
+					
+					i++;
 				}
 	        }
+			
+			for (int j = 0; j < i; j++) 
+			{
+				junctions.remove(movesToDelete[j]);
+			}
         }
 	}
 	
@@ -86,7 +97,7 @@ public final class JunctionManager {
 		
 		for (MOVE m : Constants.MOVE.values()) 
 		{
-			if (m != move && m.opposite() != lastMoveMade && isDirectionAvailable(junction, m)) 
+			if (m != move && m != MOVE.NEUTRAL && m.opposite() != lastMoveMade && isDirectionAvailable(junction, m)) 
 			{
 				move = m;
 			}
