@@ -22,6 +22,9 @@ public class MsPacMan extends PacmanController {
 =======
 	int normalLimit = 60;
 >>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
+=======
+	int normalLimit = 60;
+>>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
 	int eatTimeSecure = 10;
 	
 	
@@ -32,6 +35,7 @@ public class MsPacMan extends PacmanController {
 	
 	GHOST target = null;
 	
+<<<<<<< HEAD
 <<<<<<< HEAD
 	private MOVE[] allMoves = MOVE.values();
 	
@@ -44,6 +48,8 @@ public class MsPacMan extends PacmanController {
 		setTeam("Team 12");
 	}
 	
+=======
+>>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
 =======
 >>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
 	@Override
@@ -91,6 +97,7 @@ public class MsPacMan extends PacmanController {
 				
 				if(currentDistance < eatTimeSecure) //distancia del fantasma mas cercano a ti es menor que la limite
 				{					
+<<<<<<< HEAD
 					
 					if(ghosts[1] == null) //si hay un solo fantasma que te puede atacar huye
 					{
@@ -107,6 +114,24 @@ public class MsPacMan extends PacmanController {
 				//else if(currentDistance < game.getGhostEdibleTime(ghosts[0]) + eatTimeSecure) //distancia del fantasma mas cercano es menor que la segura
 				//{
 					
+=======
+					
+					if(ghosts[1] == null) //si hay un solo fantasma que te puede atacar huye
+					{
+						System.out.println("comible - 1 fantasma - huir");
+						return awayNearestGhost(game);
+					}						
+					else //si hay dos huye de los dos
+					{
+						System.out.println("comible - 2 fantasma - huir");
+						return awayFromTwoGhosts(game);
+					}
+						
+				}	
+				//else if(currentDistance < game.getGhostEdibleTime(ghosts[0]) + eatTimeSecure) //distancia del fantasma mas cercano es menor que la segura
+				//{
+					
+>>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
 				//}
 				else//si es seguro
 				{
@@ -158,6 +183,7 @@ public class MsPacMan extends PacmanController {
 		}
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
 		//si hay mas de un fantasma en la zona
 		else {
 			int nearPowerPill = powerPillInRange(game);
@@ -179,6 +205,8 @@ public class MsPacMan extends PacmanController {
 		
 		
 		
+=======
+>>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
 =======
 >>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
 	}
@@ -227,6 +255,7 @@ public class MsPacMan extends PacmanController {
 	public MOVE toNearestPowerPill(Game game, boolean secure)
 	{
 		
+<<<<<<< HEAD
 <<<<<<< HEAD
 		int pacman[] = null; 
 		int ghostPP[] = null;
@@ -280,6 +309,10 @@ public class MsPacMan extends PacmanController {
 			
 		
 		
+=======
+		GameView.addPoints(game, Color.GREEN, game.getShortestPath(game.getPacmanCurrentNodeIndex(), 
+				getNearestPill(game, game.getPacmanCurrentNodeIndex(),  game.getActivePowerPillsIndices(), secure), game.getPacmanLastMoveMade()));
+>>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
 =======
 		GameView.addPoints(game, Color.GREEN, game.getShortestPath(game.getPacmanCurrentNodeIndex(), 
 				getNearestPill(game, game.getPacmanCurrentNodeIndex(),  game.getActivePowerPillsIndices(), secure), game.getPacmanLastMoveMade()));
@@ -484,6 +517,9 @@ public class MsPacMan extends PacmanController {
 			catch(Exception e)
 			{
 				nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghostType), pill) > normalLimit;
+<<<<<<< HEAD
+>>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
+=======
 >>>>>>> parent of 482db7a (pacman mas suicida menos retrasado)
 			}
 			
