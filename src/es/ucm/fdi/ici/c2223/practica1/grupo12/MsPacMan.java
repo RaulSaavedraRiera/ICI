@@ -18,6 +18,7 @@ public class MsPacMan extends PacmanController {
 	//no ataca bien
 	
 <<<<<<< HEAD
+<<<<<<< HEAD
 	int runLimit = 100;	
 =======
 	int normalLimit = 60;
