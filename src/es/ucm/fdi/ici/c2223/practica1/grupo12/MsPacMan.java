@@ -37,6 +37,7 @@ public class MsPacMan extends PacmanController {
 
 	private MOVE[] allMoves = MOVE.values();
 	
+<<<<<<< HEAD
 	public MsPacMan() 
 	{
 		super();
@@ -47,6 +48,8 @@ public class MsPacMan extends PacmanController {
 	}
 	
 
+=======
+>>>>>>> parent of 6d81989 (nombres)
 	@Override
 	public MOVE getMove(Game game, long timeDue) {
 
