@@ -76,7 +76,7 @@ public class MsPacMan extends PacmanController {
 					pillT = to;
 
 					DrawPath(game, Color.PINK, pacmanPos, to, lastMove);
-					return game.getNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
+					return game.getApproximateNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
 				} else {
 					System.out.println("random");
 					return toNearestPill(game, false);
@@ -92,14 +92,14 @@ public class MsPacMan extends PacmanController {
 					powerPillT = to;
 
 					DrawPath(game, Color.GREEN, pacmanPos, to, lastMove);
-					return game.getNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
+					return game.getApproximateNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
 				} else {
 
 					to = awayFromMultipleGhosts(game);
 					if (to != -1) {
 						pillT = to;
 						DrawPath(game, Color.PINK, pacmanPos, to, lastMove);
-						return game.getNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
+						return game.getApproximateNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
 					} else {
 						System.out.println("random");
 						return toNearestPill(game, false);
@@ -117,24 +117,24 @@ public class MsPacMan extends PacmanController {
 	// metodos para legibilidad del codigo
 	public MOVE toNearestGhost(Game game) {
 		try {
-			GameView.addPoints(game, Color.RED, game.getShortestPath(game.getPacmanCurrentNodeIndex(),
+			GameView.addPoints(game, Color.RED, game.getShortestPath(pacmanPos,
 					game.getGhostCurrentNodeIndex(target), game.getPacmanLastMoveMade()));
 		} catch (Exception e) {
 		}
 		;
 
-		return game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(target),
+		return game.getApproximateNextMoveTowardsTarget(pacmanPos, game.getGhostCurrentNodeIndex(target),
 				game.getPacmanLastMoveMade(), DM.MANHATTAN);
 	}
 
 	public MOVE toNearestPill(Game game, boolean secure) {
 		try {
-			return game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
-					getNearestPill(game, game.getPacmanCurrentNodeIndex(), game.getActivePillsIndices(), secure),
+			return game.getApproximateNextMoveTowardsTarget(pacmanPos,
+					getNearestPill(game, pacmanPos, game.getActivePillsIndices(), secure), lastMove,
 					DM.PATH);
 		} catch (Exception e) {
 			return game.getNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
-					getNearestPill(game, game.getPacmanCurrentNodeIndex(), game.getActivePillsIndices(), secure),
+					getNearestPill(game, pacmanPos, game.getActivePillsIndices(), secure),
 					game.getPacmanLastMoveMade(), DM.PATH);
 		}
 	}
