@@ -1,6 +1,7 @@
 package es.ucm.fdi.ici.c2223.practica1.grupo12;
 
 import java.awt.Color;
+import java.util.Arrays;
 import java.util.Random;
 
 import pacman.controllers.PacmanController;
@@ -15,12 +16,12 @@ public class MsPacMan extends PacmanController {
 
 	// distancia para huir / tiempo-margen de comer seguro / tiemoo-margen de
 	// fantasma no peligroso seguro / distancia pill segura
-	final int RunLimit = 100;
+	final int RunLimit = 80;
 	final int EatLimit = 36;
 	final int EatTimeSecure = 20;
 	final int LimitEdibleTime = 6;
-	final int PillLimit = 75;
-	final int MaxPillChecked = 1000;
+	final int PillLimit = 60;
+	final int MaxPillChecked = 8000;
 
 	int pacmanPos;
 
@@ -45,7 +46,15 @@ public class MsPacMan extends PacmanController {
 	public MOVE getMove(Game game, long timeDue) {
 
 		pacmanPos = game.getPacmanCurrentNodeIndex();
-		lastMove = game.getPacmanLastMoveMade();
+		
+		try {
+			lastMove = game.getPacmanLastMoveMade();
+		}
+		catch(Exception e)
+		{
+			lastMove = MOVE.NEUTRAL;
+		}
+		
 
 		// obtenemos los fantasmas que pueden cazarte
 		GetChasingGhosts(game);
@@ -70,18 +79,7 @@ public class MsPacMan extends PacmanController {
 			// si solo hay 1 fantasma peligroso huimos, guardamos pildora para momentos mas
 			// peligrosos
 			if (ghosts[1] == null) {
-				DrawPath(game, Color.BLUE, pacmanPos, game.getGhostCurrentNodeIndex(ghosts[0]), lastMove);
-				to = awayFromMultipleGhosts(game);
-				
-				if (to != -1) {
-					pillT = to;
-
-					DrawPath(game, Color.PINK, pacmanPos, to, lastMove);
-					return game.getApproximateNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
-				} else {
-					System.out.println("random");
-					return toNearestPill(game, false);
-				}
+				return game.getApproximateNextMoveAwayFromTarget(pacmanPos, game.getGhostCurrentNodeIndex(ghosts[0]), lastMove, DM.PATH);
 			}
 
 			// si hay mas de un fantasma en la zona
@@ -103,7 +101,7 @@ public class MsPacMan extends PacmanController {
 						return game.getApproximateNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
 					} else {
 						System.out.println("random");
-						return toNearestPill(game, false);
+						return toNearestPill(game, true);
 					}
 				}
 			}
@@ -124,14 +122,97 @@ public class MsPacMan extends PacmanController {
 		return game.getApproximateNextMoveTowardsTarget(pacmanPos, game.getGhostCurrentNodeIndex(target),
 				game.getPacmanLastMoveMade(), DM.MANHATTAN);
 	}
+	
 
-	public MOVE toNearestPill(Game game, boolean secure) {
-	
-			return game.getApproximateNextMoveTowardsTarget(pacmanPos,
-					getNearestPill(game, pacmanPos, game.getActivePillsIndices(), secure), lastMove, DM.PATH);
-	
+	public MOVE toNearestPill(Game game,  boolean nonPowerPill) {
+
+		// si tiene que evitar powerPills
+		if (nonPowerPill && game.getActivePowerPillsIndices().length > 0) {
+			// obtenemos todos los nodos colindantes
+			int[] neighbours = game.getNeighbouringNodes(pacmanPos, lastMove);
+
+			// interseciion
+			if (neighbours.length > 1) {
+
+				// obtenemos la powerPill mas cercana
+				int pP = getNearestPill(game, pacmanPos, game.getActivePowerPillsIndices());
+				int pillsNumber = 0;
+				int nextNode = -1;
+
+				// exploramos cualquier ruta de la posicion donde esta
+				for (int i = 0; i < neighbours.length; i++) {
+					int t = noPowerPillRoute(game, neighbours[i], pP);
+
+					if (t != -1 && (nextNode == -1 || t > pillsNumber)) {
+						nextNode = neighbours[i];
+						pillsNumber = t;
+					}
+				}
+
+				if (nextNode != -1)
+				{
+					System.out.println("no PP");
+					return game.getApproximateNextMoveTowardsTarget(pacmanPos, nextNode, lastMove, DM.PATH);
+				}
+					
+			}
+		}
+
+		// si no que busque una pildora habitual
+
+		return game.getApproximateNextMoveTowardsTarget(pacmanPos,
+				getNearestPill(game, pacmanPos, game.getActivePillsIndices()), lastMove, DM.PATH);
+
 	}
 
+	
+	int noPowerPillRoute(Game game, int ini, int pP)
+	{
+		int pills = 0;
+		//presuponemos que la ruta es valida
+		boolean valid = true;
+		//var para lamacenar nodo siguiente al actual y nodo actual
+		int nextNode = ini; int currentNode = pacmanPos; 
+		
+		//donde tomaremos los siguientes vecinos
+		int[] nextNeighbours = null;
+		
+		
+		do {						
+			 //si el siguiente nodo es la powerPill no valido
+			 if(nextNode == pP)
+				 valid = false;
+			 else
+			 {
+				//obten los vecinos del siguiente nodo
+				 nextNeighbours = game.getNeighbouringNodes(nextNode,
+							game.getApproximateNextMoveTowardsTarget(currentNode, nextNode, MOVE.NEUTRAL, DM.PATH));
+				 
+				 
+				 //avanzamos una posicion
+				 final int node = currentNode = nextNode;
+				  
+				  //comprobamos si hay pildora en esta casilla
+				  if(Arrays.stream(game.getActivePillsIndices()).anyMatch(i -> i == node))
+					  pills++;
+					  
+				
+				  //solo debe haber 1
+				  nextNode = nextNeighbours[0];
+				  
+				
+			 }
+		}
+		//mientras no sea una interseccion
+		while(nextNeighbours.length < 2 && valid);
+		
+		//si encuentra una ruta sin powerPills la devuelve
+		if (valid) 
+			return pills;
+		else 
+			return -1;
+	}
+	
 	int powerPillInRange(Game game) {
 		int bestValid = -1;
 		int distance = -1;
@@ -149,6 +230,7 @@ public class MsPacMan extends PacmanController {
 				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) < LimitEdibleTime) {
 
 					pacmanToPill = game.getShortestPath(pacmanPos, p, lastMove);
+					
 					ghostToPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g), pacmanPos,
 							game.getGhostLastMoveMade(g));
 					ghostToPill = game.getShortestPath(game.getGhostCurrentNodeIndex(g), p,
@@ -267,7 +349,7 @@ public class MsPacMan extends PacmanController {
 
 	}
 
-	public int getNearestPill(Game game, int pacManPos, int[] pills, boolean secure) {
+	public int getNearestPill(Game game, int pacManPos, int[] pills) {
 		if (pills.length == 0)
 			return -1;
 
@@ -278,28 +360,25 @@ public class MsPacMan extends PacmanController {
 		{
 			currentDistance = game.getShortestPathDistance(pacManPos, pill, game.getPacmanLastMoveMade());
 
-			if (currentDistance < distance && (!secure || pillSecure(game, pill))) {
+			if (currentDistance < distance) {
 				to = pill;
 				distance = currentDistance;
 			}
 		}
 
 		// devolvemos la pill mas cercana
-
-		if (secure && to == -1)
-			getNearestPill(game, pacManPos, pills, false);
-
 		return to;
 	}
 
 	// metodos para comprobacion de rutas validas
 
 	boolean pillSecure(Game game, int pill) {
-		boolean nonGhosts;
+		
+		boolean nonGhosts = true;
 
 		for (Constants.GHOST g : Constants.GHOST.values()) {
 
-			if (game.getGhostLairTime(g) > 0) {
+			if (game.getGhostLairTime(g) > 0 && game.getGhostEdibleTime(g) < EatTimeSecure) {
 				try {
 					nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill,
 							game.getGhostLastMoveMade(g)) > PillLimit;
