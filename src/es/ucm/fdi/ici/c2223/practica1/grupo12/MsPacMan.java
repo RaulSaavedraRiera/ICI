@@ -16,7 +16,7 @@ public class MsPacMan extends PacmanController {
 	// distancia para huir / tiempo-margen de comer seguro / tiemoo-margen de
 	// fantasma no peligroso seguro / distancia pill segura
 	final int RunLimit = 100;
-	final int EatLimit = 100;
+	final int EatLimit = 36;
 	final int EatTimeSecure = 20;
 	final int LimitEdibleTime = 6;
 	final int PillLimit = 75;
@@ -72,6 +72,7 @@ public class MsPacMan extends PacmanController {
 			if (ghosts[1] == null) {
 				DrawPath(game, Color.BLUE, pacmanPos, game.getGhostCurrentNodeIndex(ghosts[0]), lastMove);
 				to = awayFromMultipleGhosts(game);
+				
 				if (to != -1) {
 					pillT = to;
 
