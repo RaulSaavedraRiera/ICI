@@ -164,6 +164,7 @@ public class Ghosts extends GhostController {
 						else {
 							MOVE move = game.getApproximateNextMoveTowardsTarget(ghostNode, pacmanNode,
 									ghostLastMoveMade, DM.PATH);
+							
 							move = junctionMan.getNextAvailableMove(ghostNode, move, ghostLastMoveMade);
 
 							moves.put(ghostType, move);
