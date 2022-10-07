@@ -2,16 +2,13 @@ package es.ucm.fdi.ici.c2223.practica1.grupo12;
 
 import java.awt.Color;
 import java.util.EnumMap;
-import java.util.Map;
 import java.util.Random;
-import java.util.Vector;
 
 import pacman.controllers.GhostController;
 import pacman.game.Constants;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
-import pacman.game.Constants;
 import pacman.game.Game;
 import pacman.game.GameView;
 
