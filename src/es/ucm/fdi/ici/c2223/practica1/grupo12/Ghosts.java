@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.Random;
+import java.util.Vector;
 
 import pacman.controllers.GhostController;
 import pacman.game.Constants;
@@ -29,15 +30,14 @@ public class Ghosts extends GhostController {
 
 	private JunctionManager junctionMan = new JunctionManager();
 
-	public Ghosts() 
-	{
+	public Ghosts() {
 		super();
 
-		 setName("Ghost 12");
+		setName("Ghost 12");
 
-		 setTeam("Team 12");
+		setTeam("Team 12");
 	}
-	
+
 	@Override
 	public EnumMap<GHOST, MOVE> getMove(Game game, long timeDue) {
 		
@@ -164,7 +164,6 @@ public class Ghosts extends GhostController {
 						else {
 							MOVE move = game.getApproximateNextMoveTowardsTarget(ghostNode, pacmanNode,
 									ghostLastMoveMade, DM.PATH);
-
 							move = junctionMan.getNextAvailableMove(ghostNode, move, ghostLastMoveMade);
 
 							moves.put(ghostType, move);
@@ -191,12 +190,11 @@ public class Ghosts extends GhostController {
 
 						moves.put(ghostType, move);
 					}
-					
-					//si no, huye de pacman
-					else 
-					{
-						MOVE move = game.getApproximateNextMoveAwayFromTarget(ghostNode, pacmanNode,
-								ghostLastMoveMade, DM.PATH);
+
+					// si no, huye de pacman
+					else {
+						MOVE move = game.getApproximateNextMoveAwayFromTarget(ghostNode, pacmanNode, ghostLastMoveMade,
+								DM.PATH);
 
 						moves.put(ghostType, move);
 					}
@@ -227,4 +225,31 @@ public class Ghosts extends GhostController {
 		return minDistPillNode;
 	}
 
+	private MOVE getMoveToPacmanDirection(Game game, int ghostNode, int pacmanNode, MOVE ghostLastMoveMade,
+			MOVE pacmanLastMoveMade, GHOST ghostype) {
+		
+		MOVE move = ghostLastMoveMade;
+		int destNode = pacmanNode;
+
+		int closestPP = getClosestPowerPill(game, pacmanNode, pacmanLastMoveMade);
+		
+		int[] route = game.getShortestPath(pacmanNode, closestPP, pacmanLastMoveMade);
+		
+		//recorre la ruta de mspacman hasta la PP mas cercana e intenta ver si llega a algun punto antes que ella
+		for (int node : route) 
+		{
+			int ghostDist = game.getShortestPathDistance(ghostNode, node, ghostLastMoveMade);
+			int pacmanDist = game.getShortestPathDistance(pacmanNode, node, pacmanLastMoveMade);
+			
+			if (ghostDist < pacmanDist) 
+			{
+				destNode = pacmanNode;
+				break;
+			}
+		}
+
+		move = game.getNextMoveTowardsTarget(ghostNode, destNode, ghostLastMoveMade, DM.PATH);
+
+		return move;
+	}
 }
