@@ -16,11 +16,11 @@ public class MsPacMan extends PacmanController {
 
 	// distancia para huir / tiempo-margen de comer seguro / tiemoo-margen de
 	// fantasma no peligroso seguro / distancia pill segura
-	final int RUNLIMIT = 80;
-	final int EATLIMIT = 40;
-	final int LIMITEDIBLETIME = 12;
-	final int PILLLIMIT = 60;
-	final int MAXPILLCHECKED = 8000;
+	final int RUN_LIMIT = 80;
+	final int EAT_LIMIT = 80;
+	final int LIMIT_EDIBLE_TIME = 12;
+	final int PILL_LIMIT = 80;
+	final int MAX_PILL_CHECKED = 8000;
 
 	int pacmanPos;
 
@@ -99,7 +99,6 @@ public class MsPacMan extends PacmanController {
 						DrawPath(game, Color.PINK, pacmanPos, to, lastMove);
 						return game.getApproximateNextMoveTowardsTarget(pacmanPos, to, lastMove, DM.PATH);
 					} else {
-						System.out.println("random");
 						return toNearestPill(game, true);
 					}
 				}
@@ -150,7 +149,6 @@ public class MsPacMan extends PacmanController {
 
 				if (nextNode != -1)
 				{
-					System.out.println("no PP");
 					return game.getApproximateNextMoveTowardsTarget(pacmanPos, nextNode, lastMove, DM.PATH);
 				}
 					
@@ -226,7 +224,7 @@ public class MsPacMan extends PacmanController {
 			// comprobamos que no se toque con fantasmas
 			for (Constants.GHOST g : Constants.GHOST.values()) {
 
-				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) < LIMITEDIBLETIME) {
+				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) < LIMIT_EDIBLE_TIME) {
 
 					pacmanToPill = game.getShortestPath(pacmanPos, p, lastMove);
 					
@@ -271,7 +269,7 @@ public class MsPacMan extends PacmanController {
 			valid = true;
 			for (Constants.GHOST g : Constants.GHOST.values()) {
 				// si el fantasma no esta encerrado y supone una amenaza comprobamos ruta con el
-				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) < LIMITEDIBLETIME) {
+				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) < LIMIT_EDIBLE_TIME) {
 					try {
 						ghostPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g), pacmanPos,
 								game.getGhostLastMoveMade(g));
@@ -290,7 +288,7 @@ public class MsPacMan extends PacmanController {
 				}
 
 			}
-		} while (!valid && i <= MAXPILLCHECKED);
+		} while (!valid && i <= MAX_PILL_CHECKED);
 
 		return p;
 
@@ -308,12 +306,12 @@ public class MsPacMan extends PacmanController {
 	public void getNearestChasingGhost(Game game, int index) {
 		GHOST nearest = null;
 		int currentDistance;
-		int minDistance = RUNLIMIT;
+		int minDistance = RUN_LIMIT;
 
 		// por cada uno de los fantasmas
 		for (Constants.GHOST g : Constants.GHOST.values()) {
 			// si no ha sido seleccionado, no e comible y no esta encerrado
-			if (g != ghosts[0] && g != ghosts[1] && game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) <= LIMITEDIBLETIME) {
+			if (g != ghosts[0] && g != ghosts[1] && game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) <= LIMIT_EDIBLE_TIME) {
 				// comprobamos si esta mas cerca que el limite actual
 				currentDistance = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pacmanPos, game.getGhostLastMoveMade(g));
 				if (currentDistance < minDistance) {
@@ -333,7 +331,7 @@ public class MsPacMan extends PacmanController {
 	{
 		GHOST nearestGhost = null;
 		
-		int nearestDistance = EATLIMIT;
+		int nearestDistance = EAT_LIMIT;
 		
 		for (Constants.GHOST g : Constants.GHOST.values()) {
 			if(game.getGhostEdibleTime(g) > 0 && game.getShortestPathDistance(pacmanPos, game.getGhostCurrentNodeIndex(g), lastMove) < nearestDistance)
@@ -377,12 +375,12 @@ public class MsPacMan extends PacmanController {
 
 		for (Constants.GHOST g : Constants.GHOST.values()) {
 
-			if (game.getGhostLairTime(g) > 0 && game.getGhostEdibleTime(g) < LIMITEDIBLETIME) {
+			if (game.getGhostLairTime(g) > 0 && game.getGhostEdibleTime(g) < LIMIT_EDIBLE_TIME) {
 				try {
 					nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill,
-							game.getGhostLastMoveMade(g)) > PILLLIMIT;
+							game.getGhostLastMoveMade(g)) > PILL_LIMIT;
 				} catch (Exception e) {
-					nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill) > PILLLIMIT;
+					nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill) > PILL_LIMIT;
 				}
 				if (!nonGhosts)
 					return false;
