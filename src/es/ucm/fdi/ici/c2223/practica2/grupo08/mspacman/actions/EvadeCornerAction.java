@@ -45,7 +45,7 @@ public class EvadeCornerAction implements Action {
 		// interseciion
 		if (neighbours.length > 1) {
 			
-			int corner = 1;//obtener direccion de la cell
+			int corner = getNearestCorner(game);
 			int pillsNumber = 0;
 			int distanceToPowerPill = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), corner);
 			
@@ -124,12 +124,15 @@ int getNearestCorner(Game game) {
 
 		for (int pill : pills) // comprobamos para las pill cual es la mas cercana
 		{
-			currentDistance = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), pill, game.getPacmanLastMoveMade());
+			if(!Arrays.stream(game.getActivePillsIndices()).anyMatch(i -> i == pill))
+			{
+				currentDistance = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), pill, game.getPacmanLastMoveMade());
 
-			if (currentDistance < distance) {
-				to = pill;
-				distance = currentDistance;
-			}
+				if (currentDistance < distance) {
+					to = pill;
+					distance = currentDistance;
+				}
+			}		
 		}
 
 		// devolvemos la pill mas cercana
