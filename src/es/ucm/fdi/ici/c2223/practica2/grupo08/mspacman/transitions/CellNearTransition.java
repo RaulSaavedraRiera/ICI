@@ -4,22 +4,23 @@ import es.ucm.fdi.ici.Input;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.MsPacManInput;
 import es.ucm.fdi.ici.fsm.Transition;
 
-public class PowerPillNearTransition implements Transition {
+public class CellNearTransition implements Transition {
 
-	final int MAX_DISTANCE_POWERPILL = 30;
+	final int MAX_DISTANCE_CELL = 30;
 	
-	public PowerPillNearTransition() {		
+	public CellNearTransition() {		
 	}
 
 	@Override
 	public boolean evaluate(Input in) {
 		MsPacManInput input = (MsPacManInput)in;
-		return input.pacmanDistanceNearPowerPill() <= MAX_DISTANCE_POWERPILL;
+		return input.pacmanDistanceCell() <= MAX_DISTANCE_CELL;
 		
 	}
 
 	@Override
 	public String toString() {
-		return String.format("PP near to PacMan");
+		return String.format("Pacman near to Cell");
 	}
+
 }

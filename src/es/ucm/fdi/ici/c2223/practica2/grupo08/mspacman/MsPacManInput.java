@@ -24,8 +24,10 @@ public class MsPacManInput extends Input {
 	private int chasingGhostsInRange;
 	
 	private int nearPills;
+	//faltan estos 3 por programar
 	private boolean secureRoute;
 	private boolean ghostFollowPacman;
+	private boolean groupEdibleGhosts;
 	
 	
 	private int cell;
@@ -85,6 +87,10 @@ public class MsPacManInput extends Input {
 	
 	public boolean ghostFollowPacman() {
 		return ghostFollowPacman;
+	}
+	
+	public boolean groupEdibleGhosts() {
+		return groupEdibleGhosts;
 	}
 	
 int getNearestPoint(int[] pills) {		
@@ -164,7 +170,7 @@ int getGhostsNear(boolean edible)
 int getPillsNear() {
 	
 	
-	int n;
+	int n = 0;
 	
 	int[] pills = game.getActivePillsIndices();
 	
@@ -176,7 +182,7 @@ int getPillsNear() {
 
 	for (int pill : pills) // comprobamos para las pill cual es la mas cercana
 	{
-		if (game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), pill, game.getPacmanLastMoveMade()) <= MAXDISTANCE_PILLSNEAR) {
+		if (game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), pill, game.getPacmanLastMoveMade()) <= MAXDISTANCE_PILLSNEAR) 
 			n++;
 	}
 
