@@ -1,4 +1,4 @@
-package es.ucm.fdi.ici.c2223.practica2.grupo08.ghost.transitions;
+package es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions;
 
 import es.ucm.fdi.ici.Input;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.GhostsInput;

@@ -13,6 +13,10 @@ public class GhostsInput extends Input {
 	private boolean SUEedible;
 	private double minPacmanDistancePPill;
 	
+	private final int GHOST_RANGE = 50;
+	private final int PACMAN_MAX_DIST_TO_PP = 40;
+	private final int SAFETY_DISTANCE_WHEN_EDIBLE = 20;
+	
 	public GhostsInput(Game game) {
 		super(game);
 	}
@@ -50,6 +54,18 @@ public class GhostsInput extends Input {
 
 	public double getMinPacmanDistancePPill() {
 		return minPacmanDistancePPill;
+	}
+
+	public int getSAFETY_DISTANCE_WHEN_EDIBLE() {
+		return SAFETY_DISTANCE_WHEN_EDIBLE;
+	}
+
+	public int getPACMAN_MAX_DIST_TO_PP() {
+		return PACMAN_MAX_DIST_TO_PP;
+	}
+
+	public int getGHOST_RANGE() {
+		return GHOST_RANGE;
 	}
 
 
