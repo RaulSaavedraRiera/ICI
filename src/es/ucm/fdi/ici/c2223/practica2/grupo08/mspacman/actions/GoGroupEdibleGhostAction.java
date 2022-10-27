@@ -48,9 +48,7 @@ public class GoGroupEdibleGhostAction implements Action {
 
 					if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), game.getGhostCurrentNodeIndex(gO),
 							game.getGhostLastMoveMade(g)) <= MAXDISTANCE_GHOSTSGROUP) {
-							
 						group++;
-						
 					}
 
 				}
