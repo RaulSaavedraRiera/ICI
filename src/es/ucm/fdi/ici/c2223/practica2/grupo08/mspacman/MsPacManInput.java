@@ -1,11 +1,13 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman;
 
 import java.util.Arrays;
+import java.util.Random;
 
 import es.ucm.fdi.ici.Input;
 import pacman.game.Constants;
-import pacman.game.Game;
 import pacman.game.Constants.GHOST;
+import pacman.game.Constants.MOVE;
+import pacman.game.Game;
 
 public class MsPacManInput extends Input {
 
@@ -14,7 +16,10 @@ public class MsPacManInput extends Input {
 	
 	final int MAXDISTANCE_GHOSTSEDIBLE = 20;
 	final int MAXDISTANCE_GHOSTSCHASING = 20;
+	final int MAXDISTANCE_GHOSTSGROUP = 30;
 	final int MAXDISTANCE_PILLSNEAR = 100;
+	final int MAXTIME_EDIBLEGHOST = 12;
+	final int MAXCOUNT_PILLSCHECKED = 8000;
 	
 	private int pacmanDistanceNearPowerPill;
 	private int pacmanDistanceCell;
@@ -24,13 +29,15 @@ public class MsPacManInput extends Input {
 	private int chasingGhostsInRange;
 	
 	private int nearPills;
-	//faltan estos 3 por programar
-	private boolean secureRoute;
+	
+	private boolean secureRoute; //falta
 	private boolean ghostFollowPacman;
-	private boolean groupEdibleGhosts;
+	private boolean groupEdibleGhosts; //falta
 	
 	
 	private int cell;
+	
+	private Random rnd = new Random();
 	
 	
 	public MsPacManInput(Game game) {
@@ -51,7 +58,10 @@ public class MsPacManInput extends Input {
 		edibleGhostsInRange = getGhostsNear(true);
 		chasingGhostsInRange = getGhostsNear(false);
 		
-		nearPills = getPillsNear();
+		nearPills = getPillsNear();		
+		ghostFollowPacman = isGhostFollowsPacman();		
+		secureRoute = secureRouteAvailable();
+		groupEdibleGhosts = groupAvailable();
 		
 		
 	}
@@ -189,8 +199,169 @@ int getPillsNear() {
 	// devolvemos la pill mas cercana
 	return n;
 }
+
+//si antes de la siguiente interseccion donde esta el fantasma esta pacman
+boolean isGhostFollowsPacman()
+{
+	GHOST nearest = null;
+	int minDistance = 10000;
+	int currentDistance;
 	
+	// por cada uno de los fantasmas
+	for (Constants.GHOST g : Constants.GHOST.values()) {
+		// si no ha sido seleccionado, no e comible y no esta encerrado
+		if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) == 0) {
+			// comprobamos si esta mas cerca que el limite actual
+			currentDistance = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g),
+					game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(g));
+			if (currentDistance < minDistance) {
+				// en caso correcto lo guardamos
+				nearest = g;
+				minDistance = currentDistance;
+			}
+		}
+
+	}
 	
+	//si ahora mismo no esta en una interseccion devolvemos que no
+	if(game.getNeighbouringNodes(game.getGhostCurrentNodeIndex(nearest), game.getGhostLastMoveMade(nearest)).length > 1)
+		return false;
+	
+	//si no obtenemos el nodo siguiente
+	int node = game.getNeighbouringNodes(game.getGhostCurrentNodeIndex(nearest))[0];
+	//guardamos los nodos
+	int[] nodes;
+	
+		do {		
+			//si el nodo es el de pacman es que le esta siguiendo
+			if(node == game.getPacmanCurrentNodeIndex())
+				return true;
+			//cogemos los nodos siguientes al actual
+			nodes = game.getNeighbouringNodes(node);
+			node = nodes[0];
+			//si es interseccion salimos
+		}while(nodes.length < 2);
+	
+	//si pacman no esta ahi no lo esta siguiendo
+	return false;
+	
+}
+
+
+//habria que usar la routa que nos da, el int finald e la pill pero no se si se puede pasar a accion
+boolean secureRouteAvailable() {
+	
+	int pacmanPos = game.getPacmanCurrentNodeIndex(); 
+	MOVE lastMove = game.getPacmanLastMoveMade();
+	
+	int[] pacman = null;
+
+	int[] ghostPacman = null;
+
+	boolean valid;
+	int i = 0;
+	int p = -1;
+	
+	// para cada pildora
+	do {
+		p = game.getPillIndices()[rnd.nextInt(game.getPillIndices().length)];
+		i++;
+		// obtenemos la ruta
+		pacman = game.getShortestPath(pacmanPos, p, lastMove);
+		// para cada una suponemos que es valida
+		valid = true;
+		for (Constants.GHOST g : Constants.GHOST.values()) {
+			// si el fantasma no esta encerrado y supone una amenaza comprobamos ruta con el
+			if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) < MAXTIME_EDIBLEGHOST) {
+				try {
+					ghostPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g), pacmanPos,
+							game.getGhostLastMoveMade(g));
+
+				} catch (Exception e) {
+					ghostPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g), pacmanPos);
+				}
+
+				// en caso de que haya colision la marcamos como no valida y salimos
+				if (!pillSecure(game, p) || collisionRoute(pacman, ghostPacman)) // la pildora esta lejos de
+																					// fantasmas es segura
+				{
+					valid = false;
+					break;
+				}
+			}
+
+		}
+	} while (!valid && i <= MAXCOUNT_PILLSCHECKED);
+
+	//return p; deberiamos guardar la pildora
+	
+	if(p != -1) return true;
+	else return false;
+}
+	
+
+boolean pillSecure(Game game, int pill) {
+	
+	boolean nonGhosts = true;
+
+	for (Constants.GHOST g : Constants.GHOST.values()) {
+
+		if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) < MAXTIME_EDIBLEGHOST) {
+			try {
+				nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill,
+						game.getGhostLastMoveMade(g)) > MAXDISTANCE_GHOSTSCHASING;
+			} catch (Exception e) {
+				nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill) > MAXDISTANCE_GHOSTSCHASING;
+			}
+			if (!nonGhosts)
+				return false;
+		}
+
+	}
+
+	return true;
+}
+
+boolean collisionRoute(int[] route, int[] otherRoute) {
+
+	// para cada punto en la ruta
+	for (int i = 0; i < route.length; i++)
+		// comprobamos con los puntos de la otra ruta
+		for (int j = 0; j < otherRoute.length; j++)
+
+			if (route[i] == otherRoute[j] && j <= i)
+				return true;
+
+	return false;
+}
+
+
+//podriamos obtener el grupo aqui en vez de en la accion?
+boolean groupAvailable() {
+	
+	for (Constants.GHOST g : Constants.GHOST.values()) {
+
+		int group = 0;
+		
+		for (Constants.GHOST gO : Constants.GHOST.values()) {
+			// puede ser edibletime 0 si da igual que vaya a dejar de ser comible en pocos
+			// segundos o sacar la distancia a pacman
+			
+			//se van a repetir grupo pero da igual pq si es el mismo tamaño no se va a sobreescribir
+			if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > MAXTIME_EDIBLEGHOST) {
+
+				if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), game.getGhostCurrentNodeIndex(gO),
+						game.getGhostLastMoveMade(g)) <= MAXDISTANCE_GHOSTSGROUP) {
+						
+					return true;
+				}
+
+			}
+		}
+	}
+	return false;
+
+}
 	
 	
 	

@@ -8,6 +8,10 @@ import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
 public class GoGroupEdibleGhostAction implements Action {
+	
+	final int MAXTIME_EDIBLEGHOST = 12;
+	final int MAXDISTANCE_GHOSTSGROUP = 30;
+	
 	public GoGroupEdibleGhostAction() {
 		// TODO Auto-generated constructor stub
 	}
@@ -16,7 +20,7 @@ public class GoGroupEdibleGhostAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
-		return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), getNearestEdibleGhost(game), game.getPacmanLastMoveMade(), DM.PATH);
+		return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(getGroupTarget(game)), game.getPacmanLastMoveMade(), DM.PATH);
 	}
 
 	@Override
@@ -24,29 +28,44 @@ public class GoGroupEdibleGhostAction implements Action {
 		return "Go Group Ghost Action";
 	}
 	
-	int getNearestEdibleGhost(Game game) {
-		
-		
-		GHOST nearest = null;
-		int minDistance = 10000;
-		int currentDistance;
-		
-		
+	
+	GHOST getGroupTarget(Game game)
+	{	
+		GHOST target = null;
+		boolean groupFound = false;
+		int sizeGroup = 0;
+
 		for (Constants.GHOST g : Constants.GHOST.values()) {
-			// no he puesto un margen de tiempo para ser comido, pero intuyo que esto se ve en la condicion
-			if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > 0) {
+
+			int group = 0;
+			
+			for (Constants.GHOST gO : Constants.GHOST.values()) {
+				// puede ser edibletime 0 si da igual que vaya a dejar de ser comible en pocos
+				// segundos o sacar la distancia a pacman
 				
-				currentDistance = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g),
-						game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(g));
-				if (currentDistance < minDistance) {
-				
-					nearest = g;
-					minDistance = currentDistance;
+				//se van a repetir grupo pero da igual pq si es el mismo tamaño no se va a sobreescribir
+				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > MAXTIME_EDIBLEGHOST) {
+
+					if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), game.getGhostCurrentNodeIndex(gO),
+							game.getGhostLastMoveMade(g)) <= MAXDISTANCE_GHOSTSGROUP) {
+							
+						group++;
+						
+					}
+
 				}
+			}
+			
+			if(!groupFound || group > sizeGroup)
+			{
+				groupFound = true;
+				sizeGroup = group;
+				target = g;
 			}
 
 		}
-
-		return game.getGhostCurrentNodeIndex(nearest);
+		
+		return target;
 	}
+	
 }
