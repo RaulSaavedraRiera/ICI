@@ -80,7 +80,9 @@ public class Ghosts extends GhostController {
 			PacManNearPPillTransition near = new PacManNearPPillTransition();
 			GhostsNotEdibleAndPacManFarPPill toChaseTransition = new GhostsNotEdibleAndPacManFarPPill(ghost);
 			
-//			fsm.add(chase, edible, runAway);
+			perseguidoresFSM.add(pacmanCercaPP, near, pacmanLejosPP);
+			perseguidoresFSM.add(pacmanLejosPP, toChaseTransition, pacmanCercaPP);
+			fsm.add(comestibles, edible, noComestibles);
 //			fsm.add(chase, near, runAway);
 //			fsm.add(runAway, toChaseTransition, chase);
 //			
