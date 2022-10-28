@@ -6,12 +6,28 @@ import java.util.Map.Entry;
 import pacman.game.Constants.MOVE;
 
 public class GhostData {
+	
+	private final int TICKS_TO_CLEAR = 16;
 
-	public static HashMap<Integer, HashMap<MOVE, Integer>> junctionMarks;
+	public HashMap<Integer, HashMap<MOVE, Integer>> junctionMarks;
 	
-	public static int[] currentGhostDest = new int[] { -1, -1, -1, -1 };
+	public int[] currentGhostDest;
 	
-	public static void update() 
+	public GhostData()
+	{
+		currentGhostDest = new int[] { -1, -1, -1, -1 };
+		
+		junctionMarks = new HashMap<Integer, HashMap<MOVE, Integer>>();
+	}
+	
+	public void reset() 
+	{
+		currentGhostDest = new int[] { -1, -1, -1, -1 };	
+		
+		junctionMarks.clear();
+	}
+	
+	public void update() 
 	{
 		for (HashMap<MOVE, Integer> junctions : junctionMarks.values()) 
 		{
