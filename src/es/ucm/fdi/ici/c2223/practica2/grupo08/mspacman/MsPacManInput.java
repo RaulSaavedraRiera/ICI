@@ -30,9 +30,11 @@ public class MsPacManInput extends Input {
 	
 	private int nearPills;
 	
-	private boolean secureRoute; //falta
+	private boolean secureRoute; 
 	private boolean ghostFollowPacman;
-	private boolean groupEdibleGhosts; //falta
+	private boolean groupEdibleGhosts; 
+	private boolean pacmanCanReachPowerPill;
+
 	
 	
 	private int cell = -1;
@@ -65,6 +67,8 @@ public class MsPacManInput extends Input {
 		ghostFollowPacman = isGhostFollowsPacman();		
 		secureRoute = secureRouteAvailable();
 		groupEdibleGhosts = groupAvailable();
+		
+		pacmanCanReachPowerPill = powerPillSecure();
 		
 		
 	}
@@ -104,6 +108,10 @@ public class MsPacManInput extends Input {
 	
 	public boolean groupEdibleGhosts() {
 		return groupEdibleGhosts;
+	}
+	
+	public boolean pacmanCanReachPowerPill() {
+		return pacmanCanReachPowerPill;
 	}
 	
 int getNearestPoint(int[] pills) {		
@@ -365,6 +373,46 @@ boolean groupAvailable() {
 
 }
 	
+
+boolean powerPillSecure() {
+	
+	 int pacmanPos = game.getPacmanCurrentNodeIndex(); MOVE lastMove = game.getPacmanLastMoveMade();
+	int bestValid = -1;
+	int distance = -1;
+	int[] pacmanToPill;
+	int[] ghostToPacman;
+	int[] ghostToPill;
+	
+	// para cada pildora
+	for (int p : game.getActivePowerPillsIndices()) {
+		boolean valid = true;
+
+		// comprobamos que no se toque con fantasmas
+		for (Constants.GHOST g : Constants.GHOST.values()) {
+
+			if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) < MAXTIME_EDIBLEGHOST) {
+
+				pacmanToPill = game.getShortestPath(pacmanPos, p, lastMove);
+				
+				ghostToPacman = game.getShortestPath(game.getGhostCurrentNodeIndex(g), pacmanPos,
+						game.getGhostLastMoveMade(g));
+				ghostToPill = game.getShortestPath(game.getGhostCurrentNodeIndex(g), p,
+						game.getGhostLastMoveMade(g));
+
+				if (collisionRoute(pacmanToPill, ghostToPacman) || collisionRoute(pacmanToPill, ghostToPill)) {
+					valid = false;
+					break;
+				}
+			}
+		}
+
+		if (valid) {
+		return true;
+		}
+	}
+
+	return false;
+}
 
 int getCellIndex() {
 	if (game.getGhostLairTime(GHOST.BLINKY) <= 0) {
