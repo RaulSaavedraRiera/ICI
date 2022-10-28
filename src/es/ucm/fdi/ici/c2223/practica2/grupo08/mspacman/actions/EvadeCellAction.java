@@ -10,6 +10,10 @@ import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
 public class EvadeCellAction implements Action {
+	
+	
+	int jailIndex = -1;
+	
 	public EvadeCellAction() {
 		// TODO Auto-generated constructor stub
 	}
@@ -17,6 +21,10 @@ public class EvadeCellAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
+		
+		if (jailIndex == -1 && game.getGhostLairTime(GHOST.BLINKY) <= 0) {
+			jailIndex = game.getGhostCurrentNodeIndex(GHOST.BLINKY);
+		}
 		
 		int route = toNearestPill(game);
 		

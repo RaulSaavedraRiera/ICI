@@ -35,7 +35,7 @@ public class MsPacManInput extends Input {
 	private boolean groupEdibleGhosts; //falta
 	
 	
-	private int cell;
+	private int cell = -1;
 	
 	private Random rnd = new Random();
 	
@@ -50,8 +50,11 @@ public class MsPacManInput extends Input {
 		
 		// does nothing.
 		pacmanDistanceNearPowerPill = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),  getNearestPoint(game.getActivePillsIndices()), game.getPacmanLastMoveMade());
+		
 		//habra que meter lo de obtener casilla de celda aqui?
-		pacmanDistanceCell = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), cell, game.getPacmanLastMoveMade());
+		if(cell == -1)
+			pacmanDistanceCell = getCellIndex();
+		else pacmanDistanceCell = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), cell, game.getPacmanLastMoveMade());
 		
 		pacmanDistanceNearCorner = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(),  getNearestCorner(), game.getPacmanLastMoveMade());
 		
@@ -341,13 +344,12 @@ boolean groupAvailable() {
 	
 	for (Constants.GHOST g : Constants.GHOST.values()) {
 
-		int group = 0;
 		
 		for (Constants.GHOST gO : Constants.GHOST.values()) {
 			// puede ser edibletime 0 si da igual que vaya a dejar de ser comible en pocos
 			// segundos o sacar la distancia a pacman
 			
-			//se van a repetir grupo pero da igual pq si es el mismo tamaño no se va a sobreescribir
+			//se van a repetir grupo pero da igual pq si es el mismo tamaÃ±o no se va a sobreescribir
 			if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > MAXTIME_EDIBLEGHOST) {
 
 				if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), game.getGhostCurrentNodeIndex(gO),
@@ -363,8 +365,13 @@ boolean groupAvailable() {
 
 }
 	
-	
-	
-	
+
+int getCellIndex() {
+	if (game.getGhostLairTime(GHOST.BLINKY) <= 0) {
+		cell = game.getGhostCurrentNodeIndex(GHOST.BLINKY);
+		return game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), cell, game.getPacmanLastMoveMade());
+	}
+	else return 99999;
+}
 
 }
