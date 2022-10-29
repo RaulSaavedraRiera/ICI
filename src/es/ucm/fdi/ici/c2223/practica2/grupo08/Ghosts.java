@@ -6,12 +6,19 @@ import java.util.HashMap;
 
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.ChaseAction;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.CheckAvailableDirectionAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.GoToDirectionAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.GoToNearestPPAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.GoToObjectiveAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.RunAwayAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.RunAwayToGhostAction;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.SearchObjectiveCloseToPacmanAction;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.CurrentDirectionFreeTransition;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.DirectionFreeTransition;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostHasObjectiveTransition;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostHastaArrivedOrDoesNotHaveObjective;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostsEdibleTransition;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostsInIntersectionTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostsNotEdibleAndPacManFarPPill;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.PacManNearPPillTransition;
 import es.ucm.fdi.ici.fsm.CompoundState;
@@ -49,16 +56,20 @@ public class Ghosts extends GhostController {
 			GraphFSMObserver graphObserver = new GraphFSMObserver(ghost.name());
 			fsm.addObserver(graphObserver);
 
-			SimpleState chase = new SimpleState(new ChaseAction(ghost));
-			SimpleState runAway = new SimpleState(new RunAwayAction(ghost));
-			SimpleState goToNearestPP = new SimpleState(new GoToNearestPPAction(ghost));
-			SimpleState runToNearestGhost = new SimpleState(new RunAwayToGhostAction(ghost));
-			SimpleState goToCurrentObjective = new SimpleState(new GoToObjectiveAction(ghost));
+			SimpleState chase = new SimpleState(new ChaseAction(ghost, ghostData));
+			SimpleState runAway = new SimpleState(new RunAwayAction(ghost, ghostData));
+			SimpleState goToNearestPP = new SimpleState(new GoToNearestPPAction(ghost, ghostData));
+			SimpleState runToNearestGhost = new SimpleState(new RunAwayToGhostAction(ghost, ghostData));
+			SimpleState goToCurrentObjective = new SimpleState(new GoToObjectiveAction(ghost, ghostData));
 
-			SimpleState goToLeftPath = new SimpleState(new GoToDirectionAction(ghost, MOVE.LEFT));
-			SimpleState goToRightPath = new SimpleState(new GoToDirectionAction(ghost, MOVE.RIGHT));
-			SimpleState goToUpPath = new SimpleState(new GoToDirectionAction(ghost, MOVE.UP));
-			SimpleState goToDownPath = new SimpleState(new GoToDirectionAction(ghost, MOVE.DOWN));
+			SimpleState checkDirections = new SimpleState(new CheckAvailableDirectionAction(ghost, ghostData));
+			SimpleState goToLeftPath = new SimpleState(new GoToDirectionAction(ghost, MOVE.LEFT, ghostData));
+			SimpleState goToRightPath = new SimpleState(new GoToDirectionAction(ghost, MOVE.RIGHT, ghostData));
+			SimpleState goToUpPath = new SimpleState(new GoToDirectionAction(ghost, MOVE.UP, ghostData));
+			SimpleState goToDownPath = new SimpleState(new GoToDirectionAction(ghost, MOVE.DOWN, ghostData));
+
+			SimpleState selectRandomZoneNearPacman = new SimpleState(new SearchObjectiveCloseToPacmanAction(ghost, ghostData));
+			SimpleState goToObjective = new SimpleState(new GoToObjectiveAction(ghost, ghostData));
 
 			FSM perseguidoresFSM = new FSM("FSM_Perseguidores");
 			CompoundState perseguidores = new CompoundState("Estado_Perseguidores", perseguidoresFSM);
@@ -82,6 +93,40 @@ public class Ghosts extends GhostController {
 			PacManNearPPillTransition near = new PacManNearPPillTransition();
 			GhostsNotEdibleAndPacManFarPPill toChaseTransition = new GhostsNotEdibleAndPacManFarPPill(ghost);
 
+			CurrentDirectionFreeTransition currentDirTrans = new CurrentDirectionFreeTransition(ghost, ghostData);
+			DirectionFreeTransition dirFreeRight = new DirectionFreeTransition(ghost, ghostData, MOVE.RIGHT);
+			DirectionFreeTransition dirFreeLeft = new DirectionFreeTransition(ghost, ghostData, MOVE.LEFT);
+			DirectionFreeTransition dirFreeUp = new DirectionFreeTransition(ghost, ghostData, MOVE.UP);
+			DirectionFreeTransition dirFreeDown = new DirectionFreeTransition(ghost, ghostData, MOVE.DOWN);
+			
+			GhostsInIntersectionTransition ghostInIntersection = new GhostsInIntersectionTransition(ghost);
+			
+			GhostHastaArrivedOrDoesNotHaveObjective ghostArrivedOrNotObjective = new GhostHastaArrivedOrDoesNotHaveObjective(ghost, ghostData);
+			GhostHasObjectiveTransition ghostHasObjective = new GhostHasObjectiveTransition(ghost, ghostData);
+					
+			//IMPORTANTE: mantener el orden de las transiciones de checkDirections, hace que primero compruebe la direccion actual y luego el resto
+			pacmanLejosPPFSM.add(checkDirections, currentDirTrans, goToLeftPath);
+			pacmanLejosPPFSM.add(checkDirections, currentDirTrans, goToUpPath);
+			pacmanLejosPPFSM.add(checkDirections, currentDirTrans, goToDownPath);
+			pacmanLejosPPFSM.add(checkDirections, currentDirTrans, goToRightPath);
+			
+			pacmanLejosPPFSM.add(checkDirections, dirFreeLeft, goToLeftPath);
+			pacmanLejosPPFSM.add(checkDirections, dirFreeUp, goToUpPath);
+			pacmanLejosPPFSM.add(checkDirections, dirFreeDown, goToDownPath);
+			pacmanLejosPPFSM.add(checkDirections, dirFreeRight, goToRightPath);
+			
+			pacmanLejosPPFSM.add(goToLeftPath, ghostInIntersection, checkDirections);
+			pacmanLejosPPFSM.add(goToRightPath, ghostInIntersection, checkDirections);
+			pacmanLejosPPFSM.add(goToUpPath, ghostInIntersection, checkDirections);
+			pacmanLejosPPFSM.add(goToDownPath, ghostInIntersection, checkDirections);
+			
+			pacmanLejosPPFSM.ready(checkDirections);
+			
+			interceptoresFSM.add(selectRandomZoneNearPacman, ghostHasObjective, goToCurrentObjective);
+			interceptoresFSM.add(goToCurrentObjective, ghostArrivedOrNotObjective, selectRandomZoneNearPacman);
+			
+			interceptoresFSM.ready(selectRandomZoneNearPacman);
+			
 			perseguidoresFSM.add(pacmanCercaPP, near, pacmanLejosPP);
 			perseguidoresFSM.add(pacmanLejosPP, toChaseTransition, pacmanCercaPP);
 			fsm.add(comestibles, edible, noComestibles);
@@ -110,7 +155,7 @@ public class Ghosts extends GhostController {
 
 		EnumMap<GHOST, MOVE> result = new EnumMap<GHOST, MOVE>(GHOST.class);
 
-		GhostsInput in = new GhostsInput(game);
+		GhostsInput in = new GhostsInput(game, ghostData);
 
 		for (GHOST ghost : GHOST.values()) {
 			FSM fsm = fsms.get(ghost);

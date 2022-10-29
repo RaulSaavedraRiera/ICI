@@ -10,16 +10,18 @@ import pacman.game.Game;
 public class GoToObjectiveAction implements Action {
 
     GHOST ghost;
-	public GoToObjectiveAction( GHOST ghost) {
+    GhostData gData;
+	public GoToObjectiveAction(GHOST ghost, GhostData ghostData) {
 		this.ghost = ghost;
+		gData = ghostData;
 	}
 
 	@Override
 	public MOVE execute(Game game) {
-        if (game.doesGhostRequireAction(ghost))        //if it requires an action
+		if (game.doesGhostRequireAction(ghost))        //if it requires an action
         {
         	int thisGhost = game.getGhostCurrentNodeIndex(ghost);
-        	int objective = GhostData.currentGhostDest[ghost.ordinal()];
+        	int objective = gData.currentGhostDest[ghost.ordinal()];
         	
 			return game.getApproximateNextMoveTowardsTarget(thisGhost,
 					objective, game.getGhostLastMoveMade(ghost), DM.PATH);

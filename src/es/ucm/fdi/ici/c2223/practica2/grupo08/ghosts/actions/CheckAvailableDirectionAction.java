@@ -7,14 +7,12 @@ import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
-public class GoToDirectionAction implements Action {
+public class CheckAvailableDirectionAction implements Action {
 
     GHOST ghost;
-    MOVE dir;
     GhostData gData;
-	public GoToDirectionAction( GHOST ghost, MOVE move, GhostData ghostData) {
+	public CheckAvailableDirectionAction(GHOST ghost, GhostData ghostData) {
 		this.ghost = ghost;
-		this.dir = move;
 		gData = ghostData;
 	}
 
@@ -22,16 +20,15 @@ public class GoToDirectionAction implements Action {
 	public MOVE execute(Game game) {
 		gData.currentGhostDest[ghost.ordinal()] = -1;
 		
-        if (game.doesGhostRequireAction(ghost))        //if it requires an action
-        {
-        	return dir;
-        }
+		gData.setGhostMove(ghost, game.getNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(ghost),
+                game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(ghost), DM.PATH));
+		
         return MOVE.NEUTRAL;
 	}
 
 	@Override
 	public String getActionId() {
-		return ghost + "takes " + dir + " path";
+		return ghost + "checksDirectionAvailable";
 	}
 
 	
