@@ -24,7 +24,12 @@ public class GhostsInput extends Input {
 	private final int GHOST_RANGE = 50;
 	private final int PACMAN_MAX_DIST_TO_PP = 40;
 	private final int SAFETY_DISTANCE_WHEN_EDIBLE = 20;
-	
+	private EnumMap<GHOST, Double> minGhostsDistancePPill = new EnumMap<GHOST, Double>(GHOST.class);
+	private int BLINKYremainingTime;
+	private int INKYremainingTime;
+	private int PINKYremainingTime;
+	private int SUEremainingTime;
+	private EnumMap<GHOST, Double> distanceToPacman = new EnumMap<GHOST, Double>(GHOST.class);
 	GhostData gData;
 	public GhostsInput(Game game, GhostData ghostData) {
 		super(game);
@@ -38,9 +43,15 @@ public class GhostsInput extends Input {
 		this.INKYedible = game.isGhostEdible(GHOST.INKY);
 		this.PINKYedible = game.isGhostEdible(GHOST.PINKY);
 		this.SUEedible = game.isGhostEdible(GHOST.SUE);
-		
+		this.BLINKYremainingTime = game.getGhostEdibleTime(GHOST.BLINKY);
+		this.INKYremainingTime = game.getGhostEdibleTime(GHOST.INKY);
+		this.PINKYremainingTime = game.getGhostEdibleTime(GHOST.PINKY);
+		this.SUEremainingTime = game.getGhostEdibleTime(GHOST.SUE);
 		for (GHOST g : GHOST.values()) 
 		{
+			this.minGhostsDistancePPill.put(ghostType, Double.MAX_VALUE);
+			this.distanceToPacman.put(ghostType,
+					game.getDistance(game.getGhostCurrentNodeIndex(ghostType), pacman, DM.PATH));
 			ghostPositions[g.ordinal()] = game.getGhostCurrentNodeIndex(g);
 			this.possibleDirections[g.ordinal()] = game.getPossibleMoves(ghostPositions[g.ordinal()], game.getGhostLastMoveMade(g));
 			
@@ -57,6 +68,11 @@ public class GhostsInput extends Input {
 		for(int ppill: game.getPowerPillIndices()) {
 			double distance = game.getDistance(pacman, ppill, DM.PATH);
 			this.minPacmanDistancePPill = Math.min(distance, this.minPacmanDistancePPill);
+			for (Constants.GHOST ghostType : Constants.GHOST.values()) {
+				double distance1 = game.getDistance(game.getGhostCurrentNodeIndex(ghostType), ppill, DM.PATH);
+				this.minGhostsDistancePPill.put(ghostType,
+						Math.min(distance1, this.minGhostsDistancePPill.get(ghostType)));
+			}
 		}
 	}
 	
@@ -108,8 +124,28 @@ public class GhostsInput extends Input {
 	public int getGHOST_RANGE() {
 		return GHOST_RANGE;
 	}
+		public int getRemainingTime(GHOST ghost) {
+		switch (ghost) {
+		case BLINKY:
+			return BLINKYremainingTime;
+		case INKY:
+			return INKYremainingTime;
+		case PINKY:
+			return PINKYremainingTime;
+		case SUE:
+			return SUEremainingTime;
+		default:
+			return -1;
+		}
+	}
 
+	public double getMinGhostDistancePPill(GHOST g) {
+		return minGhostsDistancePPill.get(g);
+	}
 
+	public double getDistanceToPacman(GHOST g) {
+		return distanceToPacman.get(g);
+	}
 	
 	
 }
