@@ -20,6 +20,6 @@ public class PowerPillNearTransition implements Transition {
 
 	@Override
 	public String toString() {
-		return String.format("PP near to PacMan");
+		return String.format("PP near PacMan");
 	}
 }
