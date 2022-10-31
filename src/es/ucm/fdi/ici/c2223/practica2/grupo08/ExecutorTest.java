@@ -1,9 +1,8 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08;
 
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.example.GhostsDefault;
 import pacman.Executor;
 import pacman.controllers.GhostController;
-import pacman.controllers.HumanController;
-import pacman.controllers.KeyBoardInput;
 import pacman.controllers.PacmanController;
 
 public class ExecutorTest {
@@ -16,7 +15,7 @@ public class ExecutorTest {
 		 .build();
 		 //PacmanController pacMan = new HumanController(new KeyBoardInput());
 		 PacmanController pacMan = new MsPacMan();
-		 GhostController ghosts = new Ghosts();
+		 GhostController ghosts = new GhostsDefault();
 
 		 System.out.println(
 		 executor.runGame(pacMan, ghosts, 40)

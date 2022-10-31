@@ -228,7 +228,7 @@ public class MsPacMan extends PacmanController {
 		cfsmNoEdibleGhosts.add(fleePowerPillNoGhost, fleePPToFindGhostTransition, findGhost);
 		
 		
-		fsm.ready(findGhost);
+		fsm.ready(noChasingGhost);
 		
 		JFrame frame = new JFrame();
 		JPanel main = new JPanel();
