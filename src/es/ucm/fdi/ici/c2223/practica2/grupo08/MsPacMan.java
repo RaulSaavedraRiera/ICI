@@ -240,13 +240,13 @@ public class MsPacMan extends PacmanController {
 		JFrame frame = new JFrame();
 		JPanel main = new JPanel();
 		main.setLayout(new BorderLayout());
-		main.add(observer.getAsPanel(true, null), BorderLayout.SOUTH);
-		main.add(chasingGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);	// Poner varios en North los muestra en el mismo panel. Queda bien, solo hay que decidir cuales separar, si queremos separar alguno.
-		main.add(noChasingGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);
+		// main.add(observer.getAsPanel(true, null), BorderLayout.SOUTH);
+		// main.add(chasingGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);	// Poner varios en North los muestra en el mismo panel. Queda bien, solo hay que decidir cuales separar, si queremos separar alguno.
+		// main.add(noChasingGhostObserver.getAsPanel(true, null), BorderLayout.SOUTH);
 		main.add(oneChasingGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);
-		main.add(multipleChasingGhostsObserver.getAsPanel(true, null), BorderLayout.NORTH);
-		main.add(edibleGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);
-		main.add(noEdibleGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);
+		main.add(multipleChasingGhostsObserver.getAsPanel(true, null), BorderLayout.WEST);
+		main.add(edibleGhostObserver.getAsPanel(true, null), BorderLayout.SOUTH);
+		main.add(noEdibleGhostObserver.getAsPanel(true, null), BorderLayout.EAST);
 		
 		frame.getContentPane().add(main);
 		frame.pack();
