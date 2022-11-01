@@ -1,28 +1,35 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions;
 
+import java.awt.Color;
+import java.util.ArrayList;
+
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
+import pacman.game.GameView;
 
 public class GoToObjectiveAction implements Action {
 
     GHOST ghost;
     GhostData gData;
-	public GoToObjectiveAction(GHOST ghost, GhostData ghostData) {
+	public GoToObjectiveAction(GHOST ghost, ArrayList<GhostData> ghostData) {
 		this.ghost = ghost;
-		gData = ghostData;
+		gData = ghostData.get(0);
 	}
 
 	@Override
 	public MOVE execute(Game game) {
+
+		int thisGhost = game.getGhostCurrentNodeIndex(ghost);
+		int objective = gData.getGhostObjective(ghost);
+		
+		GameView.addLines(game, Color.GREEN, thisGhost, objective);
+
 		if (game.doesGhostRequireAction(ghost))        //if it requires an action
-        {
-        	int thisGhost = game.getGhostCurrentNodeIndex(ghost);
-        	int objective = gData.currentGhostDest[ghost.ordinal()];
-        	
+        {	
 			return game.getApproximateNextMoveTowardsTarget(thisGhost,
 					objective, game.getGhostLastMoveMade(ghost), DM.PATH);
         }

@@ -1,6 +1,6 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts;
 
-import java.util.EnumMap;
+import java.util.ArrayList;
 
 import es.ucm.fdi.ici.Input;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
@@ -16,10 +16,12 @@ public class GhostsInput extends Input {
 	private boolean INKYedible;
 	private boolean PINKYedible;
 	private boolean SUEedible;
-	private double minPacmanDistancePPill;
+	private int minPacmanDistancePPill;
 
 	private int[] ghostPositions;
 	private int[] distanceToObjective;
+	private int[] minGhostsDistancePPill;
+	private int[] distanceToPacman;
 
 	private int[] junctionsIndices;
 	private MOVE[][] possibleDirections;
@@ -27,72 +29,83 @@ public class GhostsInput extends Input {
 	private final int GHOST_RANGE = 50;
 	private final int PACMAN_MAX_DIST_TO_PP = 40;
 	private final int SAFETY_DISTANCE_WHEN_EDIBLE = 20;
-	private EnumMap<GHOST, Double> minGhostsDistancePPill;
 	private int BLINKYremainingTime;
 	private int INKYremainingTime;
 	private int PINKYremainingTime;
 	private int SUEremainingTime;
-	private EnumMap<GHOST, Integer> distanceToPacman;
 	GhostData gData;
 
-	public GhostsInput(Game game, GhostData ghostData) {
+	public GhostsInput(Game game, ArrayList<GhostData> ghostData) {
 		super(game);
 
-		minGhostsDistancePPill = new EnumMap<GHOST, Double>(GHOST.class);
-		distanceToPacman = new EnumMap<GHOST, Integer>(GHOST.class);
-
-		gData = ghostData;
+		gData = ghostData.get(0);
+		parseInput();
 	}
 
 	@Override
 	public void parseInput() {
 
-		if (gData != null) {
-			
-			if (minGhostsDistancePPill == null)
-				minGhostsDistancePPill = new EnumMap<GHOST, Double>(GHOST.class);
-			
-			if (distanceToPacman == null)
-				distanceToPacman = new EnumMap<GHOST, Integer>(GHOST.class);
+		if (minGhostsDistancePPill == null)
+			minGhostsDistancePPill = new int[4];
 
-			this.BLINKYedible = game.isGhostEdible(GHOST.BLINKY);
-			this.INKYedible = game.isGhostEdible(GHOST.INKY);
-			this.PINKYedible = game.isGhostEdible(GHOST.PINKY);
-			this.SUEedible = game.isGhostEdible(GHOST.SUE);
-			this.BLINKYremainingTime = game.getGhostEdibleTime(GHOST.BLINKY);
-			this.INKYremainingTime = game.getGhostEdibleTime(GHOST.INKY);
-			this.PINKYremainingTime = game.getGhostEdibleTime(GHOST.PINKY);
-			this.SUEremainingTime = game.getGhostEdibleTime(GHOST.SUE);
+		if (distanceToObjective == null)
+			distanceToObjective = new int[4];
 
-			int pacman = game.getPacmanCurrentNodeIndex();
+		if (distanceToPacman == null)
+			distanceToPacman = new int[4];
 
-			for (GHOST g : GHOST.values()) {
-				this.minGhostsDistancePPill.put(g, Double.MAX_VALUE);
-				this.distanceToPacman.put(g, game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pacman));
+		if (ghostPositions == null)
+			ghostPositions = new int[4];
 
-				ghostPositions[g.ordinal()] = game.getGhostCurrentNodeIndex(g);
+		if (possibleDirections == null)
+			possibleDirections = new MOVE[4][];
 
-				this.possibleDirections[g.ordinal()] = game.getPossibleMoves(ghostPositions[g.ordinal()],
-						game.getGhostLastMoveMade(g));
+		this.BLINKYedible = game.isGhostEdible(GHOST.BLINKY);
+		this.INKYedible = game.isGhostEdible(GHOST.INKY);
+		this.PINKYedible = game.isGhostEdible(GHOST.PINKY);
+		this.SUEedible = game.isGhostEdible(GHOST.SUE);
+		this.BLINKYremainingTime = game.getGhostEdibleTime(GHOST.BLINKY);
+		this.INKYremainingTime = game.getGhostEdibleTime(GHOST.INKY);
+		this.PINKYremainingTime = game.getGhostEdibleTime(GHOST.PINKY);
+		this.SUEremainingTime = game.getGhostEdibleTime(GHOST.SUE);
 
-				if (gData.currentGhostDest[g.ordinal()] != -1)
+		int pacman = game.getPacmanCurrentNodeIndex();
+
+		for (GHOST g : GHOST.values()) {
+			this.minGhostsDistancePPill[g.ordinal()] = Integer.MAX_VALUE;
+			this.distanceToPacman[g.ordinal()] = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pacman);
+
+			ghostPositions[g.ordinal()] = game.getGhostCurrentNodeIndex(g);
+
+			this.possibleDirections[g.ordinal()] = game.getPossibleMoves(ghostPositions[g.ordinal()],
+					game.getGhostLastMoveMade(g));
+
+			if (gData != null) {
+				gData.setGhostMove(g, game.getApproximateNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(g), pacman,
+						game.getGhostLastMoveMade(g), DM.PATH));
+
+				if (gData.getGhostObjective(g) != -1) {
 					distanceToObjective[g.ordinal()] = game.getShortestPathDistance(ghostPositions[g.ordinal()],
-							gData.currentGhostDest[g.ordinal()], gData.ghostNextMoves[g.ordinal()]);
-				else
-					distanceToObjective[g.ordinal()] = -1;
+							gData.getGhostObjective(g), game.getGhostLastMoveMade(g));
+
+				} else
+					distanceToObjective[g.ordinal()] = 0;
+
 			}
+		}
+		this.junctionsIndices = game.getJunctionIndices();
 
-			this.junctionsIndices = game.getJunctionIndices();
+		this.minPacmanDistancePPill = Integer.MAX_VALUE;
+		for (int ppill : game.getActivePowerPillsIndices()) {
+			
+			int distance = game.getShortestPathDistance(pacman, ppill, game.getPacmanLastMoveMade());
+			this.minPacmanDistancePPill = Math.min(distance, this.minPacmanDistancePPill);
+			for (Constants.GHOST ghostType : Constants.GHOST.values()) {
+				int distance1 = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghostType), ppill,
+						game.getGhostLastMoveMade(ghostType));
 
-			this.minPacmanDistancePPill = Double.MAX_VALUE;
-			for (int ppill : game.getPowerPillIndices()) {
-				double distance = game.getDistance(pacman, ppill, DM.PATH);
-				this.minPacmanDistancePPill = Math.min(distance, this.minPacmanDistancePPill);
-				for (Constants.GHOST ghostType : Constants.GHOST.values()) {
-					double distance1 = game.getDistance(game.getGhostCurrentNodeIndex(ghostType), ppill, DM.PATH);
-					this.minGhostsDistancePPill.put(ghostType,
-							Math.min(distance1, this.minGhostsDistancePPill.get(ghostType)));
-				}
+				minGhostsDistancePPill[ghostType.ordinal()] = Math.min(distance1,
+						this.minGhostsDistancePPill[ghostType.ordinal()]);
 			}
 		}
 	}
@@ -129,7 +142,7 @@ public class GhostsInput extends Input {
 		return SUEedible;
 	}
 
-	public double getMinPacmanDistancePPill() {
+	public int getMinPacmanDistancePPill() {
 		return minPacmanDistancePPill;
 	}
 
@@ -161,11 +174,13 @@ public class GhostsInput extends Input {
 	}
 
 	public double getMinGhostDistancePPill(GHOST g) {
-		return minGhostsDistancePPill.get(g);
+
+		return minGhostsDistancePPill[g.ordinal()];
 	}
 
 	public int getDistanceToPacman(GHOST g) {
-		return distanceToPacman.get(g);
+
+		return distanceToPacman[g.ordinal()];
 	}
 
 }

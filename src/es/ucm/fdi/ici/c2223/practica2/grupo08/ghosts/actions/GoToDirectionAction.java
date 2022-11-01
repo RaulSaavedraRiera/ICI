@@ -1,5 +1,7 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions;
 
+import java.util.ArrayList;
+
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
 import pacman.game.Constants.DM;
@@ -12,15 +14,15 @@ public class GoToDirectionAction implements Action {
     GHOST ghost;
     MOVE dir;
     GhostData gData;
-	public GoToDirectionAction( GHOST ghost, MOVE move, GhostData ghostData) {
+	public GoToDirectionAction( GHOST ghost, MOVE move, ArrayList<GhostData> ghostData) {
 		this.ghost = ghost;
 		this.dir = move;
-		gData = ghostData;
+		gData = ghostData.get(0);
 	}
 
 	@Override
 	public MOVE execute(Game game) {
-		gData.currentGhostDest[ghost.ordinal()] = -1;
+		gData.setGhostObjective(ghost, -1);
 		
         if (game.doesGhostRequireAction(ghost))        //if it requires an action
         {

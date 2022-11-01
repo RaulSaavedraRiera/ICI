@@ -8,9 +8,12 @@ import pacman.game.Constants.GHOST;
 public class GhostsInIntersectionTransition implements Transition {
 
 	GHOST ghost;
+	int cont;
 	public GhostsInIntersectionTransition(GHOST ghost) {
 		super();
 		this.ghost = ghost;
+		
+		cont = 0;
 	}
 	
 	@Override
@@ -34,7 +37,8 @@ public class GhostsInIntersectionTransition implements Transition {
 
 	@Override
 	public String toString() {
-		return "Ghost not edible and MsPacman far PPill";
+		cont++;
+		return "Ghost in intersection" + cont;
 	}
 
 	

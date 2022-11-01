@@ -1,5 +1,6 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import es.ucm.fdi.ici.Action;
@@ -13,9 +14,9 @@ public class SearchObjectiveCloseToPacmanAction implements Action {
 
     GHOST ghost;
     GhostData gData;
-	public SearchObjectiveCloseToPacmanAction(GHOST ghost, GhostData ghostData) {
+	public SearchObjectiveCloseToPacmanAction(GHOST ghost, ArrayList<GhostData> ghostData) {
 		this.ghost = ghost;
-		gData = ghostData;
+		gData = ghostData.get(0);
 	}
 
 	@Override
@@ -41,7 +42,8 @@ public class SearchObjectiveCloseToPacmanAction implements Action {
 				close = true;
 		}
 
-		gData.currentGhostDest[ghost.ordinal()] = randomNode;
+		if (gData.getGhostObjective(ghost) == -1) 
+			gData.setGhostObjective(ghost, randomNode);
 		
         return MOVE.NEUTRAL;
 	}

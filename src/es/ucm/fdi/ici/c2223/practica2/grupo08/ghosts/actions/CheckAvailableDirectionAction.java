@@ -1,5 +1,7 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions;
 
+import java.util.ArrayList;
+
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
 import pacman.game.Constants.DM;
@@ -11,14 +13,14 @@ public class CheckAvailableDirectionAction implements Action {
 
     GHOST ghost;
     GhostData gData;
-	public CheckAvailableDirectionAction(GHOST ghost, GhostData ghostData) {
+	public CheckAvailableDirectionAction(GHOST ghost, ArrayList<GhostData> ghostData) {
 		this.ghost = ghost;
-		gData = ghostData;
+		gData = ghostData.get(0);
 	}
 
 	@Override
 	public MOVE execute(Game game) {
-		gData.currentGhostDest[ghost.ordinal()] = -1;
+		gData.setGhostObjective(ghost, -1);
 		
 		gData.setGhostMove(ghost, game.getNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(ghost),
                 game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(ghost), DM.PATH));

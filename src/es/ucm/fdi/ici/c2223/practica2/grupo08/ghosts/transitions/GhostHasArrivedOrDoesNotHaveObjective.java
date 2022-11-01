@@ -1,5 +1,7 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions;
 
+import java.util.ArrayList;
+
 import es.ucm.fdi.ici.Input;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.GhostsInput;
@@ -8,12 +10,14 @@ import pacman.game.Constants.GHOST;
 
 public class GhostHasArrivedOrDoesNotHaveObjective implements Transition {
 
-	GHOST ghost;
-	GhostData gData;
-	public GhostHasArrivedOrDoesNotHaveObjective(GHOST ghost, GhostData ghostData) {
+	private GHOST ghost;
+	private GhostData gData;
+	private ArrayList<GhostData> gDataRef;
+	public GhostHasArrivedOrDoesNotHaveObjective(GHOST ghost, ArrayList<GhostData> ghostData) {
 		super();
 		this.ghost = ghost;
-		gData = ghostData;
+		gDataRef = ghostData;
+		gData = ghostData.get(0);
 	}
 	
 	@Override
@@ -21,7 +25,7 @@ public class GhostHasArrivedOrDoesNotHaveObjective implements Transition {
 		GhostsInput input = (GhostsInput)in;
 		
 		GhostHasArrivedToObjectiveTransition arrivedToObjective = new GhostHasArrivedToObjectiveTransition(ghost);
-		GhostHasObjectiveTransition hasObjective = new GhostHasObjectiveTransition(ghost, gData);
+		GhostHasObjectiveTransition hasObjective = new GhostHasObjectiveTransition(ghost, gDataRef);
 		
 		return arrivedToObjective.evaluate(input) || !hasObjective.evaluate(input);
 	}

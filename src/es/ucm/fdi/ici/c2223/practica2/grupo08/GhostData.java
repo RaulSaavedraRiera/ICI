@@ -10,11 +10,11 @@ public class GhostData {
 	
 	private final int TICKS_TO_CLEAR = 16;
 
-	public HashMap<Integer, HashMap<MOVE, Integer>> junctionMarks;
+	private HashMap<Integer, HashMap<MOVE, Integer>> junctionMarks;
 	
-	public int[] currentGhostDest;
+	private int[] currentGhostDest;
 	
-	public MOVE[] ghostNextMoves;
+	private MOVE[] ghostNextMoves;
 	
 	public GhostData()
 	{
@@ -68,5 +68,43 @@ public class GhostData {
 	public MOVE getGhostMove(GHOST ghost) 
 	{
 		return ghostNextMoves[ghost.ordinal()];
+	}
+	
+	public void setGhostObjective(GHOST ghost, int dest) 
+	{
+		currentGhostDest[ghost.ordinal()] = dest;
+	}
+	
+	public int getGhostObjective(GHOST ghost) 
+	{
+		return currentGhostDest[ghost.ordinal()];
+	}
+	
+	public void markDirection(int junction, MOVE move) 
+	{
+		if (junctionMarks.containsKey(junction)) 
+		{
+			junctionMarks.get(junction).put(move, TICKS_TO_CLEAR);
+			
+			junctionMarks.put(junction, junctionMarks.get(junction));
+		}
+		
+		else 
+		{
+			HashMap<MOVE, Integer> map = new HashMap<MOVE, Integer>();
+			map.put(move, TICKS_TO_CLEAR);
+			
+			junctionMarks.put(junction, map);
+		}
+	}
+	
+	public boolean isDirectionAvailable(int junction, MOVE move) 
+	{
+		if (junctionMarks.containsKey(junction)) 
+		{
+			if (junctionMarks.get(junction).containsKey(move)) return false;
+		}
+		
+		return true;
 	}
 }

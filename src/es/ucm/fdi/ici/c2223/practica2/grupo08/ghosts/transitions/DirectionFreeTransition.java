@@ -1,5 +1,7 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions;
 
+import java.util.ArrayList;
+
 import es.ucm.fdi.ici.Input;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.GhostsInput;
@@ -13,10 +15,10 @@ public class DirectionFreeTransition implements Transition {
 	private MOVE moveToCheck; 
 	private GHOST ghost;
 	
-	public DirectionFreeTransition(GHOST ghost, GhostData ghostData, MOVE move) {
+	public DirectionFreeTransition(GHOST ghost, ArrayList<GhostData> ghostData, MOVE move) {
 		super();
-		
-		gData = ghostData;
+
+		gData = ghostData.get(0);
 		moveToCheck = move;
 		this.ghost = ghost;
 	}
@@ -28,12 +30,14 @@ public class DirectionFreeTransition implements Transition {
 		
 		int ghostNode = input.getGhostPositions()[ghost.ordinal()];
 		
-		CurrentDirectionFreeTransition currentDir = new CurrentDirectionFreeTransition(ghost, gData);
-		
 		for (MOVE m : input.getPossibleDirections(ghost)) 
 		{
-			if (m == moveToCheck) 
-				return !gData.junctionMarks.get(ghostNode).containsKey(moveToCheck);
+			if (m == moveToCheck && gData.isDirectionAvailable(ghostNode, moveToCheck)) 
+			{
+				gData.markDirection(ghostNode, moveToCheck);
+					
+				return true;
+			}
 		}
 		
 		return false;

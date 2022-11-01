@@ -22,7 +22,9 @@ public class GhostHasArrivedToObjectiveTransition implements Transition {
 	public boolean evaluate(Input in) {
 		GhostsInput input = (GhostsInput) in;
 		
-		return input.getDistanceToObjective()[ghost.ordinal()] <= 4;
+		int dist = input.getDistanceToObjective()[ghost.ordinal()];
+		
+		return dist != -1 && dist <= 4;
 	}
 
 
