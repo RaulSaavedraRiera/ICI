@@ -20,8 +20,6 @@ public class GoGroupEdibleGhostAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
-		System.out.println("GoGroupEdibleGhostAction");
-		
 		return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(getGroupTarget(game)), game.getPacmanLastMoveMade(), DM.PATH);
 	}
 

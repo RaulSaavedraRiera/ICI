@@ -22,8 +22,6 @@ public class EvadeCellAction implements Action {
 	@Override
 	public MOVE execute(Game game) {
 		
-		System.out.println("EvadeCellAction");
-		
 		if (jailIndex == -1 && game.getGhostLairTime(GHOST.BLINKY) <= 0) {
 			jailIndex = game.getGhostCurrentNodeIndex(GHOST.BLINKY);
 		}

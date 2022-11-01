@@ -84,13 +84,13 @@ public class MsPacManInput extends Input {
 	void init() {
 		inicialize = true;
 		
-		 MAXDISTANCE_GHOSTSEDIBLE = 150;
+		 MAXDISTANCE_GHOSTSEDIBLE = 125;
 		 MAXDISTANCE_GHOSTSCHASING = 80;
 		 MAXDISTANCE_GHOSTSGROUP = 18;
 		 MAXDISTANCE_PILLSNEAR = 60;
 		 MAXTIME_EDIBLEGHOST = 12;
 		 MAXCOUNT_PILLSCHECKED = 8000;
-		 MAXDISTANCE_PILLSECURE = 30;
+		 MAXDISTANCE_PILLSECURE = 25;
 	}
 	
 	public int pacmanDistanceNearPowerPill() {
@@ -191,7 +191,7 @@ int getGhostsNear(boolean edible)
 	for (Constants.GHOST g : Constants.GHOST.values()) {
 		// si no ha sido seleccionado, no e comible y no esta encerrado
 		if (game.getGhostLairTime(g) == 0 && 
-				((game.getGhostEdibleTime(g) > 0 && edible) || (game.getGhostEdibleTime(g) == 0 && !edible))) {
+				((game.getGhostEdibleTime(g) >= MAXTIME_EDIBLEGHOST && edible) || (game.getGhostEdibleTime(g) == 0 && !edible))) {
 			// comprobamos si esta mas cerca que el limite actual
 			currentDistance = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g),
 					game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(g));

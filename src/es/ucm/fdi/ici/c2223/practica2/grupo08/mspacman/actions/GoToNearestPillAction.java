@@ -15,7 +15,6 @@ public class GoToNearestPillAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
-		System.out.println("GoToNearestPillAction");
 		
 		return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), getNearestPill(game), game.getPacmanLastMoveMade(), DM.PATH);
 	}

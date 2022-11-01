@@ -15,7 +15,6 @@ public class AwayNearestChasingGhostAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
-		System.out.println("AwayNearestChasingGhostAction");
 		return game.getApproximateNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), getNearestchasingGhost(game), game.getPacmanLastMoveMade(), DM.PATH);
 	}
 

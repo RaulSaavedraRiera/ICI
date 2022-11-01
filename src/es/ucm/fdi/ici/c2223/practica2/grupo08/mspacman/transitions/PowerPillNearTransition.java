@@ -6,7 +6,7 @@ import es.ucm.fdi.ici.fsm.Transition;
 
 public class PowerPillNearTransition implements Transition {
 
-	final int MAX_DISTANCE_POWERPILL = 30;
+	final int MAX_DISTANCE_POWERPILL = 40;
 	
 	public PowerPillNearTransition() {		
 	}

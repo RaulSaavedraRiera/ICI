@@ -15,7 +15,6 @@ public class GoNearestEdibleGhostAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
-		System.out.println("GoNearestEdibleGhostAction");
 		
 		return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), getNearestEdibleGhost(game), game.getPacmanLastMoveMade(), DM.PATH);
 	}

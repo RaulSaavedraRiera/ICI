@@ -17,14 +17,13 @@ public class GoSecureZone implements Action {
     
 	final int LIMITEDIBLETIME = 3;
 	final int MAXPILLCHECKED = 8000;
-	final int PILLLIMIT = 30;
+	final int PILLLIMIT = 25;
 	
 	private Random rnd = new Random();
 	
 	//se tendria ue pedir el int obtenido por las condiciones de un sitio que si sea seguro
 	@Override
 	public MOVE execute(Game game) {
-		System.out.println("GoSecureZone");
 		
 		
 		if(game.getNeighbouringNodes(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL).length > 1)

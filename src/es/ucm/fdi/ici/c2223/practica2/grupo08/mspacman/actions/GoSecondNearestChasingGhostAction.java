@@ -15,7 +15,6 @@ public class GoSecondNearestChasingGhostAction implements Action {
     //se tiene que comprobar que haya segundo
 	@Override
 	public MOVE execute(Game game) {
-		System.out.println("GoSecondNearestChasingGhostAction");
 		
 		return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), get2NearestchasingGhost(game), game.getPacmanLastMoveMade(), DM.PATH);
 	}
