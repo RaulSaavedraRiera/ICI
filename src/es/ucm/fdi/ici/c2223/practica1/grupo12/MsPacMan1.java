@@ -12,7 +12,7 @@ import pacman.game.Constants;
 import pacman.game.Game;
 import pacman.game.GameView;
 
-public class MsPacMan extends PacmanController {
+public class MsPacMan1 extends PacmanController {
 
 	// distancia para huir / tiempo-margen de comer seguro / tiemoo-margen de
 	// fantasma no peligroso seguro / distancia pill segura
@@ -32,7 +32,7 @@ public class MsPacMan extends PacmanController {
 	int powerPillT, pillT;
 	GHOST target = null;
 
-	public MsPacMan() {
+	public MsPacMan1() {
 		super();
 
 		setName("MsPacMan 12");

@@ -17,6 +17,7 @@ public class EvadeCornerAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
+		System.out.println("EvadeCornerAction");
 		
 		int route = toNearestPill(game);
 		

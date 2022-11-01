@@ -17,10 +17,9 @@ public class FleePPNoGhostTransition implements Transition {
 		MsPacManInput input = (MsPacManInput)in;
 
 		boolean nearCell = new CellNearTransition().evaluate(in);
-		boolean nearPillCluster = new PillClusterNearTransition().evaluate(in);
 		boolean nearPP = new PowerPillNearTransition().evaluate(in);
 		
-		return !nearCell && !nearPillCluster && nearPP;
+		return !nearCell && nearPP;
 		
 	}
 

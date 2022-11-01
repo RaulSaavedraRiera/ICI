@@ -15,22 +15,29 @@ public class GoSecureZone implements Action {
 	}
 
     
-	final int LIMITEDIBLETIME = 12;
+	final int LIMITEDIBLETIME = 3;
 	final int MAXPILLCHECKED = 8000;
-	final int PILLLIMIT = 60;
+	final int PILLLIMIT = 30;
 	
 	private Random rnd = new Random();
 	
 	//se tendria ue pedir el int obtenido por las condiciones de un sitio que si sea seguro
 	@Override
 	public MOVE execute(Game game) {
-		return game.getApproximateNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), awayFromMultipleGhosts(game), game.getPacmanLastMoveMade(), DM.PATH);
+		System.out.println("GoSecureZone");
+		
+		
+		if(game.getNeighbouringNodes(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL).length > 1)
+		 return game.getApproximateNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), awayFromMultipleGhosts(game), game.getPacmanLastMoveMade(), DM.PATH);
+		else return MOVE.NEUTRAL;
 	}
 
 	@Override
 	public String getActionId() {
 		return "Go To Secure Zone";
 	}
+	
+	
 	
 	public int awayFromMultipleGhosts(Game game) {
 
@@ -89,9 +96,9 @@ boolean pillSecure(Game game, int pill) {
 			if (game.getGhostLairTime(g) > 0 && game.getGhostEdibleTime(g) < LIMITEDIBLETIME) {
 				try {
 					nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill,
-							game.getGhostLastMoveMade(g)) > PILLLIMIT;
+							game.getGhostLastMoveMade(g)) >= PILLLIMIT;
 				} catch (Exception e) {
-					nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill) > PILLLIMIT;
+					nonGhosts = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill) >= PILLLIMIT;
 				}
 				if (!nonGhosts)
 					return false;

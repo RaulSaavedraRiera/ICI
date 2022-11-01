@@ -6,7 +6,7 @@ import es.ucm.fdi.ici.fsm.Transition;
 
 public class PillClusterNearTransition implements Transition {
 
-	int minClusterCount = 6;
+	int minClusterCount = 10;
 	
 	public PillClusterNearTransition() {		
 	}

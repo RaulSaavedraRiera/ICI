@@ -14,14 +14,12 @@ import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.actions.EvadePowerPillAct
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.actions.GoGroupEdibleGhostAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.actions.GoNearestChasingGhostAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.actions.GoNearestEdibleGhostAction;
-import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.actions.GoSecondNearestChasingGhostAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.actions.GoSecureZone;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.actions.GoToNearestPillAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.actions.GoToNearestPowerPillAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.transitions.ChasePillTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.transitions.ChasingGhostNearTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.transitions.EdibleGhostNearTransition;
-import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.transitions.Find2ndGhostTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.transitions.FindGhostTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.transitions.FleeCornerTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.mspacman.transitions.FleeGhostTransition;
@@ -41,6 +39,7 @@ import es.ucm.fdi.ici.fsm.CompoundState;
 import es.ucm.fdi.ici.fsm.FSM;
 import es.ucm.fdi.ici.fsm.SimpleState;
 import es.ucm.fdi.ici.fsm.Transition;
+import es.ucm.fdi.ici.fsm.observers.ConsoleFSMObserver;
 import es.ucm.fdi.ici.fsm.observers.GraphFSMObserver;
 import pacman.controllers.PacmanController;
 import pacman.game.Constants.MOVE;
@@ -56,6 +55,11 @@ public class MsPacMan extends PacmanController {
 		setName("MsPacManIfUrNasty");
 		
 		fsm = new FSM("MsPacMan");
+		
+		fsm.addObserver(new ConsoleFSMObserver("MsPacMan"));
+		GraphFSMObserver observer = new GraphFSMObserver(fsm.toString());
+		fsm.addObserver(observer);
+
 		
 
 		FSM cfsmChasingGhost = new FSM("FSM_HasChasingGhost");
@@ -74,7 +78,7 @@ public class MsPacMan extends PacmanController {
 		CompoundState noEdibleGhosts = new CompoundState("NoEdibleGhosts", cfsmNoEdibleGhosts);
 		
 
-		SimpleState find2Ghost = new SimpleState("Find2ndGhost", new GoSecondNearestChasingGhostAction());
+		//SimpleState find2Ghost = new SimpleState("Find2ndGhost", new GoSecondNearestChasingGhostAction());
 		SimpleState fleeGhost = new SimpleState("FleeGhost", new AwayNearestChasingGhostAction());
 		SimpleState fleeCorner = new SimpleState("FleeCorner", new EvadeCornerAction());
 		SimpleState fleeLair = new SimpleState("FleeLair", new EvadeCellAction());
@@ -91,28 +95,31 @@ public class MsPacMan extends PacmanController {
 		SimpleState chaseNearestPill = new SimpleState("ChaseNearestPill", new GoToNearestPillAction());
 		SimpleState findGhost = new SimpleState("FindGhost", new GoNearestChasingGhostAction());
 		
-
-		GraphFSMObserver observer = new GraphFSMObserver(fsm.toString());
-		fsm.addObserver(observer);
-
-		GraphFSMObserver chasingGhostObserver = new GraphFSMObserver(cfsmChasingGhost.toString());
-		cfsmChasingGhost.addObserver(chasingGhostObserver);
-		
-		GraphFSMObserver noChasingGhostObserver = new GraphFSMObserver(cfsmNoChasingGhost.toString());
-		cfsmNoChasingGhost.addObserver(noChasingGhostObserver);
-		
-		GraphFSMObserver oneChasingGhostObserver = new GraphFSMObserver(cfsmOneChasingGhost.toString());
-		cfsmOneChasingGhost.addObserver(oneChasingGhostObserver);
-		
-		GraphFSMObserver multipleChasingGhostsObserver = new GraphFSMObserver(cfsmMultipleChasingGhosts.toString());
-		cfsmMultipleChasingGhosts.addObserver(multipleChasingGhostsObserver);
-		
-		GraphFSMObserver edibleGhostObserver = new GraphFSMObserver(cfsmEdibleGhosts.toString());
-		cfsmEdibleGhosts.addObserver(edibleGhostObserver);
-		
-		GraphFSMObserver noEdibleGhostObserver = new GraphFSMObserver(cfsmNoEdibleGhosts.toString());
-		cfsmNoEdibleGhosts.addObserver(noEdibleGhostObserver);
-		
+	
+		createObserver(cfsmChasingGhost);
+		createObserver(cfsmNoChasingGhost);
+		createObserver(cfsmOneChasingGhost);
+		createObserver(cfsmMultipleChasingGhosts);
+		createObserver(cfsmEdibleGhosts);
+		createObserver(cfsmNoEdibleGhosts);
+//		GraphFSMObserver chasingGhostObserver = new GraphFSMObserver(cfsmChasingGhost.toString());
+//		cfsmChasingGhost.addObserver(observer);
+//		
+//		GraphFSMObserver noChasingGhostObserver = new GraphFSMObserver(cfsmNoChasingGhost.toString());
+//		cfsmNoChasingGhost.addObserver(observer);
+//		
+//		GraphFSMObserver oneChasingGhostObserver = new GraphFSMObserver(cfsmOneChasingGhost.toString());
+//		cfsmOneChasingGhost.addObserver(observer);
+//		
+//		GraphFSMObserver multipleChasingGhostsObserver = new GraphFSMObserver(cfsmMultipleChasingGhosts.toString());
+//		cfsmMultipleChasingGhosts.addObserver(observer);
+//		
+//		GraphFSMObserver edibleGhostObserver = new GraphFSMObserver(cfsmEdibleGhosts.toString());
+//		cfsmEdibleGhosts.addObserver(observer);
+//		
+//		GraphFSMObserver noEdibleGhostObserver = new GraphFSMObserver(cfsmNoEdibleGhosts.toString());
+//		cfsmNoEdibleGhosts.addObserver(observer);
+//		
 
 		Transition chasingGhostTransition = new ChasingGhostNearTransition();
 		Transition noChasingGhostTransition = new NoChasingGhostNearTransition();
@@ -124,31 +131,31 @@ public class MsPacMan extends PacmanController {
 		Transition noEdibleGhostsTransition = new NoEdibleGhostNearTransition();
 		
 		
-		Transition fleeCellToFind2GhostTransition = new Find2ndGhostTransition("Flee Lair -> Find 2nd Ghost");
-		Transition fleeGhostToFind2GhostTransition = new Find2ndGhostTransition("Flee Ghost -> Find 2nd Ghost");
-		Transition fleeCornerToFind2GhostTransition = new Find2ndGhostTransition("Flee Corner -> Find 2nd Ghost");
-		Transition fleePPToFind2GhostTransition = new Find2ndGhostTransition("Flee Power Pill -> Find 2nd Ghost");
+		//Transition fleeCellToFind2GhostTransition = new Find2ndGhostTransition("Flee Lair -> Find 2nd Ghost");
+		//Transition fleeGhostToFind2GhostTransition = new Find2ndGhostTransition("Flee Ghost -> Find 2nd Ghost");
+		//Transition fleeCornerToFind2GhostTransition = new Find2ndGhostTransition("Flee Corner -> Find 2nd Ghost");
+		//Transition fleePPToFind2GhostTransition = new Find2ndGhostTransition("Flee Power Pill -> Find 2nd Ghost");
 
 		Transition fleeCellToFleeGhostTransition = new FleeGhostTransition("Flee Lair -> Flee Ghost");
-		Transition find2GhostToFleeGhostTransition = new FleeGhostTransition("Find 2nd Ghost -> Flee Ghost");
+		//Transition find2GhostToFleeGhostTransition = new FleeGhostTransition("Find 2nd Ghost -> Flee Ghost");
 		Transition fleeCornerToFleeGhostTransition = new FleeGhostTransition("Flee Corner -> Flee Ghost");
 		Transition fleePPToFleeGhostTransition = new FleeGhostTransition("Flee Power Pill -> Flee Ghost");
 		
 		Transition fleeGhostToFleeLairTransition = new FleeLairTransition(" Flee Ghost -> Flee Lair");
-		Transition find2GhostToFleeLairTransition = new FleeLairTransition("Find 2nd Ghost -> Flee Lair");
+		//Transition find2GhostToFleeLairTransition = new FleeLairTransition("Find 2nd Ghost -> Flee Lair");
 		Transition fleePPToFleeLairTransition = new FleeLairTransition("Flee Power Pill -> Flee Lair");
 		
 		Transition fleeGhostToFleeCornerTransition = new FleeCornerTransition(" Flee Ghost -> Flee Corner");
-		Transition find2GhostToFleeCornerTransition = new FleeCornerTransition("Find 2nd Ghost -> Flee Corner");
+		//Transition find2GhostToFleeCornerTransition = new FleeCornerTransition("Find 2nd Ghost -> Flee Corner");
 		Transition fleePPToFleeCornerTransition = new FleeCornerTransition("Flee Power Pill -> Flee Corner");
 		
 		Transition fleeGhostToFleePPTransition = new FleePPTransition(" Flee Ghost -> Flee Power Pill");
-		Transition find2GhostToFleePPTransition = new FleePPTransition("Find 2nd Ghost -> Flee Power Pill");
+		//Transition find2GhostToFleePPTransition = new FleePPTransition("Find 2nd Ghost -> Flee Power Pill");
 		Transition fleeLairToFleePPTransition = new FleePPTransition("Flee Lair -> Flee Power Pill");
 		
 
-		Transition chasePPToFleeToSafeZoneTransition = new PowerPillAvailableTransition();
-		Transition FleeToSafeZoneToChasePPTransition = new PowerPillUnavailableTransition();
+		Transition chasePPToFleeToSafeZoneTransition = new PowerPillUnavailableTransition();
+		Transition FleeToSafeZoneToChasePPTransition = new PowerPillAvailableTransition();
 		
 
 		Transition chaseEdibleToChaseEdibleGroupTransition = new GroupEdibleGhostNearTransition();
@@ -182,26 +189,26 @@ public class MsPacMan extends PacmanController {
 		cfsmNoChasingGhost.add(edibleGhosts, noEdibleGhostsTransition, noEdibleGhosts);
 		
 		
-		cfsmOneChasingGhost.add(fleeLair, fleeCellToFind2GhostTransition, find2Ghost);
-		cfsmOneChasingGhost.add(fleeGhost, fleeGhostToFind2GhostTransition, find2Ghost);
-		cfsmOneChasingGhost.add(noEdibleGhosts, fleeCornerToFind2GhostTransition, find2Ghost);
-		cfsmOneChasingGhost.add(fleePowerPill, fleePPToFind2GhostTransition, find2Ghost);
+		//cfsmOneChasingGhost.add(fleeLair, fleeCellToFind2GhostTransition, find2Ghost);
+		//cfsmOneChasingGhost.add(fleeGhost, fleeGhostToFind2GhostTransition, find2Ghost);
+		//cfsmOneChasingGhost.add(fleeCorner, fleeCornerToFind2GhostTransition, find2Ghost);
+		//cfsmOneChasingGhost.add(fleePowerPill, fleePPToFind2GhostTransition, find2Ghost);
 
 		cfsmOneChasingGhost.add(fleeLair, fleeCellToFleeGhostTransition, fleeGhost);
-		cfsmOneChasingGhost.add(find2Ghost, find2GhostToFleeGhostTransition, fleeGhost);
-		cfsmOneChasingGhost.add(noEdibleGhosts, fleeCornerToFleeGhostTransition, fleeGhost);
+		//cfsmOneChasingGhost.add(find2Ghost, find2GhostToFleeGhostTransition, fleeGhost);
+		cfsmOneChasingGhost.add(fleeCorner, fleeCornerToFleeGhostTransition, fleeGhost);
 		cfsmOneChasingGhost.add(fleePowerPill, fleePPToFleeGhostTransition, fleeGhost);
 
 		cfsmOneChasingGhost.add(fleeGhost, fleeGhostToFleeLairTransition, fleeLair);
-		cfsmOneChasingGhost.add(find2Ghost, find2GhostToFleeLairTransition, fleeLair);
+		//cfsmOneChasingGhost.add(find2Ghost, find2GhostToFleeLairTransition, fleeLair);
 		cfsmOneChasingGhost.add(fleePowerPill, fleePPToFleeLairTransition, fleeLair);
 
 		cfsmOneChasingGhost.add(fleeGhost, fleeGhostToFleeCornerTransition, fleeCorner);
-		cfsmOneChasingGhost.add(find2Ghost, find2GhostToFleeCornerTransition, fleeCorner);
+		//cfsmOneChasingGhost.add(find2Ghost, find2GhostToFleeCornerTransition, fleeCorner);
 		cfsmOneChasingGhost.add(fleePowerPill, fleePPToFleeCornerTransition, fleeCorner);
 
 		cfsmOneChasingGhost.add(fleeGhost, fleeGhostToFleePPTransition, fleePowerPill);
-		cfsmOneChasingGhost.add(find2Ghost, find2GhostToFleePPTransition, fleePowerPill);
+		//cfsmOneChasingGhost.add(find2Ghost, find2GhostToFleePPTransition, fleePowerPill);
 		cfsmOneChasingGhost.add(fleeLair, fleeLairToFleePPTransition, fleePowerPill);
 		
 
@@ -231,7 +238,7 @@ public class MsPacMan extends PacmanController {
 		fsm.ready(noChasingGhost);
 		cfsmChasingGhost.ready(oneChasingGhost);
 		cfsmNoChasingGhost.ready(noEdibleGhosts);
-		cfsmOneChasingGhost.ready(find2Ghost);
+		cfsmOneChasingGhost.ready(fleeGhost);
 		cfsmMultipleChasingGhosts.ready(fleeToSafeZone);
 		cfsmEdibleGhosts.ready(chaseEdibleGhost);
 		cfsmNoEdibleGhosts.ready(chaseNearestPill);
@@ -241,12 +248,12 @@ public class MsPacMan extends PacmanController {
 		JPanel main = new JPanel();
 		main.setLayout(new BorderLayout());
 		main.add(observer.getAsPanel(true, null), BorderLayout.SOUTH);
-		main.add(chasingGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);	// Poner varios en North los muestra en el mismo panel. Queda bien, solo hay que decidir cuales separar, si queremos separar alguno.
-		main.add(noChasingGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);
-		main.add(oneChasingGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);
-		main.add(multipleChasingGhostsObserver.getAsPanel(true, null), BorderLayout.NORTH);
-		main.add(edibleGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);
-		main.add(noEdibleGhostObserver.getAsPanel(true, null), BorderLayout.NORTH);
+//		main.add(chasingGhostObserver.getAsPanel(true, null), BorderLayout.SOUTH);	// Poner varios en North los muestra en el mismo panel. Queda bien, solo hay que decidir cuales separar, si queremos separar alguno.
+//		main.add(noChasingGhostObserver.getAsPanel(true, null), BorderLayout.SOUTH);
+//		main.add(oneChasingGhostObserver.getAsPanel(true, null), BorderLayout.SOUTH);
+//		main.add(multipleChasingGhostsObserver.getAsPanel(true, null), BorderLayout.SOUTH);
+//		main.add(edibleGhostObserver.getAsPanel(true, null), BorderLayout.SOUTH);
+//		main.add(noEdibleGhostObserver.getAsPanel(true, null), BorderLayout.SOUTH);
 		
 		frame.getContentPane().add(main);
 		frame.pack();
@@ -262,6 +269,11 @@ public class MsPacMan extends PacmanController {
 	public MOVE getMove(Game game, long timeDue) {
 		Input in = new MsPacManInput(game);
 		return fsm.run(in);
+	}
+	
+	void createObserver(FSM target)
+	{
+		target.addObserver(new ConsoleFSMObserver("MsPacMan"));
 	}
 	
 

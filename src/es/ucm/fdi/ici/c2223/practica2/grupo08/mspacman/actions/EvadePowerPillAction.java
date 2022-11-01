@@ -17,6 +17,7 @@ public class EvadePowerPillAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
+		System.out.println("EvadePowerPillAction");
 		
 		int route = toNearestPill(game);
 		

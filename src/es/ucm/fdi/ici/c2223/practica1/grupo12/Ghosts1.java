@@ -12,7 +12,7 @@ import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 import pacman.game.GameView;
 
-public class Ghosts extends GhostController {
+public class Ghosts1 extends GhostController {
 	
 	private final int GHOST_RANGE = 50;
 	private final int PACMAN_MAX_DIST_TO_PP = 40;
@@ -27,7 +27,7 @@ public class Ghosts extends GhostController {
 
 	private JunctionManager junctionMan = new JunctionManager();
 
-	public Ghosts() {
+	public Ghosts1() {
 		super();
 
 		setName("Ghost 12");
