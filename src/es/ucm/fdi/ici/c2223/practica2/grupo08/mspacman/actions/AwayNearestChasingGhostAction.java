@@ -45,7 +45,7 @@ public class AwayNearestChasingGhostAction implements Action {
 			}
 
 		}
-
+		if (nearest == null) return -1; 
 		return game.getGhostCurrentNodeIndex(nearest);
 	}
 }

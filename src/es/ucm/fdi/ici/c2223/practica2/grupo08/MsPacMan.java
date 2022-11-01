@@ -229,6 +229,13 @@ public class MsPacMan extends PacmanController {
 		
 		
 		fsm.ready(noChasingGhost);
+		cfsmChasingGhost.ready(oneChasingGhost);
+		cfsmNoChasingGhost.ready(noEdibleGhosts);
+		cfsmOneChasingGhost.ready(find2Ghost);
+		cfsmMultipleChasingGhosts.ready(fleeToSafeZone);
+		cfsmEdibleGhosts.ready(chaseEdibleGhost);
+		cfsmNoEdibleGhosts.ready(chaseNearestPill);
+		
 		
 		JFrame frame = new JFrame();
 		JPanel main = new JPanel();

@@ -45,7 +45,8 @@ public class GoNearestEdibleGhostAction implements Action {
 			}
 
 		}
-
+		
+		if (nearest == null) return -1;
 		return game.getGhostCurrentNodeIndex(nearest);
 	}
 }

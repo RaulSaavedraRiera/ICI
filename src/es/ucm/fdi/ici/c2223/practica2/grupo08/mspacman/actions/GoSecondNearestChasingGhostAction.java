@@ -49,6 +49,8 @@ public class GoSecondNearestChasingGhostAction implements Action {
 			}
 
 		}
+
+		if (nearest == null) return -1;
 		
 		minDistance = 10000;
 		
@@ -67,8 +69,7 @@ public class GoSecondNearestChasingGhostAction implements Action {
 
 		}
 		
-		
-
+		if (nearest2 == null) return -1;
 		return game.getGhostCurrentNodeIndex(nearest2);
 	}
 }
