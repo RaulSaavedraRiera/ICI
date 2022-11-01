@@ -235,7 +235,7 @@ boolean isGhostFollowsPacman()
 	}
 	
 	//si ahora mismo no esta en una interseccion devolvemos que no
-	if(game.getNeighbouringNodes(game.getGhostCurrentNodeIndex(nearest), game.getGhostLastMoveMade(nearest)).length > 1)
+	if(nearest == null || game.getNeighbouringNodes(game.getGhostCurrentNodeIndex(nearest), game.getGhostLastMoveMade(nearest)).length > 1)
 		return false;
 	
 	//si no obtenemos el nodo siguiente
@@ -275,7 +275,7 @@ boolean secureRouteAvailable() {
 	
 	// para cada pildora
 	do {
-		p = game.getPillIndices()[rnd.nextInt(game.getPillIndices().length)];
+		p = game.getPillIndices()[new Random().nextInt(game.getPillIndices().length)];
 		i++;
 		// obtenemos la ruta
 		pacman = game.getShortestPath(pacmanPos, p, lastMove);
@@ -358,14 +358,16 @@ boolean groupAvailable() {
 			// segundos o sacar la distancia a pacman
 			
 			//se van a repetir grupo pero da igual pq si es el mismo tamaÃ±o no se va a sobreescribir
-			if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > MAXTIME_EDIBLEGHOST) {
+			if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > MAXTIME_EDIBLEGHOST && game.getGhostLairTime(gO) == 0 && game.getGhostEdibleTime(gO) > MAXTIME_EDIBLEGHOST) {
 
-				if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), game.getGhostCurrentNodeIndex(gO),
-						game.getGhostLastMoveMade(g)) <= MAXDISTANCE_GHOSTSGROUP) {
-						
-					return true;
+				if ( g != gO && game.getGhostCurrentNodeIndex(g) != -1 && game.getGhostCurrentNodeIndex(gO) != -1) {
+				
+					if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), game.getGhostCurrentNodeIndex(gO),
+							game.getGhostLastMoveMade(g)) <= MAXDISTANCE_GHOSTSGROUP) {
+							
+						return true;
+					}
 				}
-
 			}
 		}
 	}
