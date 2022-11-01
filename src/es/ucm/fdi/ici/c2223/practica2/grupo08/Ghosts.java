@@ -1,11 +1,11 @@
 package es.ucm.fdi.ici.c2223.practica2.grupo08;
 
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.EnumMap;
 
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.ChaseAction;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.ChaseJunctionsAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.CheckAvailableDirectionAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.GoToDirectionAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.GoToNearestPPAction;
@@ -33,8 +33,6 @@ import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.PacManNearPPill
 import es.ucm.fdi.ici.fsm.CompoundState;
 import es.ucm.fdi.ici.fsm.FSM;
 import es.ucm.fdi.ici.fsm.SimpleState;
-import es.ucm.fdi.ici.fsm.observers.ConsoleFSMObserver;
-import es.ucm.fdi.ici.fsm.observers.GraphFSMObserver;
 import pacman.controllers.GhostController;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
@@ -45,6 +43,8 @@ public class Ghosts extends GhostController {
 	private GhostData ghostData;
 	ArrayList<GhostData> ghostDataRef;
 
+	JunctionManager juncManager;
+	
 	EnumMap<GHOST, FSM> fsms;
 
 	public Ghosts() {
@@ -55,6 +55,7 @@ public class Ghosts extends GhostController {
 		setTeam("Team 12");
 
 		ghostData = new GhostData();
+		juncManager = new JunctionManager();
 		ghostDataRef = new ArrayList<GhostData>();
 		ghostDataRef.add(ghostData);
 
@@ -63,11 +64,12 @@ public class Ghosts extends GhostController {
 		for (GHOST ghost : GHOST.values()) {
 
 			FSM fsm = new FSM(ghost.name());
-			fsm.addObserver(new ConsoleFSMObserver(ghost.name()));
-			GraphFSMObserver graphObserver = new GraphFSMObserver(ghost.name());
-			fsm.addObserver(graphObserver);
+//			fsm.addObserver(new ConsoleFSMObserver(ghost.name()));
+//			GraphFSMObserver graphObserver = new GraphFSMObserver(ghost.name());
+//			fsm.addObserver(graphObserver);
 
 			SimpleState chase = new SimpleState(new ChaseAction(ghost, ghostDataRef));
+			SimpleState chaseJunction = new SimpleState(new ChaseJunctionsAction(ghost, ghostDataRef, juncManager));
 			SimpleState runAway = new SimpleState(new RunAwayAction(ghost, ghostDataRef));
 			SimpleState goToNearestPP = new SimpleState(new GoToNearestPPAction(ghost, ghostDataRef));
 			SimpleState runToNearestGhost = new SimpleState(new RunAwayToGhostAction(ghost, ghostDataRef));
@@ -139,6 +141,8 @@ public class Ghosts extends GhostController {
 			GhostArriveAfterPacmanToPP ghostArrivesLastToPP = new GhostArriveAfterPacmanToPP(ghost);
 					
 			//IMPORTANTE: mantener el orden de las transiciones de checkDirections, hace que primero compruebe la direccion actual y luego el resto
+			//Nota: originalmente esta FSM iba a tener el mismo comportamiento que el JunctionManager, sin embargo, por problemas
+			//en la instancias de clases dentro del input no hemos podido mantenerlo, aun asi se queda la estructura original
 			pacmanLejosPPFSM.add(checkDirections, currentDirFreeLeft, goToLeftPath);
 			pacmanLejosPPFSM.add(checkDirections, currentDirFreeUp, goToUpPath);
 			pacmanLejosPPFSM.add(checkDirections, currentDirFreeDown, goToDownPath);
@@ -163,9 +167,13 @@ public class Ghosts extends GhostController {
 			interceptoresFSM.add(goToObjective, ghostArrivedOrNotObjective, selectRandomZoneNearPacman);
 			interceptoresFSM.ready(selectRandomZoneNearPacman);
 			
-			perseguidoresFSM.add(pacmanCercaPP, notNearPP, pacmanLejosPP);
-			perseguidoresFSM.add(pacmanLejosPP, nearPP, pacmanCercaPP);
-			perseguidoresFSM.ready(pacmanLejosPP);
+//			perseguidoresFSM.add(pacmanCercaPP, notNearPP, pacmanLejosPP);
+//			perseguidoresFSM.add(pacmanLejosPP, nearPP, pacmanCercaPP);
+//			perseguidoresFSM.ready(pacmanCercaPP);
+			
+			perseguidoresFSM.add(pacmanCercaPP, notNearPP, chaseJunction);
+			perseguidoresFSM.add(chaseJunction, nearPP, pacmanCercaPP);
+			perseguidoresFSM.ready(chaseJunction);
 			
 			huirDePacmanFSM.add(runToNearestGhost, ghostEdibleAndNoGhostToRun, goToNearestPP);
 			huirDePacmanFSM.add(goToNearestPP, ghostEdibleAndGhostToRun, runToNearestGhost);
@@ -183,7 +191,7 @@ public class Ghosts extends GhostController {
 			fsm.add(noComestibles, edible, comestibles);
 			fsm.ready(noComestibles);
 
-			graphObserver.showInFrame(new Dimension(800, 600));
+			//graphObserver.showInFrame(new Dimension(800, 600));
 
 			fsms.put(ghost, fsm);
 		}
@@ -191,7 +199,7 @@ public class Ghosts extends GhostController {
 	
 	public void createFSMObserver(FSM target, GHOST ghost) 
 	{
-		target.addObserver(new ConsoleFSMObserver(ghost.name()));
+//		target.addObserver(new ConsoleFSMObserver(ghost.name()));
 //		GraphFSMObserver graphObserver = new GraphFSMObserver(ghost.name());
 //		target.addObserver(graphObserver);
 		
@@ -205,6 +213,8 @@ public class Ghosts extends GhostController {
 		ghostData = new GhostData();
 		ghostDataRef.clear();
 		ghostDataRef.add(ghostData);
+		
+		juncManager = new JunctionManager();
     }
 	
 	@Override
@@ -212,6 +222,7 @@ public class Ghosts extends GhostController {
 
 		EnumMap<GHOST, MOVE> result = new EnumMap<GHOST, MOVE>(GHOST.class);
 
+		ghostData.update();
 		GhostsInput in = new GhostsInput(game, ghostDataRef);
 
 		for (GHOST ghost : GHOST.values()) {

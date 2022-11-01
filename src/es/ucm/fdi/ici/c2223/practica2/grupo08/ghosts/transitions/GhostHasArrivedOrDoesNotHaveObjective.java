@@ -24,7 +24,7 @@ public class GhostHasArrivedOrDoesNotHaveObjective implements Transition {
 	public boolean evaluate(Input in) {
 		GhostsInput input = (GhostsInput)in;
 		
-		GhostHasArrivedToObjectiveTransition arrivedToObjective = new GhostHasArrivedToObjectiveTransition(ghost);
+		GhostHasArrivedToObjectiveTransition arrivedToObjective = new GhostHasArrivedToObjectiveTransition(ghost, gDataRef);
 		GhostHasObjectiveTransition hasObjective = new GhostHasObjectiveTransition(ghost, gDataRef);
 		
 		return arrivedToObjective.evaluate(input) || !hasObjective.evaluate(input);

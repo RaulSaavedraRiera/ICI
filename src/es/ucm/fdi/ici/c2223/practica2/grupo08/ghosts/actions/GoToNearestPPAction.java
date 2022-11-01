@@ -24,7 +24,7 @@ public class GoToNearestPPAction implements Action {
 //		gData.setGhostObjective(ghost, -1);
 
 		if (game.doesGhostRequireAction(ghost)) // if it requires an action
-		{
+		{	
 			int thisGhost = game.getGhostCurrentNodeIndex(ghost);
 			int minDistanceToPPill = Integer.MAX_VALUE;
 			int nearestPP = -1;
