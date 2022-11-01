@@ -6,11 +6,11 @@ import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.fsm.Transition;
 import pacman.game.Constants.GHOST;
 
-public class GhostHastaArrivedOrDoesNotHaveObjective implements Transition {
+public class GhostHasArrivedOrDoesNotHaveObjective implements Transition {
 
 	GHOST ghost;
 	GhostData gData;
-	public GhostHastaArrivedOrDoesNotHaveObjective(GHOST ghost, GhostData ghostData) {
+	public GhostHasArrivedOrDoesNotHaveObjective(GHOST ghost, GhostData ghostData) {
 		super();
 		this.ghost = ghost;
 		gData = ghostData;

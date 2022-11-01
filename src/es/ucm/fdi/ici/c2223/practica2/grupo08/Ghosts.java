@@ -2,7 +2,6 @@ package es.ucm.fdi.ici.c2223.practica2.grupo08;
 
 import java.awt.Dimension;
 import java.util.EnumMap;
-import java.util.HashMap;
 
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.ChaseAction;
@@ -15,11 +14,20 @@ import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.RunAwayToGhostActio
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.actions.SearchObjectiveCloseToPacmanAction;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.CurrentDirectionFreeTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.DirectionFreeTransition;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostArriveAfterPacmanToPP;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostEdibleAndPacmanWillEat;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostEdibleAndPacmanWontReach;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostEdiblePacmanWillReachAllEdible;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostEdiblePacmanWillReachNoEdibleGhost;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostHasArrivedOrDoesNotHaveObjective;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostHasObjectiveTransition;
-import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostHastaArrivedOrDoesNotHaveObjective;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostIsNotPursuerAndExitsRangeTransition;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostIsPursuerOrEntersRangeTransition;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostsArriveBeforePacManToPPill;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostsEdibleTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostsInIntersectionTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostsNotEdibleAndPacManFarPPill;
+import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.GhostsNotEdibleTransition;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.transitions.PacManNearPPillTransition;
 import es.ucm.fdi.ici.fsm.CompoundState;
 import es.ucm.fdi.ici.fsm.FSM;
@@ -46,6 +54,8 @@ public class Ghosts extends GhostController {
 		setName("Ghost 12");
 
 		setTeam("Team 12");
+
+		ghostData = new GhostData();
 
 		fsms = new EnumMap<GHOST, FSM>(GHOST.class);
 
@@ -90,6 +100,7 @@ public class Ghosts extends GhostController {
 			CompoundState huirDePacman = new CompoundState("Estado_HuirDePacman", huirDePacmanFSM);
 
 			GhostsEdibleTransition edible = new GhostsEdibleTransition(ghost);
+			GhostsNotEdibleTransition notEdible = new GhostsNotEdibleTransition(ghost);
 			PacManNearPPillTransition near = new PacManNearPPillTransition();
 			GhostsNotEdibleAndPacManFarPPill toChaseTransition = new GhostsNotEdibleAndPacManFarPPill(ghost);
 
@@ -101,8 +112,18 @@ public class Ghosts extends GhostController {
 			
 			GhostsInIntersectionTransition ghostInIntersection = new GhostsInIntersectionTransition(ghost);
 			
-			GhostHastaArrivedOrDoesNotHaveObjective ghostArrivedOrNotObjective = new GhostHastaArrivedOrDoesNotHaveObjective(ghost, ghostData);
+			GhostHasArrivedOrDoesNotHaveObjective ghostArrivedOrNotObjective = new GhostHasArrivedOrDoesNotHaveObjective(ghost, ghostData);
 			GhostHasObjectiveTransition ghostHasObjective = new GhostHasObjectiveTransition(ghost, ghostData);
+			GhostIsNotPursuerAndExitsRangeTransition ghostExitsAndNoPursuer = new GhostIsNotPursuerAndExitsRangeTransition(ghost);
+			GhostIsPursuerOrEntersRangeTransition ghostEntersOrPursuer = new GhostIsPursuerOrEntersRangeTransition(ghost);
+			
+			GhostEdibleAndPacmanWillEat ghostEdibleAndPacmanReachs = new GhostEdibleAndPacmanWillEat(ghost);
+			GhostEdibleAndPacmanWontReach ghostEdibleAndPacmanWontReach = new GhostEdibleAndPacmanWontReach(ghost);
+			GhostEdiblePacmanWillReachAllEdible ghostEdibleAndNoGhostToRun = new GhostEdiblePacmanWillReachAllEdible(ghost);
+			GhostEdiblePacmanWillReachNoEdibleGhost ghostEdibleAndGhostToRun = new GhostEdiblePacmanWillReachNoEdibleGhost(ghost);
+			
+			GhostsArriveBeforePacManToPPill ghostArrivesFirstToPP = new GhostsArriveBeforePacManToPPill(ghost);
+			GhostArriveAfterPacmanToPP ghostArrivesLastToPP = new GhostArriveAfterPacmanToPP(ghost);
 					
 			//IMPORTANTE: mantener el orden de las transiciones de checkDirections, hace que primero compruebe la direccion actual y luego el resto
 			pacmanLejosPPFSM.add(checkDirections, currentDirTrans, goToLeftPath);
@@ -119,27 +140,39 @@ public class Ghosts extends GhostController {
 			pacmanLejosPPFSM.add(goToRightPath, ghostInIntersection, checkDirections);
 			pacmanLejosPPFSM.add(goToUpPath, ghostInIntersection, checkDirections);
 			pacmanLejosPPFSM.add(goToDownPath, ghostInIntersection, checkDirections);
-			
 			pacmanLejosPPFSM.ready(checkDirections);
+			
+			pacmanCercaPPFSM.add(runAway, ghostArrivesFirstToPP, goToNearestPP);
+			pacmanCercaPPFSM.add(goToNearestPP, ghostArrivesLastToPP, runAway);
+			pacmanCercaPPFSM.ready(goToNearestPP);
 			
 			interceptoresFSM.add(selectRandomZoneNearPacman, ghostHasObjective, goToCurrentObjective);
 			interceptoresFSM.add(goToCurrentObjective, ghostArrivedOrNotObjective, selectRandomZoneNearPacman);
-			
 			interceptoresFSM.ready(selectRandomZoneNearPacman);
 			
 			perseguidoresFSM.add(pacmanCercaPP, near, pacmanLejosPP);
 			perseguidoresFSM.add(pacmanLejosPP, toChaseTransition, pacmanCercaPP);
-			fsm.add(comestibles, edible, noComestibles);
-//			fsm.add(chase, near, runAway);
-//			fsm.add(runAway, toChaseTransition, chase);
-//			
-//			fsm.ready(chase);
+			perseguidoresFSM.ready(pacmanLejosPP);
+			
+			huirDePacmanFSM.add(runToNearestGhost, ghostEdibleAndNoGhostToRun, goToNearestPP);
+			huirDePacmanFSM.add(goToNearestPP, ghostEdibleAndGhostToRun, runToNearestGhost);
+			huirDePacmanFSM.ready(goToNearestPP);
+			
+			noComestiblesFSM.add(perseguidores, ghostExitsAndNoPursuer, interceptores);
+			noComestiblesFSM.add(interceptores, ghostEntersOrPursuer, perseguidores);
+			noComestiblesFSM.ready(perseguidores);
+			
+			comestiblesFSM.add(chase, ghostEdibleAndPacmanReachs, huirDePacman);
+			comestiblesFSM.add(huirDePacman, ghostEdibleAndPacmanWontReach, chase);
+			comestiblesFSM.ready(huirDePacman);
+			
+			fsm.add(comestibles, notEdible, noComestibles);
+			fsm.add(noComestibles, edible, comestibles);
+			fsm.ready(noComestibles);
 
 			graphObserver.showInFrame(new Dimension(800, 600));
 
 			fsms.put(ghost, fsm);
-			
-			ghostData = new GhostData();
 		}
 	}
 
