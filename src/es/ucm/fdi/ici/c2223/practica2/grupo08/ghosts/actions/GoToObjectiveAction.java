@@ -25,6 +25,13 @@ public class GoToObjectiveAction implements Action {
 
 		int thisGhost = game.getGhostCurrentNodeIndex(ghost);
 		int objective = gData.getGhostObjective(ghost);
+
+		if (objective != -1) {
+			gData.getDistanceToObjective()[ghost.ordinal()] = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost), objective,
+					game.getGhostLastMoveMade(ghost));
+
+		} else
+			gData.getDistanceToObjective()[ghost.ordinal()] = 0;
 		
 		GameView.addLines(game, Color.GREEN, thisGhost, objective);
 

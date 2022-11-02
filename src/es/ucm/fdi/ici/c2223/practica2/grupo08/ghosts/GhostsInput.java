@@ -19,7 +19,6 @@ public class GhostsInput extends Input {
 	private int minPacmanDistancePPill;
 
 	private int[] ghostPositions;
-	private int[] distanceToObjective;
 	private int[] minGhostsDistancePPill;
 	private int[] distanceToPacman;
 
@@ -47,9 +46,6 @@ public class GhostsInput extends Input {
 
 		if (minGhostsDistancePPill == null)
 			minGhostsDistancePPill = new int[4];
-
-		if (distanceToObjective == null)
-			distanceToObjective = new int[4];
 
 		if (distanceToPacman == null)
 			distanceToPacman = new int[4];
@@ -79,19 +75,6 @@ public class GhostsInput extends Input {
 
 			this.possibleDirections[g.ordinal()] = game.getPossibleMoves(ghostPositions[g.ordinal()],
 					game.getGhostLastMoveMade(g));
-
-			if (gData != null) {
-				gData.setGhostMove(g, game.getApproximateNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(g), pacman,
-						game.getGhostLastMoveMade(g), DM.PATH));
-
-				if (gData.getGhostObjective(g) != -1) {
-					distanceToObjective[g.ordinal()] = game.getShortestPathDistance(ghostPositions[g.ordinal()],
-							gData.getGhostObjective(g), game.getGhostLastMoveMade(g));
-
-				} else
-					distanceToObjective[g.ordinal()] = 0;
-
-			}
 		}
 		this.junctionsIndices = game.getJunctionIndices();
 
@@ -108,10 +91,6 @@ public class GhostsInput extends Input {
 						this.minGhostsDistancePPill[ghostType.ordinal()]);
 			}
 		}
-	}
-
-	public int[] getDistanceToObjective() {
-		return distanceToObjective;
 	}
 
 	public MOVE[] getPossibleDirections(GHOST ghost) {
@@ -183,4 +162,9 @@ public class GhostsInput extends Input {
 		return distanceToPacman[g.ordinal()];
 	}
 
+	public void setGhostData(GhostData ghostData) 
+	{
+		gData = ghostData;
+		parseInput();
+	}
 }
