@@ -26,9 +26,9 @@ public class GoSecureZone implements Action {
 	public MOVE execute(Game game) {
 		
 		
-		if(game.getNeighbouringNodes(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL).length > 1)
+		//if(game.getNeighbouringNodes(game.getPacmanCurrentNodeIndex(), MOVE.NEUTRAL).length > 2)
 		 return game.getApproximateNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), awayFromMultipleGhosts(game), game.getPacmanLastMoveMade(), DM.PATH);
-		else return MOVE.NEUTRAL;
+		//else return MOVE.NEUTRAL;
 	}
 
 	@Override
