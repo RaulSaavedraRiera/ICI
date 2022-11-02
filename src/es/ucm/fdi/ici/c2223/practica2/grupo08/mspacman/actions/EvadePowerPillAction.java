@@ -10,6 +10,9 @@ import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
 public class EvadePowerPillAction implements Action {
+	
+	final int CRITICAL_DISTANCE = 8;
+	
 	public EvadePowerPillAction() {
 		// TODO Auto-generated constructor stub
 	}
@@ -17,22 +20,26 @@ public class EvadePowerPillAction implements Action {
     
 	@Override
 	public MOVE execute(Game game) {
-		System.out.println("EvadePowerPillAction");
 		
 		int route = toNearestPill(game);
 		
 		//no interseccio, no relevante no puede girar
 		if(route == -1) 
 			return MOVE.NEUTRAL;
-		else 
+		
+		else		
 			return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(), route, game.getPacmanLastMoveMade(), DM.PATH);
-	}
+			
+		
+			
+		}
 
 	@Override
 	public String getActionId() {
 		return "Evade PowerPill Action";
 	}
 	
+
 	
 	public int toNearestPill(Game game) {
 
