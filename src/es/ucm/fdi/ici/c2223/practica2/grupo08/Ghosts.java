@@ -50,7 +50,7 @@ public class Ghosts extends GhostController {
 	public Ghosts() {
 		super();
 
-		setName("Ghost 12");
+		setName("Los Bellacos de Atochas");
 
 		setTeam("Team 12");
 
