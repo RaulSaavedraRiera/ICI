@@ -54,6 +54,8 @@ public class MsPacMan extends PacmanController {
 	
 		setName("MsPacManIfUrNasty");
 		
+		setTeam("Team 08");
+		
 		fsm = new FSM("MsPacMan");
 		
 		fsm.addObserver(new ConsoleFSMObserver("MsPacMan"));

@@ -52,7 +52,7 @@ public class Ghosts extends GhostController {
 
 		setName("Los Bellacos de Atochas");
 
-		setTeam("Team 12");
+		setTeam("Team 08");
 
 		ghostData = new GhostData();
 		juncManager = new JunctionManager();
