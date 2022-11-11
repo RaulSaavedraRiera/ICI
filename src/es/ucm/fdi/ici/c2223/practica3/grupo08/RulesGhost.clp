@@ -72,6 +72,8 @@
     )
 )
 
+; ---
+
 (defrule PACMANnearLair
     (MSPACMAN (distToLair < 50))
     =>
