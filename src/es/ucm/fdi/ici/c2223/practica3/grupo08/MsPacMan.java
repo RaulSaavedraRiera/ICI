@@ -3,6 +3,15 @@ package es.ucm.fdi.ici.c2223.practica3.grupo08;
 import java.util.HashMap;
 
 import es.ucm.fdi.ici.Action;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChaseEdiblePA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChaseGhostPA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChasePillPA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChasePowerPillPA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.RunAwayCornerPA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.RunAwayLairPA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.RunAwayNearestChasingGhostAnyDirPA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.RunAwayNearestChasingGhostNonFollowPA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.RunAwayPowerPillPA;
 import pacman.controllers.PacmanController;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
@@ -20,39 +29,29 @@ public class MsPacMan extends PacmanController {
 
 		//Fi1l Actions
 
-		Action BLINKYchases = new ChaseActionCGHOST. BLINKY);
-		Action INKYchases = new ChaseActionCGHOST. INKY);
+		Action RunAwayLair = new RunAwayLairPA();
+		Action RunAwayCorner = new RunAwayCornerPA();
+		Action RunAwayNearestchasingGhostNonFollow = new RunAwayNearestChasingGhostNonFollowPA();
+		Action RunAwayNearestChasingGhostAnyDir = new RunAwayNearestChasingGhostAnyDirPA();
+		Action ChaseEdible = new ChaseEdiblePA();
+		Action RunAwayPowerPill = new RunAwayPowerPillPA();
+		Action ChasePowerPill = new ChasePowerPillPA();
+		Action ChasePill = new ChasePillPA();
+		Action ChaseGhost = new ChaseGhostPA();
+				
+	
+		map.put("RunAwayLair", RunAwayLair);
+		map.put("RunAwayCorner", RunAwayCorner);
+		map.put("RunAwayNearestchasingGhostNonFollow", RunAwayNearestchasingGhostNonFollow);
+		map.put("RunAwayNearestChasingGhostAnyDir", RunAwayNearestChasingGhostAnyDir);
+		
+		map.put("ChaseEdible", ChaseEdible);
+		map.put("RunAwayPowerPill", RunAwayPowerPill);
+		map.put("ChasePowerPill", ChasePowerPill);
+		map.put("ChasePill", ChasePill);
+		map.put("ChaseGhost", ChaseGhost);
 
-		Action PINKYchases = new ChaseActionCGHOST. PINKY);
-		Action SUEchases = new ChaseActionCGHOST. SUE);
-
-		Action BLINKYrunsAway = new RunAwayActionCGHOST. BLINKY);
-		Action INKYrunsAway = new RunAwayActionCGHOST. INKY);
-		Action PINKYrunsAway = new RunAwayActionCGHOST. PINKY);
-		Action SUErunsAway = new RunAwayActionCGHOST. SUE);
-
-		map.put("", BLINKYaction);
-		.put("PINKYchases", PINKYchases);
-
-		map
-
-		map.
-		.putC"BLINKYrunsAway", BLINKYrunsAway);
-
-		map
-
-		map.
-		map.
-		map.
-
-		put("BLINKYchases”, BLINKYchases);
-		putC"INKYchases", INKYchases);
-
-		putC"SUEchases", SUEchases);
-		putC"INKYrunsAway", INKYrunsAway);
-
-		putC"PINKYrunsAway", PINKYrunsAway);
-		putC"SUErunsAmay", SUErunsAway);
+		
 	}
 
 	@Override
