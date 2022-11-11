@@ -1,7 +1,5 @@
 package es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions;
 
-import java.util.ArrayList;
-
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
 import pacman.game.Constants.DM;
@@ -13,9 +11,9 @@ public class RunAwayAction implements Action {
 
     GHOST ghost;
     GhostData gData;
-	public RunAwayAction(GHOST ghost, ArrayList<GhostData> ghostData) {
+	public RunAwayAction(GHOST ghost, GhostData ghostData) {
 		this.ghost = ghost;
-		gData = ghostData.get(0);
+		gData = ghostData;
 	}
 
 	@Override

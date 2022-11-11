@@ -4,6 +4,7 @@ import java.util.Collection;
 import java.util.Vector;
 
 import es.ucm.fdi.ici.rules.RulesInput;
+import jess.Fact;
 import pacman.game.Constants.GHOST;
 import pacman.game.Game;
 
@@ -50,10 +51,10 @@ public class GhostsInput extends RulesInput {
 		return facts;
 	}
 	
-//	public void parseFact(Fact actionFact) 
-//	{
-//		
-//	}
+	public void parseFact(Fact actionFact) 
+	{
+		
+	}
 
 	@Override
 	public void parseInput() {

@@ -1,3 +1,4 @@
+
 package es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions;
 
 import java.util.ArrayList;

@@ -1,11 +1,9 @@
 package es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
-import es.ucm.fdi.ici.c2223.practica2.grupo08.ghosts.GhostsInput;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
@@ -14,9 +12,9 @@ public class SearchObjectiveCloseToPacmanAction implements Action {
 
     GHOST ghost;
     GhostData gData;
-	public SearchObjectiveCloseToPacmanAction(GHOST ghost, ArrayList<GhostData> ghostData) {
+	public SearchObjectiveCloseToPacmanAction(GHOST ghost, GhostData ghostData) {
 		this.ghost = ghost;
-		gData = ghostData.get(0);
+		gData = ghostData;
 	}
 
 	@Override

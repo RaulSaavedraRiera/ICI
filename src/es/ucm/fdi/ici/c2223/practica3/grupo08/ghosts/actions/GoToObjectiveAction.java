@@ -1,7 +1,6 @@
 package es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions;
 
 import java.awt.Color;
-import java.util.ArrayList;
 
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
@@ -15,9 +14,9 @@ public class GoToObjectiveAction implements Action {
 
     GHOST ghost;
     GhostData gData;
-	public GoToObjectiveAction(GHOST ghost, ArrayList<GhostData> ghostData) {
+	public GoToObjectiveAction(GHOST ghost, GhostData ghostData) {
 		this.ghost = ghost;
-		gData = ghostData.get(0);
+		gData = ghostData;
 	}
 
 	@Override

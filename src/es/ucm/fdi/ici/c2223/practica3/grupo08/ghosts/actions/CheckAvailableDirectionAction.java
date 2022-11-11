@@ -13,9 +13,9 @@ public class CheckAvailableDirectionAction implements Action {
 
     GHOST ghost;
     GhostData gData;
-	public CheckAvailableDirectionAction(GHOST ghost, ArrayList<GhostData> ghostData) {
+	public CheckAvailableDirectionAction(GHOST ghost, GhostData ghostData) {
 		this.ghost = ghost;
-		gData = ghostData.get(0);
+		gData = ghostData;
 	}
 
 	@Override
