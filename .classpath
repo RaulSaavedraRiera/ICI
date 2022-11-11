@@ -7,5 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MsPacManEngine"/>
+	<classpathentry kind="lib" path="libs/jess.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
