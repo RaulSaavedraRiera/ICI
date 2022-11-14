@@ -41,7 +41,7 @@ public class ChaseEdiblePA implements RulesAction{
 
 			for (GHOST ghostType : GHOST.values()) {
 				
-				if (game.getGhostLairTime(ghostType) <= 0 && !game.isGhostEdible(ghostType)) {
+				if (game.getGhostLairTime(ghostType) <= 0 && game.isGhostEdible(ghostType)) {
 				
 					int dist = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghostType), game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(ghostType));
 					
