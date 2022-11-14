@@ -2,6 +2,7 @@ package es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions;
 
 import es.ucm.fdi.ici.rules.RulesAction;
 import jess.Fact;
+import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
@@ -16,9 +17,9 @@ public class ChaseEdiblePA implements RulesAction{
 		@Override
 		public MOVE execute(Game game) {
 	       
-			GHOST nearestGhost = getNearestAggressiveGhost(game);
+			return game.getApproximateNextMoveTowardsTarget(
+					game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex( getNearestEdibleGhost(game)), game.getPacmanLastMoveMade(), DM.PATH);
 			
-	        return MOVE.NEUTRAL;
 		}
 
 		@Override
@@ -33,7 +34,7 @@ public class ChaseEdiblePA implements RulesAction{
 			
 		}
 		
-		private GHOST getNearestAggressiveGhost(Game game) {
+		private GHOST getNearestEdibleGhost(Game game) {
 			
 			GHOST ret = null;
 			int closestGhostDist = 9999;
