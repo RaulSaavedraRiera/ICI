@@ -3,7 +3,7 @@ package es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions;
 import java.awt.Color;
 
 import es.ucm.fdi.ici.Action;
-import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.GhostData;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
