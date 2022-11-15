@@ -1,6 +1,7 @@
 ;FACTS ASSERTED BY GAME INPUT
 (deftemplate BLINKY
     (slot edible(type SYMBOL))
+    (slot anotherGhostNotEdible(type SYMBOL))
     (slot minBLINKYDistancePPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot BLINKYremainingTime (type INTEGER))
@@ -71,7 +72,81 @@
         (ACTION (id BLINKYrunsAway) (info "Comestible ----> Huir") (priority 30))
     )
 )
+(defrule PINKYrunsAway
+    (PINKY (edible true))
+    =>
+    (assert 
+        (ACTION (id PINKYrunsAway) (info "Comestible ----> Huir") (priority 30))
+    )
+)
+(defrule INKYrunsAway
+    (INKY (edible true))
+    =>
+    (assert 
+        (ACTION (id INKYrunsAway) (info "Comestible ----> Huir") (priority 30))
+    )
+)
+(defrule SUErunsAway
+    (SUE (edible true))
+    =>
+    (assert 
+        (ACTION (id SUErunsAway) (info "Comestible ----> Huir") (priority 30))
+    )
+)
 
+(defrule BLINKYrunsAwayToGhost
+    (BLINKY (edible true))
+    (BLINKY (anotherGhostNotEdible true))
+    =>
+    (assert 
+        (ACTION (id BLINKYrunsAwayToGhost) (info "RunAway to ghost") (priority 50))
+    )
+)
+(defrule PINKYrunsAwayToGhost
+    (PINKY (edible true))
+    (PINKY (anotherGhostNotEdible true))
+    =>
+    (assert 
+        (ACTION (id PINKYrunsAwayToGhost) (info "RunAway to ghost") (priority 50))
+    )
+)
+(defrule INKYrunsAwayToGhost
+    (INKY (edible true))
+    (INKY (anotherGhostNotEdible true))
+    =>
+    (assert 
+        (ACTION (id INKYrunsAwayToGhost) (info "RunAway to ghost") (priority 50))
+    )
+)
+(defrule SUErunsAwayToGhost
+    (SUE (edible true))
+    (SUE (anotherGhostNotEdible true))
+    =>
+    (assert 
+        (ACTION (id SUErunsAwayToGhost) (info "RunAway to ghost") (priority 50))
+    )
+)
+
+(defrule BLINKYsearchsObjective
+    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (< ?dp r))
+    =>
+    (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
+)
+(defrule PINKYsearchsObjective
+    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (< ?dp r))
+    =>
+    (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
+)
+(defrule INKYchases
+    (INKY (distanceToPacman ?dp) (RANGE ?r)) (test (< ?dp r))
+    =>
+    (assert (ACTION (id INKYchases) (info "Chases") (priority 100)))
+)
+(defrule SUEchases
+    (SUE (distanceToPacman ?dp) (RANGE ?r)) (test (< ?dp r))
+    =>
+    (assert (ACTION (id SUEchases) (info "Chases") (priority 100)))
+)
 ; ---
 
 (defrule PACMANnearLair

@@ -16,6 +16,8 @@ public class GhostsInput extends RulesInput {
 	private boolean SUEedible;
 	private int minPacmanDistancePPill;
 	
+	private boolean[] thereIsAnotherGhostNotEdible;
+	
 	private int[] ghostPositions;
 	private int[] minGhostsDistancePPill;
 	private int[] distanceToPacman;
