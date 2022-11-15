@@ -137,6 +137,11 @@ public class MsPacManInput extends RulesInput {
 					distanceToNearestChasingGhostAnyDir = d;
 					nearestChasingGhostAnyDirIndex = game.getGhostCurrentNodeIndex(g);
 				}
+				
+				if (distanceToNearestChasingGhostNotBehind > d && game.getGhostLastMoveMade(g) != game.getPacmanLastMoveMade()) {
+					distanceToNearestChasingGhostNotBehind = d;
+					nearestChasingGhostNotBehindIndex = game.getGhostCurrentNodeIndex(g);
+				}
 			}
 			
 		}
