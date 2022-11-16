@@ -120,7 +120,7 @@
     (BLINKY (anotherGhostNotEdible true))
     =>
     (assert 
-        (ACTION (id BLINKYrunsAwayToGhost) (info "RunAway to ghost") (priority 50))
+        (ACTION (id BLINKYrunsAwayToGhost) (info "RunAway to ghost") (priority 60))
     )
 )
 (defrule PINKYrunsAwayToGhost
@@ -128,7 +128,7 @@
     (PINKY (anotherGhostNotEdible true))
     =>
     (assert 
-        (ACTION (id PINKYrunsAwayToGhost) (info "RunAway to ghost") (priority 50))
+        (ACTION (id PINKYrunsAwayToGhost) (info "RunAway to ghost") (priority 60))
     )
 )
 (defrule INKYrunsAwayToGhost
@@ -136,7 +136,7 @@
     (INKY (anotherGhostNotEdible true))
     =>
     (assert 
-        (ACTION (id INKYrunsAwayToGhost) (info "RunAway to ghost") (priority 50))
+        (ACTION (id INKYrunsAwayToGhost) (info "RunAway to ghost") (priority 60))
     )
 )
 (defrule SUErunsAwayToGhost
@@ -144,7 +144,7 @@
     (SUE (anotherGhostNotEdible true))
     =>
     (assert 
-        (ACTION (id SUErunsAwayToGhost) (info "RunAway to ghost") (priority 50))
+        (ACTION (id SUErunsAwayToGhost) (info "RunAway to ghost") (priority 60))
     )
 )
 
@@ -255,5 +255,45 @@
     (BLINKY (edible true))
     (BLINKY (anotherGhostInLair true))
     =>
-    (assert (ACTION (id BLINKYgoesToLair) (info "Goes to lair") (priority 60)))
+    (assert (ACTION (id BLINKYgoesToLair) (info "Goes to lair") (priority 50)))
+)
+(defrule PINKYrunsToLair
+    (PINKY (edible true))
+    (PINKY (anotherGhostInLair true))
+    =>
+    (assert (ACTION (id PINKYgoesToLair) (info "Goes to lair") (priority 50)))
+)
+(defrule INKYrunsToLair
+    (INKY (edible true))
+    (INKY (anotherGhostInLair true))
+    =>
+    (assert (ACTION (id INKYgoesToLair) (info "Goes to lair") (priority 50)))
+)
+(defrule SUErunsToLair
+    (SUE (edible true))
+    (SUE (anotherGhostInLair true))
+    =>
+    (assert (ACTION (id SUEgoesToLair) (info "Goes to lair") (priority 50)))
+)
+
+;9
+(defrule BLINKYchases
+    (BLINKY (edible false))
+    =>
+    (assert (ACTION (id BLINKYchases) (info "Chases MSPacman") (priority 10)))
+)
+(defrule PINKYchases
+    (PINKY (edible false))
+    =>
+    (assert (ACTION (id PINKYchases) (info "Chases MSPacman") (priority 10)))
+)
+(defrule INKYchases
+    (INKY (edible false))
+    =>
+    (assert (ACTION (id INKYchases) (info "Chases MSPacman") (priority 10)))
+)
+(defrule SUEchases
+    (SUE (edible false))
+    =>
+    (assert (ACTION (id SUEchases) (info "Chases MSPacman") (priority 10)))
 )
