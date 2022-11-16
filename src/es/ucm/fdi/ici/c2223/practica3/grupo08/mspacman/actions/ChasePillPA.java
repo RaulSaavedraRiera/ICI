@@ -30,7 +30,7 @@ public class ChasePillPA implements RulesAction{
 
 		@Override
 		public String getActionId() {
-			return "PacmanChasePill";
+			return "PacmanTakeWay+Pills";
 			
 		}
 		
