@@ -3,7 +3,7 @@
     (slot edible(type SYMBOL))
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
-
+    (slot anotherGhostEdible (type SYMBOL))
     (slot minDistancePPill (type INTEGER))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
@@ -17,13 +17,14 @@
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
+    (slot SURE_DEATH_DISTANCE(type INTEGER))
 )
 
 (deftemplate INKY
     (slot edible(type SYMBOL))
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
-
+    (slot anotherGhostEdible (type SYMBOL))
     (slot minDistancePPill (type INTEGER))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
@@ -36,45 +37,50 @@
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
+    (slot SURE_DEATH_DISTANCE(type INTEGER))
 )
 
 (deftemplate PINKY
     (slot edible(type SYMBOL))
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
-    
+    (slot anotherGhostEdible (type SYMBOL))
     (slot minDistancePPill(type INTEGER))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToLair (type INTEGER))
     (slot remainingTime(type INTEGER))
     (slot minGhostTimeUntilFree (type INTEGER))
-
+    (slot pacmanPosition (type INTEGER))
     (slot position (type INTEGER))
     (slot hasObjective (type SYMBOL))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
+    (slot SURE_DEATH_DISTANCE(type INTEGER))
 )
 
 (deftemplate SUE
     (slot edible(type SYMBOL))
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
-    
+    (slot anotherGhostEdible (type SYMBOL))
     (slot minDistancePPill(type INTEGER))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman(type INTEGER))
     (slot distanceToLair (type INTEGER))
     (slot remainingTime(type INTEGER))
     (slot minGhostTimeUntilFree (type INTEGER))
-    
     (slot position (type INTEGER))
+    (slot chasingTime (type INTEGER))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
+    (slot SURE_DEATH_DISTANCE(type INTEGER))
+    (slot ORBITING_DISTANCE (type INTEGER))
+    (slot CHASING_TIME_LIMIT (type INTEGER))
 )
 
 ;ACTION FACTS
@@ -296,4 +302,111 @@
     (SUE (edible false))
     =>
     (assert (ACTION (id SUEchases) (info "Chases MSPacman") (priority 10)))
+)
+
+;10
+(defrule BLINKYprotectEdibles
+    (BLINKY (edible false))
+    (BLINKY (anotherGhostEdible))
+    =>
+    (assert (ACTION (id BLINKYrunsTowardsEdibleGhost) (info "Run to edible ghost") (priority 80)))
+)
+
+(defrule INKYprotectEdibles
+    (INKY (edible false))
+    (INKY (anotherGhostEdible))
+    =>
+    (assert (ACTION (id INKYrunsTowardsEdibleGhost) (info "Run to edible ghost") (priority 80)))
+)
+
+(defrule PINKYprotectEdibles
+    (PINKY (edible false))
+    (PINKY (anotherGhostEdible))
+    =>
+    (assert (ACTION (id PINKYrunsTowardsEdibleGhost) (info "Run to edible ghost") (priority 80)))
+)
+
+(defrule SUEprotectEdibles
+    (SUE (edible false))
+    (SUE (anotherGhostEdible))
+    =>2
+    (asser (ACTION (id SUErunsTowardsEdibleGhost) (info "Run to edible ghost") (priority 80)))
+)
+
+;11
+(defrule BLINKYgoesToCornerToDie
+    (BLINKY (edible true))
+    (BLINKY (anotherGhostEdible))
+    (BLINKY (distanceToPacman ?dist) (SURE_DEATH_DISTANCE ?deathDist)) (test (<= ?dist ?deathDist))
+    =>
+    (assert (ACTION (id BLINKYgoesToPP) (info "Goes to PP") (priority 80)))
+)
+(defrule INKYgoesToCornerToDie
+    (INKY (edible true))
+    (INKY (anotherGhostEdible))
+    (INKY (distanceToPacman ?dist) (SURE_DEATH_DISTANCE ?deathDist)) (test (<= ?dist ?deathDist))
+    =>
+    (assert (ACTION (id INKYgoesToPP) (info "Goes to PP") (priority 80)))
+)
+(defrule PINKYgoesToCornerToDie
+    (PINKY (edible true))
+    (PINKY (anotherGhostEdible))
+    (PINKY (distanceToPacman ?dist) (SURE_DEATH_DISTANCE ?deathDist)) (test (<= ?dist ?deathDist))
+    =>
+    (assert (ACTION (id PINKYgoesToPP) (info "Goes to PP") (priority 80)))
+)
+(defrule SUEgoesToCornerToDie
+    (SUE (edible true))
+    (SUE (anotherGhostEdible))
+    (SUE (distanceToPacman ?dist) (SURE_DEATH_DISTANCE ?deathDist)) (test (<= ?dist ?deathDist))
+    =>
+    (assert (ACTION (id SUEgoesToPP) (info "Goes to PP") (priority 80)))
+)
+
+;12
+(defrule BLINKYturnsNonEdibleBeforePacmanReaches
+    (BLINKY (edible true))
+    (BLINKY (distanceToPacman * 0.5 * 0.5 ?dist) (SAFETY_DISTANCE_WHEN_EDIBLE + remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id BLINKYchases) (info "Chases MSPacman") (priority 90)))
+)
+(defrule INKYturnsNonEdibleBeforePacmanReaches
+    (INKY (edible true))
+    (INKY (distanceToPacman * 0.5 * 0.5 ?dist) (SAFETY_DISTANCE_WHEN_EDIBLE + remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id INKYchases) (info "Chases MSPacman") (priority 90)))
+)
+(defrule PINKYturnsNonEdibleBeforePacmanReaches
+    (PINKY (edible true))
+    (PINKY (distanceToPacman * 0.5 * 0.5 ?dist) (SAFETY_DISTANCE_WHEN_EDIBLE + remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id PINKYchases) (info "Chases MSPacman") (priority 90)))
+)
+(defrule SUEturnsNonEdibleBeforePacmanReaches
+    (SUE (edible true))
+    (SUE (distanceToPacman * 0.5 * 0.5 ?dist) (SAFETY_DISTANCE_WHEN_EDIBLE + remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id SUEchases) (info "Chases MSPacman") (priority 90)))
+)
+
+;13
+(defrule INKYchaseAhead
+    (INKY (edible false))
+    =>
+    (assert (ACTION (id INKYchasesAhead) (info "Chases ahead MSPacman") (priority 20)))
+)
+
+;14
+(defrule SUEorbiting
+    (SUE (edible false))
+    (SUE (distanceToPacman ?dist) (ORBITING_DISTANCE ?maxDist)) (test (< ?dist ?maxDist) (priority 20))
+    =>
+    (assert (ACTION (id SUEorbiting)))
+)
+
+;15
+(defrule SUEchasingTooMuch
+    (SUE (chasingTime ?time) (CHASING_TIME_LIMIT ?timeLimit)) (test (> ?time ?timeLimit) (priority 80))
+    =>
+    (assert (ACTION(id SUErunsaway)))
 )
