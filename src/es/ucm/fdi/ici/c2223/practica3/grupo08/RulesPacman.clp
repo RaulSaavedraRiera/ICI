@@ -26,7 +26,7 @@
 (PACMAN (nearChasingGhosts ?g)) (test (<= 2 ?g))
     (PACMAN (PacmanCanReachPP))    
     =>
-    (assert (ACTION (id ...goPP) (info "2< Chasing ghost near Pacman && PP range -> Go PP") (priority 100)))
+    (assert (ACTION (id ChasePowerPill) (info "2< Chasing ghost near Pacman && PP range -> Go PP") (priority 100)))
 )
 
 ;se podria crear una nueva accion que sea comer en camino no haya fantasmas para ganar algo de tiempo
@@ -35,7 +35,7 @@
  (PACMAN (nearChasingGhosts ?g)) (test (<= 3 ?g))
     (PACMAN (!PacmanCanReachPP))   
     =>
-    (assert (ACTION (id ...eatNEarestP) (info " 3< Chasing ghost near Pacman && PP non range -> Eat") (priority 100)))
+    (assert (ACTION (id ChasePill) (info " 3< Chasing ghost near Pacman && PP non range -> Eat") (priority 100)))
 )
 
 ;habria que hacer que fuera del que no le persigue en misma direccion
@@ -44,7 +44,7 @@
  (PACMAN (nearChasingGhosts ?g)) (test (== 2 ?g))
  (PACMAN (PacmanCanReachPP false))   
     =>
-    (assert (ACTION (id ...AwayNearestGhost) (info "2 Chasing ghost near Pacman && PP non range -> Away") (priority 100)))
+    (assert (ACTION (id RunAwayNearestChasingGhostNonFollow) (info "2 Chasing ghost near Pacman && PP non range -> Away") (priority 100)))
 )
 
 ; a partir de aqui <=1 fantasmas agresivos, para este caso falta meter el casod e que te persiga uno pero se pueda comer alguno
@@ -56,7 +56,7 @@
     (PACMAN (PacmanCanReachPP true))    
     =>
     (assert 
-        (ACTION (id ...GoPP) (info "1 Chasing ghost near Pacman && non follow && PP range -> Go PP") (priority 90))
+        (ACTION (id ChasePowerPill) (info "1 Chasing ghost near Pacman && non follow && PP range -> Go PP") (priority 90))
     )
 )
 
@@ -67,7 +67,7 @@
     (PACMAN (PacmanCanReachPP false))    
     =>
     (assert 
-        (ACTION (id ...AwayNearestGhost) (info "1 Chasing ghost near Pacman && non follow && PP non range -> Away") (priority 90))
+        (ACTION (id RunAwayNearestChasingGhostNonFollow) (info "1 Chasing ghost near Pacman && non follow && PP non range -> Away") (priority 90))
     )
 )
 
@@ -80,7 +80,7 @@
        (PACMAN (PPNear true)) 
     =>
     (assert 
-        (ACTION (id ...dodgePP) (info "1 Chasing ghost near Pacman && follow && intersection && PP -> dodgePP") (priority 90))
+        (ACTION (id RunAwayPowerPill) (info "1 Chasing ghost near Pacman && follow && intersection && PP -> dodgePP") (priority 90))
     )
 )
 
@@ -104,7 +104,7 @@
      (PACMAN (isInIntersection false)) 
     =>
     (assert 
-        (ACTION (id ...nearestPill) (info "1 Chasing ghost near Pacman && follow && non intersection -> eatPill") (priority 90))
+        (ACTION (id ChasePill) (info "1 Chasing ghost near Pacman && follow && non intersection -> eatPill") (priority 90))
     )
 )
 
@@ -116,7 +116,7 @@
     (PACMAN (nearEdibleGhosts ?g)) (test (<= 3 ?g))
     =>
     (assert 
-        (ACTION (id ...goGroup) (info "3< edibleGhost near Pacman -> goGroup") (priority 80))
+        (ACTION (id ChaseEdibleGroup) (info "3< edibleGhost near Pacman -> goGroup") (priority 80))
     )
 )
 
@@ -125,7 +125,7 @@
     (PACMAN (nearEdibleGhosts ?g)) (test (<= 2 ?g))
     =>
     (assert 
-        (ACTION (id ...goNearestEdibleGhosts) (info "<2 edibleGhost near Pacman -> goNearestGhost") (priority 70))
+        (ACTION (id ChaseEdible) (info "<2 edibleGhost near Pacman -> goNearestGhost") (priority 70))
     )
 )
 
@@ -137,7 +137,7 @@
      (PACMAN (distanceToNearestPP ?dp) (NEAR_PP_DISTANCE ?r)) (test (<= ?dp ?r))
     =>
     (assert 
-        (ACTION (id ...dodgePP) (info "no Ghost near Pacman && nearPP -> dodgePP") (priority 60))
+        (ACTION (id RunAwayPowerPill) (info "no Ghost near Pacman && nearPP -> dodgePP") (priority 60))
     )
 )
 
@@ -147,7 +147,7 @@
      (PACMAN (distanceToNearestCorner ?dp) (NEAR_CORNER_DISTANCE ?r)) (test (<= ?dp ?r))
     =>
     (assert 
-        (ACTION (id ...dodgeCorner) (info "no Ghost near Pacman && near Corner -> dodgeCorner") (priority 60))
+        (ACTION (id RunAwayCorner) (info "no Ghost near Pacman && near Corner -> dodgeCorner") (priority 60))
     )
 )
 
@@ -157,7 +157,7 @@
      (PACMAN (distanceToLair ?dp) (NEAR_LAIR_DISTANCE ?r)) (test (<= ?dp ?r))
     =>
     (assert 
-        (ACTION (id ...dodgeLair) (info "no Ghost near Pacman && near Lair -> dodgeLair") (priority 60))
+        (ACTION (id RunAwayLair) (info "no Ghost near Pacman && near Lair -> dodgeLair") (priority 60))
     )
 )
 
@@ -178,7 +178,7 @@
         (PACMAN (isInIntersection false)) 
     =>
     (assert 
-        (ACTION (id ...eatNearestPill) (info "no Ghost near Pacman && enough pills && no intersection -> eat pills") (priority 50))
+        (ACTION (id ChasePill) (info "no Ghost near Pacman && enough pills && no intersection -> eat pills") (priority 50))
     )
 )
 
@@ -187,7 +187,7 @@
      (PACMAN (pillsNear ?dp) (ENOUGH_PILLS_NEAR ?r)) (test (< ?dp ?r))
     =>
     (assert 
-        (ACTION (id ...goNearestchasingGhost) (info "no Ghost near Pacman && no enough pills -> go chasing ghost") (priority 50))
+        (ACTION (id ChaseGhost) (info "no Ghost near Pacman && no enough pills -> go chasing ghost") (priority 50))
     )
 )
 

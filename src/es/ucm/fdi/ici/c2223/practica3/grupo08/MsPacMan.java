@@ -5,6 +5,7 @@ import java.util.HashMap;
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChaseEdiblePA;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChaseGhostPA;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChaseGroupGhostsPA;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChasePillPA;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.ChasePowerPillPA;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.RunAwayCornerPA;
@@ -34,6 +35,7 @@ public class MsPacMan extends PacmanController {
 		Action RunAwayNearestchasingGhostNonFollow = new RunAwayNearestChasingGhostNonFollowPA();
 		Action RunAwayNearestChasingGhostAnyDir = new RunAwayNearestChasingGhostAnyDirPA();
 		Action ChaseEdible = new ChaseEdiblePA();
+		Action ChaseEdibleGroup = new ChaseGroupGhostsPA();
 		Action RunAwayPowerPill = new RunAwayPowerPillPA();
 		Action ChasePowerPill = new ChasePowerPillPA();
 		Action ChasePill = new ChasePillPA();
@@ -42,10 +44,11 @@ public class MsPacMan extends PacmanController {
 	
 		map.put("RunAwayLair", RunAwayLair);
 		map.put("RunAwayCorner", RunAwayCorner);
-		map.put("RunAwayNearestchasingGhostNonFollow", RunAwayNearestchasingGhostNonFollow);
+		map.put("RunAwayNearestChasingGhostNonFollow", RunAwayNearestchasingGhostNonFollow);
 		map.put("RunAwayNearestChasingGhostAnyDir", RunAwayNearestChasingGhostAnyDir);
-		
+
 		map.put("ChaseEdible", ChaseEdible);
+		map.put("ChaseEdibleGroup", ChaseEdibleGroup);
 		map.put("RunAwayPowerPill", RunAwayPowerPill);
 		map.put("ChasePowerPill", ChasePowerPill);
 		map.put("ChasePill", ChasePill);
