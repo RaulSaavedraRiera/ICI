@@ -2,10 +2,12 @@
 (deftemplate BLINKY
     (slot edible(type SYMBOL))
     (slot anotherGhostNotEdible(type SYMBOL))
-    (slot minBLINKYDistancePPill (type INTEGER))
+    (slot minDistancePPill (type INTEGER))
+    (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
-    (slot BLINKYremainingTime (type INTEGER))
-    (slot BLINKYPosition (type INTEGER))
+    (slot remainingTime (type INTEGER))
+    (slot position (type INTEGER))
+    (slot hasObjective (type SYMBOL))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
@@ -14,10 +16,11 @@
 
 (deftemplate INKY
     (slot edible(type SYMBOL))
-    (slot minINKYDistancePPill (type INTEGER))
+    (slot minDistancePPill (type INTEGER))
+    (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
-    (slot INKYremainingTime (type INTEGER))
-    (slot INKYPosition (type INTEGER))
+    (slot remainingTime (type INTEGER))
+    (slot position (type INTEGER))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
@@ -26,10 +29,12 @@
 
 (deftemplate PINKY
     (slot edible(type SYMBOL))
-    (slot minPINKYDistancePPill(type INTEGER))
+    (slot minDistancePPill(type INTEGER))
+    (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
-    (slot PINKYremainingTime(type INTEGER))
-    (slot PINKYPosition (type INTEGER))
+    (slot remainingTime(type INTEGER))
+    (slot position (type INTEGER))
+    (slot hasObjective (type SYMBOL))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
@@ -38,24 +43,15 @@
 
 (deftemplate SUE
     (slot edible(type SYMBOL))
-    (slot minSUEDistancePPill(type INTEGER))
+    (slot minDistancePPill(type INTEGER))
+    (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman(type INTEGER))
-    (slot SUEremainingTime(type INTEGER))
-    (slot SUEPosition (type INTEGER))
+    (slot remainingTime(type INTEGER))
+    (slot position (type INTEGER))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
-)
-
-(deftemplate PACMAN
-    (slot distToLair(type INTEGER))
-    (slot distToNearestCorner(type INTEGER))
-    (slot distToNearestChasingNotBehind(type INTEGER))
-    (slot distToNearestChasingAnyDir(type INTEGER))
-    (slot distToNearestEdible(type INTEGER))
-    (slot distToNearestPP(type INTEGER))
-    (slot distToNearestPill(type INTEGER))
 )
 
 ;ACTION FACTS
@@ -65,6 +61,7 @@
 )
 
 ;RULES
+;1
 (defrule BLINKYrunsAway
     (BLINKY (edible true))
     =>
@@ -94,6 +91,7 @@
     )
 )
 
+;2
 (defrule BLINKYrunsAwayToGhost
     (BLINKY (edible true))
     (BLINKY (anotherGhostNotEdible true))
@@ -127,80 +125,90 @@
     )
 )
 
+;3
 (defrule BLINKYsearchsObjective
-    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (< ?dp r))
+    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp ?r))
     =>
     (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )
 (defrule PINKYsearchsObjective
-    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (< ?dp r))
+    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp ?r))
     =>
     (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )
-(defrule INKYchases
-    (INKY (distanceToPacman ?dp) (RANGE ?r)) (test (< ?dp r))
+
+;4
+(defrule BLINKYgoesToObjective
+    (BLINKY (hasObjective true))
+    =>
+    (assert (ACTION (id BLINKYgoesToObjective) (info "Goes to objective") (priority 100)))
+)
+(defrule PINKYgoesToObjective
+    (PINKY (hasObjective true))
+    =>
+    (assert (ACTION (id PINKYgoesToObjective) (info "Goes to objective") (priority 100)))
+)
+
+;5
+(defrule INKYchasesOutOfRange
+    (INKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp ?r))
     =>
     (assert (ACTION (id INKYchases) (info "Chases") (priority 100)))
 )
-(defrule SUEchases
-    (SUE (distanceToPacman ?dp) (RANGE ?r)) (test (< ?dp r))
+(defrule SUEchasesOutOfRange
+    (SUE (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp ?r))
     =>
     (assert (ACTION (id SUEchases) (info "Chases") (priority 100)))
 )
-; ---
 
-(defrule PACMANnearLair
-    (MSPACMAN (distToLair < 50))
+;6
+(defrule BLINKYarrivesFirstToPP
+    (BLINKY (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) (test (<= ?dist ?maxDist))
+    (BLINKY (minDistancePPill ?d) (pacmanDistanceToPPill ?pac)) (test (<= ?d ?pac))
     =>
-    (assert 
-        (ACTION (id ...HuirCelda...) (info "Celda Cerca ---> Huir Celda") (priority 30))
-    )
+    (assert (ACTION (id BLINKYgoesToPP) (info "Goes to PP first") (priority 80)))
+)
+(defrule PINKYarrivesFirstToPP
+    (PINKY (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) (test (<= ?dist ?maxDist))
+    (PINKY (minDistancePPill ?d) (pacmanDistanceToPPill ?pac)) (test (<= ?d ?pac))
+    =>
+    (assert (ACTION (id PINKYgoesToPP) (info "Goes to PP first") (priority 80)))
+)
+(defrule INKYarrivesFirstToPP
+    (INKY (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) (test (<= ?dist ?maxDist))
+    (INKY (minDistancePPill ?d) (pacmanDistanceToPPill ?pac)) (test (<= ?d ?pac))
+    =>
+    (assert (ACTION (id INKYgoesToPP) (info "Goes to PP first") (priority 80)))
+)
+(defrule SUEarrivesFirstToPP
+    (SUE (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) (test (<= ?dist ?maxDist))
+    (SUE (minDistancePPill ?d) (pacmanDistanceToPPill ?pac)) (test (<= ?d ?pac))
+    =>
+    (assert (ACTION (id SUEgoesToPP) (info "Goes to PP first") (priority 80)))
 )
 
-(defrule PACMANnearCorner
-    (MSPACMAN (distToNearestCorner < 50))
+;7
+(defrule BLINKYdoesNotArriveFirstToPP
+    (BLINKY (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) (test (<= ?dist ?maxDist))
+    (BLINKY (minDistancePPill ?d) (pacmanDistanceToPPill ?pac)) (test (> ?d ?pac))
     =>
-    (assert 
-        (ACTION (id ...HuirRincon...) (info "Rincon Cerca ---> Huir Rincon") (priority 30))
-    )
+    (assert (ACTION (id BLINKYrunsAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
 )
-
-(defrule PACMANnearChasingNotBehind
-    (MSPACMAN (distToNearestChasingNotBehind < 50))
+(defrule PINKYdoesNotArriveFirstToPP
+    (PINKY (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) (test (<= ?dist ?maxDist))
+    (PINKY (minDistancePPill ?d) (pacmanDistanceToPPill ?pac)) (test (> ?d ?pac))
     =>
-    (assert 
-        (ACTION (id ...HuirNearestChasingNotBehind...) (info "Chasing Cerca y no Misma Dir ---> Huir Chasing") (priority 30))
-    )
+    (assert (ACTION (id PINKYrunsAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
 )
-
-(defrule PACMANnearChasingAnyDir
-    (MSPACMAN (distToNearestChasingAnyDir < 50))
+(defrule INKYdoesNotArriveFirstToPP
+    (INKY (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) (test (<= ?dist ?maxDist))
+    (INKY (minDistancePPill ?d) (pacmanDistanceToPPill ?pac)) (test (> ?d ?pac))
     =>
-    (assert 
-        (ACTION (id ...HuirNearestChasingAnyDir...) (info "Chasing Cerca Misma Dir ---> Huir Chasing") (priority 30))
-    )
+    (assert (ACTION (id INKYrunsAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
 )
-
-(defrule PACMANnearEdible
-    (MSPACMAN (distToNearestEdible < 50))
+(defrule SUEdoesNotArriveFirstToPP
+    (SUE (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) (test (<= ?dist ?maxDist))
+    (SUE (minDistancePPill ?d) (pacmanDistanceToPPill ?pac)) (test (> ?d ?pac))
     =>
-    (assert 
-        (ACTION (id ...ChaseEdible...) (info "Edible Cerca ---> ChaseEdible") (priority 30))
-    )
-)
-
-(defrule PACMANnearPP
-    (MSPACMAN (distToNearestPP < 50))
-    =>
-    (assert 
-        (...)
-    )
-)
-
-(defrule PACMANnearPill
-    (MSPACMAN (distToNearestPill < 50))
-    =>
-    (assert 
-        (...)
-    )
+    (assert (ACTION (id SUErunsAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
 )
