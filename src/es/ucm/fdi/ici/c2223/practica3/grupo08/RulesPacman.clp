@@ -1,51 +1,5 @@
 ;FACTS ASSERTED BY GAME INPUT
-(deftemplate BLINKY
-    (slot edible(type SYMBOL))
-    (slot minBLINKYDistancePPill (type INTEGER))
-    (slot distanceToPacman (type INTEGER))
-    (slot BLINKYremainingTime (type INTEGER))
-    (slot BLINKYPosition (type INTEGER))
-    ;CONSTANTS
-    (slot RANGE (type INTEGER))
-    (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
-    (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
-)
 
-(deftemplate INKY
-    (slot edible(type SYMBOL))
-    (slot minINKYDistancePPill (type INTEGER))
-    (slot distanceToPacman (type INTEGER))
-    (slot INKYremainingTime (type INTEGER))
-    (slot INKYPosition (type INTEGER))
-    ;CONSTANTS
-    (slot RANGE (type INTEGER))
-    (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
-    (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
-)
-
-(deftemplate PINKY
-    (slot edible(type SYMBOL))
-    (slot minPINKYDistancePPill(type INTEGER))
-    (slot distanceToPacman (type INTEGER))
-    (slot PINKYremainingTime(type INTEGER))
-    (slot PINKYPosition (type INTEGER))
-    ;CONSTANTS
-    (slot RANGE (type INTEGER))
-    (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
-    (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
-)
-
-(deftemplate SUE
-    (slot edible(type SYMBOL))
-    (slot minSUEDistancePPill(type INTEGER))
-    (slot distanceToPacman(type INTEGER))
-    (slot SUEremainingTime(type INTEGER))
-    (slot SUEPosition (type INTEGER))
-    ;CONSTANTS
-    (slot RANGE (type INTEGER))
-    (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
-    (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
-)
 
 (deftemplate PACMAN
     (slot distToLair(type INTEGER))
@@ -64,23 +18,114 @@
 )
 
 ;RULES
-(defrule BLINKYrunsAway
-    (BLINKY (edible true))
+
+;2< chasing ghosts cerca
+
+;1 si hay mas de dos fantasmas agresivos cerca y se puede llegar a PP ve a PP
+(defrule PacmanGoPPMultipleGhosts
+(PACMAN (nearChasingGhosts ?g)) (test (<= 2 ?g))
+    (PACMAN (PacmanCanReachPP))    
+    =>
+    (assert (ACTION (id ...goPP) (info "2< Chasing ghost near Pacman && PP range -> Go PP") (priority 100)))
+)
+
+;se podria crear una nueva accion que sea comer en camino no haya fantasmas para ganar algo de tiempo
+;2 si hay 3 fantasmas agresivos o mas y no se puede llegar a PP estas encerrado probablemente, come y muere
+(defrule PacmanEatAll
+ (PACMAN (nearChasingGhosts ?g)) (test (<= 3 ?g))
+    (PACMAN (!PacmanCanReachPP))   
+    =>
+    (assert (ACTION (id ...eatNEarestP) (info " 3< Chasing ghost near Pacman && PP non range -> Eat") (priority 100)))
+)
+
+;habria que hacer que fuera del que no le persigue en misma direccion
+;3 si hay mas de dos fantasmas agresivos cerca y no se puede llegar a PP huye
+(defrule PacmanAwayGhosts
+ (PACMAN (nearChasingGhosts ?g)) (test (== 2 ?g))
+ (PACMAN (PacmanCanReachPP false))   
+    =>
+    (assert (ACTION (id ...AwayNearestGhost) (info "2 Chasing ghost near Pacman && PP non range -> Away") (priority 100)))
+)
+
+; a partir de aqui <=1 fantasmas agresivos, para este caso falta meter el casod e que te persiga uno pero se pueda comer alguno
+
+;4 chasing ghost cerca no persigue y se puede llegar a pp
+(defrule PacmanGoPPSingleGhost
+    (PACMAN (nearChasingGhosts ?g)) (test (== 1 ?g))
+    (PACMAN (ghostFollowsPacman false)) 
+    (PACMAN (PacmanCanReachPP true))    
     =>
     (assert 
-        (ACTION (id BLINKYrunsAway) (info "Comestible ----> Huir") (priority 30))
+        (ACTION (id ...GoPP) (info "1 Chasing ghost near Pacman && non follow && PP range -> Go PP") (priority 90))
     )
 )
 
-; ---
-
-(defrule PACMANnearLair
-    (MSPACMAN (distToLair < 50))
+;5 chasing ghost cerca no persigue y no se puede llegar a pp
+(defrule PacmanAwaySingleGhost
+    (PACMAN (nearChasingGhosts ?g)) (test (== 1 ?g))
+    (PACMAN (ghostFollowsPacman false)) 
+    (PACMAN (PacmanCanReachPP false))    
     =>
     (assert 
-        (ACTION (id ...HuirCelda...) (info "Celda Cerca ---> Huir Celda") (priority 30))
+        (ACTION (id ...AwayNearestGhost) (info "1 Chasing ghost near Pacman && non follow && PP non range -> Away") (priority 90))
     )
 )
+
+;no se si es misma direccion sigue comiendo
+;6 chasing ghost cerca persigue, es interseccion, cercaPP
+(defrule PacmanDodgePP
+    (PACMAN (nearChasingGhosts ?g)) (test (== 1 ?g))
+    (PACMAN (ghostFollowsPacman true)) 
+     (PACMAN (isInIntersection true)) 
+       (PACMAN (PPNear true)) 
+    =>
+    (assert 
+        (ACTION (id ...dodgePP) (info "1 Chasing ghost near Pacman && follow && intersection && PP -> dodgePP") (priority 90))
+    )
+)
+
+
+;7 chasing ghost cerca persigue, es interseccion, no cercaPP
+(defrule PacmanGoWayMorePills
+    (PACMAN (nearChasingGhosts ?g)) (test (== 1 ?g))
+    (PACMAN (ghostFollowsPacman true)) 
+    (PACMAN (isInIntersection true)) 
+    (PACMAN (PPNear false)) 
+    =>
+    (assert 
+        (ACTION (id ...bestWay) (info "1 Chasing ghost near Pacman && follow && intersection -> bestWay") (priority 90))
+    )
+)
+
+;8 chasing ghost cerca persigue, no es interseccion
+(defrule PacmanEatNextPillChasingGhostNear
+    (PACMAN (nearChasingGhosts ?g)) (test (== 1 ?g))
+    (PACMAN (ghostFollowsPacman true)) 
+     (PACMAN (isInIntersection false)) 
+    =>
+    (assert 
+        (ACTION (id ...nearestPill) (info "1 Chasing ghost near Pacman && follow && non intersection -> eatPill") (priority 90))
+    )
+)
+
+;a partir de aqui no hay chasing ghosts cerca, ignoro que haya chasing ghosts cerca porque las que van con ellos tiene mas prioridad y siempre iran por delante
+
+;9 3< edible ghosts cerca
+(defrule PAcmanGoGroupEdibleGhosts
+    (PACMAN (nearEdibleGhosts ?g)) (test (<= 3 ?g))
+    (PACMAN (ghostFollowsPacman true)) 
+     (PACMAN (isInIntersection false)) 
+    =>
+    (assert 
+        (ACTION (id ...goGroup) (info "1 Chasing ghost near Pacman && follow && non intersection -> eatPill") (priority 80))
+    )
+)
+
+
+
+
+
+
 
 (defrule PACMANnearCorner
     (MSPACMAN (distToNearestCorner < 50))

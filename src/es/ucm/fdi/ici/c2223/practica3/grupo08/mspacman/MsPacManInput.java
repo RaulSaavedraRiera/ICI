@@ -9,7 +9,9 @@ import pacman.game.Game;
 
 public class MsPacManInput extends RulesInput {
 
-	final int dist_near_pill = 30;
+	final int DIST_NEAR_PILL = 30;
+	final int NEAR_CHASING_GHOST = 40;
+	final int MID_CHASING_GHOST = 70;
 	
 	
 	// Estos hacen falta para rules si lo vamos a sacar de GhostInput? Yo los he creado por si acaso
@@ -28,6 +30,10 @@ public class MsPacManInput extends RulesInput {
 	private int nearestEdibleGhostIndex;
 	private int nearestPowerPillIndex;
 	//private int nearestPillIndex;
+	
+	//para saber nº fantasmas hay cerca
+	private int chasingGhostNear;
+	private int chasingGhostMid;
 	
 	private int distanceToNearestChasingGhostNotBehind;
 	private int distanceToNearestChasingGhostAnyDir;
@@ -121,17 +127,25 @@ public class MsPacManInput extends RulesInput {
 					game.getGhostCurrentNodeIndex(g), game.getPacmanCurrentNodeIndex());
 		}
 		
-		
+		chasingGhostNear = chasingGhostMid = 0;
 		distanceToNearestChasingGhostAnyDir = distanceToNearestEdible = 99999;
 		int d;
 		for (GHOST g : GHOST.values()) {
 			if(game.getGhostEdibleTime(g) > 0)
 			{
 				d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g), game.getPacmanLastMoveMade());
+				
+				if(d <= NEAR_CHASING_GHOST)
+					chasingGhostNear++;
+				else if(d <= MID_CHASING_GHOST)
+					chasingGhostMid++;
+				
+				
 				if(distanceToNearestEdible > d) {
 					distanceToNearestEdible = d;//
 					//entiendo que index es el nodo donde esta
 					nearestEdibleGhostIndex = game.getGhostCurrentNodeIndex(g);
+				
 				}
 					
 			}
@@ -182,7 +196,7 @@ public class MsPacManInput extends RulesInput {
 		
 		numPillsNear = 0;
 		for(int p : game.getActivePillsIndices()) {
-			if(game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), p) <= dist_near_pill)
+			if(game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), p) <= DIST_NEAR_PILL)
 				numPillsNear++;
 		}
 		
