@@ -35,6 +35,8 @@ public class MsPacManInput extends RulesInput {
 	private int distanceToNearestPowerPill;
 	//creo que es mas relevante saber cuantas pills hay cerca
 	private int numPillsNear;
+	
+	private boolean pacmanInIntersection;
 
 	public MsPacManInput(Game game) {
 		super(game);
@@ -73,6 +75,9 @@ public class MsPacManInput extends RulesInput {
 		facts.add(String.format("(MSPACMAN (distToNearestEdible %d))", this.distanceToNearestEdible));
 		facts.add(String.format("(MSPACMAN (distToNearestPP %d))", this.distanceToNearestPowerPill));
 		facts.add(String.format("(MSPACMAN (numPillsNear %d))", this.numPillsNear));
+		
+		//preguntar
+		facts.add(String.format("(MSPACMAN (pacmanInIntersection %d))", this.pacmanInIntersection));
 		
 		return facts;
 	}
@@ -180,6 +185,9 @@ public class MsPacManInput extends RulesInput {
 			if(game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), p) <= dist_near_pill)
 				numPillsNear++;
 		}
+		
+		
+		pacmanInIntersection = game.getNeighbouringNodes(game.getPacmanCurrentNodeIndex()).length > 2;
 		
 		
 		
