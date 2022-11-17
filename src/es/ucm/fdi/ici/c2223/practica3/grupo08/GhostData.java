@@ -13,14 +13,11 @@ public class GhostData {
 	private HashMap<Integer, HashMap<MOVE, Integer>> junctionMarks;
 
 	private int[] currentGhostDest;
-	private int[] distanceToObjective;
 
 	private MOVE[] ghostNextMoves;
 
 	public GhostData() {
 		currentGhostDest = new int[] { -1, -1, -1, -1 };
-		
-		distanceToObjective = new int[4];
 
 		junctionMarks = new HashMap<Integer, HashMap<MOVE, Integer>>();
 
@@ -94,9 +91,5 @@ public class GhostData {
 		}
 
 		return true;
-	}
-
-	public int[] getDistanceToObjective() {
-		return distanceToObjective;
 	}
 }
