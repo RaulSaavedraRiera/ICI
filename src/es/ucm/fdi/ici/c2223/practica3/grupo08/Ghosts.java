@@ -4,8 +4,7 @@ import java.util.EnumMap;
 import java.util.HashMap;
 
 import es.ucm.fdi.ici.Action;
-import es.ucm.fdi.ici.c2223.practica3.grupo08.GhostData;
-import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.ChaseAction;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.ChaseJunctionsAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.GoToNearestPPAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.GoToObjectiveAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.RunAwayAction;
@@ -19,6 +18,8 @@ import pacman.game.Game;
 public class Ghosts extends GhostController {
 
 	private HashMap<String, Action> actions;
+	private GhostData gData;
+	private JunctionManager junctionManager;
 	
 	public Ghosts() {
 		super();
@@ -29,16 +30,18 @@ public class Ghosts extends GhostController {
 		
 		actions = new HashMap<String, Action>();
 		
-		GhostData gData = new GhostData();
+		gData = new GhostData();
+		
+		junctionManager = new JunctionManager();
 		
 		//chase action
-		Action BLINKYchases = new ChaseAction(GHOST.BLINKY, gData);
+		Action BLINKYchases = new ChaseJunctionsAction(GHOST.BLINKY, gData, junctionManager);
 		actions.put("BLINKYchases", BLINKYchases);
-		Action PINKYchases = new ChaseAction(GHOST.PINKY, gData);
+		Action PINKYchases = new ChaseJunctionsAction(GHOST.PINKY, gData, junctionManager);
 		actions.put("PINKYchases", PINKYchases);
-		Action INKYchases = new ChaseAction(GHOST.INKY, gData);
+		Action INKYchases = new ChaseJunctionsAction(GHOST.INKY, gData, junctionManager);
 		actions.put("INKYchases", INKYchases);
-		Action SUEchases = new ChaseAction(GHOST.SUE, gData);
+		Action SUEchases = new ChaseJunctionsAction(GHOST.SUE, gData, junctionManager);
 		actions.put("SUEchases", SUEchases);
 
 		//runaway action
@@ -91,6 +94,13 @@ public class Ghosts extends GhostController {
 		Action SUEgoToNearestPP = new GoToNearestPPAction(GHOST.BLINKY, gData);
 		actions.put("SUEgoToNearestPP", SUEgoToNearestPP);		
 	}
+	
+	public void preCompute(String opponent) {
+    	
+		gData.reset();
+		junctionManager.reset();
+    }
+	
 	@Override
 	public EnumMap<GHOST, MOVE> getMove(Game game, long timeDue) {
 		// TODO Auto-generated method stub

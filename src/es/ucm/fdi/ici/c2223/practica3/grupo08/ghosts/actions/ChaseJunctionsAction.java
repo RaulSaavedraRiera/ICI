@@ -1,11 +1,9 @@
 
 package es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions;
 
-import java.util.ArrayList;
-
 import es.ucm.fdi.ici.Action;
-import es.ucm.fdi.ici.c2223.practica2.grupo08.JunctionManager;
-import es.ucm.fdi.ici.c2223.practica2.grupo08.GhostData;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.GhostData;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.JunctionManager;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
@@ -17,9 +15,9 @@ public class ChaseJunctionsAction implements Action {
 	GhostData gData;
 	JunctionManager juncManager;
 
-	public ChaseJunctionsAction(GHOST ghost, ArrayList<GhostData> ghostData, JunctionManager juncMan) {
+	public ChaseJunctionsAction(GHOST ghost, GhostData ghostData, JunctionManager juncMan) {
 		this.ghost = ghost;
-		gData = ghostData.get(0);
+		gData = ghostData;
 		
 		juncManager = juncMan;
 	}
@@ -30,7 +28,6 @@ public class ChaseJunctionsAction implements Action {
 
 		if (game.doesGhostRequireAction(ghost)) // if it requires an action
 		{
-
 			MOVE move = game.getApproximateNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(ghost),
 					game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(ghost), DM.PATH);
 			
