@@ -2,13 +2,14 @@ package es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions;
 
 import java.util.Random;
 
-import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.GhostData;
+import es.ucm.fdi.ici.rules.RulesAction;
+import jess.Fact;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
-public class SearchObjectiveCloseToPacmanAction implements Action {
+public class SearchObjectiveCloseToPacmanAction implements RulesAction {
 
     GHOST ghost;
     GhostData gData;
@@ -49,6 +50,12 @@ public class SearchObjectiveCloseToPacmanAction implements Action {
 	@Override
 	public String getActionId() {
 		return ghost + "searchsAnObjective";
+	}
+
+	@Override
+	public void parseFact(Fact actionFact) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
