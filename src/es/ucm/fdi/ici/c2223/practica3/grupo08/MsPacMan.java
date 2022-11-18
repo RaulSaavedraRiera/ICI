@@ -29,7 +29,7 @@ public class MsPacMan extends PacmanController {
 
 	HashMap<String, RulesAction> map;
 	RuleEngine engine;
-	private static final String RULES_PATH = "es"+File.separator+"ucm"+File.separator+"fdi"+File.separator+"ici"+File.separator+"practica3"+File.separator+"grupo08"+File.separator;
+	private static final String RULES_PATH = "es"+File.separator+"ucm"+File.separator+"fdi"+File.separator+"ici"+File.separator+"c2223"+File.separator+"practica3"+File.separator+"grupo08"+File.separator;
 	
 	public MsPacMan() {
 		
@@ -66,8 +66,8 @@ public class MsPacMan extends PacmanController {
 		map.put("ChaseGhost", ChaseGhost);
 
 
-		String rulesFile = String.format("RulesPacman.clp", RULES_PATH, "mspacman");
-		RuleEngine engine  = new RuleEngine("MsPacMan",rulesFile, map);
+		String rulesFile = String.format("%sRulesPacman.clp", RULES_PATH);
+		engine  = new RuleEngine("MsPacMan",rulesFile, map);
 		
 		//add observer to every Ghost
 		//ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver(ghost.name(), true);

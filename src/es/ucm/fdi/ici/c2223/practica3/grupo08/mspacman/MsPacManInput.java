@@ -25,7 +25,6 @@ public class MsPacManInput extends RulesInput {
 	
 	private int jailIndex = -1;
 	private int distanceToLair;
-	ArrayList<Integer> corners = new ArrayList<Integer>();
 	private int distanceToNearestCorner;
 	
 	private int nearestChasingGhostNotBehindIndex; // Fantasma mas cercano que persigue pero no en la misma dir
@@ -100,9 +99,9 @@ public class MsPacManInput extends RulesInput {
 		
 		facts.add(String.format("(PACMAN (numPillsNear %d))", this.numPillsNear));
 		
-		facts.add(String.format("(PACMAN (pacmanInIntersection %d))", this.pacmanInIntersection));
-		facts.add(String.format("(PACMAN (pacmanCanTakePP %d))", this.canTakePP));
-		facts.add(String.format("(PACMAN (ghostFollowsPacman %d))", this.ghostFollowsPacman));
+		facts.add(String.format("(PACMAN (pacmanInIntersection %s))", this.pacmanInIntersection));
+		facts.add(String.format("(PACMAN (pacmanCanTakePP %s))", this.canTakePP));
+		facts.add(String.format("(PACMAN (ghostFollowsPacman %s))", this.ghostFollowsPacman));
 		
 		return facts;
 	}
@@ -118,16 +117,15 @@ public class MsPacManInput extends RulesInput {
 	
 	}
 	
+	
+	
 	//solo se haran una vez por partida
 	void DataValues() {
+		
+		
 		if (jailIndex == -1 && game.getGhostLairTime(GHOST.BLINKY) <= 0) 
 			jailIndex = game.getGhostCurrentNodeIndex(GHOST.BLINKY);
 		
-		if (corners.isEmpty()) {
-			for(int i = 0; i < game.getActivePowerPillsIndices().length; i++) {
-				corners.add(game.getActivePowerPillsIndices()[i]);
-			}
-		}
 	}
 	
 	void GhostsInfo() {
@@ -151,22 +149,33 @@ public class MsPacManInput extends RulesInput {
 		distanceToNearestChasingGhostAnyDir = 99999;
 		int d;
 		for (GHOST g : GHOST.values()) {
-			if(game.getGhostEdibleTime(g) == 0)
-			{
-				d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g), game.getPacmanLastMoveMade());
+			
+			if( game.getGhostLairTime(g) == 0) {
+				if(game.getGhostEdibleTime(g) == 0)
+				{
+					
+					try {
+						d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g), game.getPacmanLastMoveMade());
+					}
+					catch(Exception e) {
+						d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g));
+						
+					}
 				
-				if(d <= NEAR_CHASING_GHOST)
-					chasingGhostNear++;
-				else if(d <= MID_CHASING_GHOST)
-					chasingGhostMid++;
+					if(d <= NEAR_CHASING_GHOST)
+						chasingGhostNear++;
+					else if(d <= MID_CHASING_GHOST)
+						chasingGhostMid++;
+				}
+				else
+				{
+					d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g), game.getPacmanLastMoveMade());
+					
+					if(d <= NEAR_EDIBLE_GHOST)
+						edibleGhostNear++;
+				}
 			}
-			else
-			{
-				d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g), game.getPacmanLastMoveMade());
-				
-				if(d <= NEAR_EDIBLE_GHOST)
-					edibleGhostNear++;
-			}
+		
 			
 		}
 		
@@ -174,7 +183,7 @@ public class MsPacManInput extends RulesInput {
 		if(chasingGhostNear == 1) {
 			int distance = 99999; 			
 			for (GHOST g : GHOST.values()) 
-				if(game.getGhostEdibleTime(g) == 0) {
+				if(game.getGhostEdibleTime(g) == 0 && game.getGhostLairTime(g) == 0) {
 					d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g), game.getPacmanLastMoveMade());
 					if(d < distance)
 					{
@@ -197,7 +206,7 @@ public class MsPacManInput extends RulesInput {
 		
 		//podriamos usar corners el pp indices
 		distanceToNearestCorner = 99999;
-		for(int c : corners) {
+		for(int c : game.getPowerPillIndices()) {
 			int d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), c);			
 			if(d < distanceToNearestCorner)
 				distanceToNearestCorner = d;
