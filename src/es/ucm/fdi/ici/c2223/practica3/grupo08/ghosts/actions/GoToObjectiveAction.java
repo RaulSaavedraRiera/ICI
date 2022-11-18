@@ -2,15 +2,16 @@ package es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions;
 
 import java.awt.Color;
 
-import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.GhostData;
+import es.ucm.fdi.ici.rules.RulesAction;
+import jess.Fact;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 import pacman.game.GameView;
 
-public class GoToObjectiveAction implements Action {
+public class GoToObjectiveAction implements RulesAction {
 
     GHOST ghost;
     GhostData gData;
@@ -25,15 +26,6 @@ public class GoToObjectiveAction implements Action {
 		int thisGhost = game.getGhostCurrentNodeIndex(ghost);
 		int objective = gData.getGhostObjective(ghost);
 
-		if (objective != -1) {
-			gData.getDistanceToObjective()[ghost.ordinal()] = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost), objective,
-					game.getGhostLastMoveMade(ghost));
-
-		} else
-			gData.getDistanceToObjective()[ghost.ordinal()] = 0;
-		
-		GameView.addLines(game, Color.GREEN, thisGhost, objective);
-
 		if (game.doesGhostRequireAction(ghost))        //if it requires an action
         {	
 			return game.getApproximateNextMoveTowardsTarget(thisGhost,
@@ -45,6 +37,12 @@ public class GoToObjectiveAction implements Action {
 	@Override
 	public String getActionId() {
 		return ghost + "goesToObjective";
+	}
+
+	@Override
+	public void parseFact(Fact actionFact) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	
