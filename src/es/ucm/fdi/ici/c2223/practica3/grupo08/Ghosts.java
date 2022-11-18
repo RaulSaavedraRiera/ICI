@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.EnumMap;
 import java.util.HashMap;
 
-import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.ChaseJunctionsAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.GoToNearestPPAction;
@@ -39,75 +38,75 @@ public class Ghosts extends GhostController {
 
 		setTeam("Team 08");
 
-		actions = new HashMap<String, Action>();
+		actions = new HashMap<String, RulesAction>();
 
 		gData = new GhostData();
 
 		junctionManager = new JunctionManager();
 
 		// chase action
-		Action BLINKYchases = new ChaseJunctionsAction(GHOST.BLINKY, gData, junctionManager);
+		RulesAction BLINKYchases = new ChaseJunctionsAction(GHOST.BLINKY, gData, junctionManager);
 		actions.put("BLINKYchases", BLINKYchases);
-		Action PINKYchases = new ChaseJunctionsAction(GHOST.PINKY, gData, junctionManager);
+		RulesAction PINKYchases = new ChaseJunctionsAction(GHOST.PINKY, gData, junctionManager);
 		actions.put("PINKYchases", PINKYchases);
-		Action INKYchases = new ChaseJunctionsAction(GHOST.INKY, gData, junctionManager);
+		RulesAction INKYchases = new ChaseJunctionsAction(GHOST.INKY, gData, junctionManager);
 		actions.put("INKYchases", INKYchases);
-		Action SUEchases = new ChaseJunctionsAction(GHOST.SUE, gData, junctionManager);
+		RulesAction SUEchases = new ChaseJunctionsAction(GHOST.SUE, gData, junctionManager);
 		actions.put("SUEchases", SUEchases);
 
 		// runaway action
-		Action BLINKYrunAway = new RunAwayAction(GHOST.BLINKY, gData);
+		RulesAction BLINKYrunAway = new RunAwayAction(GHOST.BLINKY, gData);
 		actions.put("BLINKYrunAway", BLINKYrunAway);
-		Action PINKYrunAway = new RunAwayAction(GHOST.PINKY, gData);
+		RulesAction PINKYrunAway = new RunAwayAction(GHOST.PINKY, gData);
 		actions.put("BLINKYrunAway", PINKYrunAway);
-		Action INKYrunAway = new RunAwayAction(GHOST.INKY, gData);
+		RulesAction INKYrunAway = new RunAwayAction(GHOST.INKY, gData);
 		actions.put("BLINKYrunAway", INKYrunAway);
-		Action SUErunAway = new RunAwayAction(GHOST.SUE, gData);
+		RulesAction SUErunAway = new RunAwayAction(GHOST.SUE, gData);
 		actions.put("BLINKYrunAway", SUErunAway);
 
 		// runaway to ghost action
-		Action BLINKYrunAwayToGhost = new RunAwayToGhostAction(GHOST.BLINKY, gData);
+		RulesAction BLINKYrunAwayToGhost = new RunAwayToGhostAction(GHOST.BLINKY, gData);
 		actions.put("BLINKYrunAwayToGhost", BLINKYrunAwayToGhost);
-		Action PINKYrunAwayToGhost = new RunAwayToGhostAction(GHOST.PINKY, gData);
+		RulesAction PINKYrunAwayToGhost = new RunAwayToGhostAction(GHOST.PINKY, gData);
 		actions.put("PINKYrunAwayToGhost", PINKYrunAwayToGhost);
-		Action INKYrunAwayToGhost = new RunAwayToGhostAction(GHOST.INKY, gData);
+		RulesAction INKYrunAwayToGhost = new RunAwayToGhostAction(GHOST.INKY, gData);
 		actions.put("INKYrunAwayToGhost", INKYrunAwayToGhost);
-		Action SUErunAwayToGhost = new RunAwayToGhostAction(GHOST.SUE, gData);
+		RulesAction SUErunAwayToGhost = new RunAwayToGhostAction(GHOST.SUE, gData);
 		actions.put("SUErunAwayToGhost", SUErunAwayToGhost);
 
 		// search objective action
-		Action BLINKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.BLINKY, gData);
+		RulesAction BLINKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.BLINKY, gData);
 		actions.put("BLINKYsearchsObjective", BLINKYsearchsObjective);
-		Action PINKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.INKY, gData);
+		RulesAction PINKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.INKY, gData);
 		actions.put("PINKYsearchsObjective", PINKYsearchsObjective);
-		Action INKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.PINKY, gData);
+		RulesAction INKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.PINKY, gData);
 		actions.put("INKYsearchsObjective", INKYsearchsObjective);
-		Action SUEsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.BLINKY, gData);
+		RulesAction SUEsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.BLINKY, gData);
 		actions.put("SUEsearchsObjective", SUEsearchsObjective);
 
 		// go to objective action
-		Action BLINKgoesToObjective = new GoToObjectiveAction(GHOST.BLINKY, gData);
+		RulesAction BLINKgoesToObjective = new GoToObjectiveAction(GHOST.BLINKY, gData);
 		actions.put("BLINKgoesToObjective", BLINKgoesToObjective);
-		Action PINKYgoesToObjective = new GoToObjectiveAction(GHOST.INKY, gData);
+		RulesAction PINKYgoesToObjective = new GoToObjectiveAction(GHOST.INKY, gData);
 		actions.put("PINKYgoesToObjective", PINKYgoesToObjective);
-		Action INKYgoesToObjective = new GoToObjectiveAction(GHOST.PINKY, gData);
+		RulesAction INKYgoesToObjective = new GoToObjectiveAction(GHOST.PINKY, gData);
 		actions.put("INKYgoesToObjective", INKYgoesToObjective);
-		Action SUEgoesToObjective = new GoToObjectiveAction(GHOST.BLINKY, gData);
+		RulesAction SUEgoesToObjective = new GoToObjectiveAction(GHOST.BLINKY, gData);
 		actions.put("SUEgoesToObjective", SUEgoesToObjective);
 
 		// go to nearest PP action
-		Action BLINKgoToNearestPP = new GoToNearestPPAction(GHOST.BLINKY, gData);
+		RulesAction BLINKgoToNearestPP = new GoToNearestPPAction(GHOST.BLINKY, gData);
 		actions.put("BLINKgoToNearestPP", BLINKgoToNearestPP);
-		Action PINKYgoToNearestPP = new GoToNearestPPAction(GHOST.INKY, gData);
+		RulesAction PINKYgoToNearestPP = new GoToNearestPPAction(GHOST.INKY, gData);
 		actions.put("PINKYgoToNearestPP", PINKYgoToNearestPP);
-		Action INKYgoToNearestPP = new GoToNearestPPAction(GHOST.PINKY, gData);
+		RulesAction INKYgoToNearestPP = new GoToNearestPPAction(GHOST.PINKY, gData);
 		actions.put("INKYgoToNearestPP", INKYgoToNearestPP);
-		Action SUEgoToNearestPP = new GoToNearestPPAction(GHOST.BLINKY, gData);
+		RulesAction SUEgoToNearestPP = new GoToNearestPPAction(GHOST.BLINKY, gData);
 		actions.put("SUEgoToNearestPP", SUEgoToNearestPP);
 
 		ghostRuleEngines = new EnumMap<GHOST, RuleEngine>(GHOST.class);
 		for (GHOST ghost : GHOST.values()) {
-			String rulesFile = String.format("RulesGhost.clp", RULES_PATH);
+			String rulesFile = String.format("%sRulesGhost.clp", RULES_PATH);
 			RuleEngine engine = new RuleEngine(ghost.name(), rulesFile, actions);
 			ghostRuleEngines.put(ghost, engine);
 
@@ -128,7 +127,7 @@ public class Ghosts extends GhostController {
 	public EnumMap<GHOST, MOVE> getMove(Game game, long timeDue) {
 		// TODO Auto-generated method stub
 		// Process input
-		RulesInput input = new GhostsInput(game);
+		RulesInput input = new GhostsInput(game, gData);
 		// load facts
 		// reset the rule engines
 		for (RuleEngine engine : ghostRuleEngines.values()) {

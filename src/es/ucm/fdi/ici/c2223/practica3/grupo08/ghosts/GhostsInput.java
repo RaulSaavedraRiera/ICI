@@ -21,9 +21,9 @@ public class GhostsInput extends RulesInput {
 	private int pacmanPosition;
 	private MOVE pacmanLastMove;
 
-	private boolean[] thereIsAnotherGhostNotEdible;
-	private boolean[] thereIsAnotherGhostEdible;
-	private boolean[] thereIsAnotherGhostInLair;
+	private boolean[] thereIsAnotherGhostNotEdible = new boolean[4];
+	private boolean[] thereIsAnotherGhostEdible = new boolean[4];
+	private boolean[] thereIsAnotherGhostInLair = new boolean[4];
 
 	private int[] ghostPositions;
 	private int[] minGhostsDistancePPill;
@@ -31,7 +31,7 @@ public class GhostsInput extends RulesInput {
 	private int[] distanceToPacman;
 	private int[] distanceToLair;
 
-	private MOVE[] ghostLastMove;
+	private MOVE[] ghostLastMove = new MOVE[4];
 
 	private boolean BLINKYhasObjective;
 	private boolean PINKYhasObjective;
@@ -174,6 +174,13 @@ public class GhostsInput extends RulesInput {
 		// positions, distances and last moves
 		pacmanPosition = game.getPacmanCurrentNodeIndex();
 		pacmanLastMove = game.getPacmanLastMoveMade();
+		
+		ghostPositions = new int[4];
+		ghostNearestPP = new int[4];
+		distanceToPacman = new int[4];
+		distanceToLair = new int[4];
+		minGhostsDistancePPill = new int[4];
+		
 		for (GHOST g : GHOST.values()) {
 			ghostPositions[g.ordinal()] = game.getGhostCurrentNodeIndex(g);
 			ghostLastMove[g.ordinal()] = game.getGhostLastMoveMade(g);

@@ -1,10 +1,6 @@
 package es.ucm.fdi.ici.c2223.practica3.grupo08;
 
-import java.util.HashMap;
-import java.util.Map.Entry;
-
 import pacman.game.Constants.GHOST;
-import pacman.game.Constants.MOVE;
 
 public class GhostData {
 

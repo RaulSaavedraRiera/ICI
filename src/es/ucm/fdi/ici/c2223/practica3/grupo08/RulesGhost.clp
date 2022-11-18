@@ -329,7 +329,7 @@
 (defrule SUEprotectEdibles
     (SUE (edible false))
     (SUE (anotherGhostEdible))
-    =>2
+    =>
     (asser (ACTION (id SUErunsTowardsEdibleGhost) (info "Run to edible ghost") (priority 80)))
 )
 
