@@ -7,12 +7,14 @@
     (slot minDistancePPill (type INTEGER))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
+    (slot distanceToPacmanWithSpeed (type INTEGER))
     (slot distanceToLair (type INTEGER))
     (slot remainingTime (type INTEGER))
     (slot minGhostTimeUntilFree (type INTEGER))
-
+    (slot pacmanInCorner (type SYMBOL))
     (slot position (type INTEGER))
     (slot hasObjective (type SYMBOL))
+    (slot intercept (type SYMBOL))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
@@ -28,11 +30,13 @@
     (slot minDistancePPill (type INTEGER))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
+    (slot distanceToPacmanWithSpeed (type INTEGER))
     (slot distanceToLair (type INTEGER))
     (slot remainingTime (type INTEGER))
     (slot minGhostTimeUntilFree (type INTEGER))
-
+    (slot pacmanInCorner (type SYMBOL))
     (slot position (type INTEGER))
+    (slot intercept (type SYMBOL))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
@@ -48,12 +52,15 @@
     (slot minDistancePPill(type INTEGER))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
+    (slot distanceToPacmanWithSpeed (type INTEGER))
     (slot distanceToLair (type INTEGER))
     (slot remainingTime(type INTEGER))
     (slot minGhostTimeUntilFree (type INTEGER))
     (slot pacmanPosition (type INTEGER))
     (slot position (type INTEGER))
     (slot hasObjective (type SYMBOL))
+    (slot pacmanInCorner (type SYMBOL))
+    (slot intercept (type SYMBOL))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
@@ -69,11 +76,14 @@
     (slot minDistancePPill(type INTEGER))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman(type INTEGER))
+    (slot distanceToPacmanWithSpeed (type INTEGER))
     (slot distanceToLair (type INTEGER))
     (slot remainingTime(type INTEGER))
     (slot minGhostTimeUntilFree (type INTEGER))
     (slot position (type INTEGER))
     (slot chasingTime (type INTEGER))
+    (slot pacmanInCorner (type SYMBOL))
+    (slot intercept (type SYMBOL))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
@@ -366,47 +376,77 @@
 ;12
 (defrule BLINKYturnsNonEdibleBeforePacmanReaches
     (BLINKY (edible true))
-    (BLINKY (distanceToPacman * 0.5 * 0.5 ?dist) (SAFETY_DISTANCE_WHEN_EDIBLE + remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
+    (BLINKY (distanceToPacmanWithSpeed ?dist) (remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
     =>
     (assert (ACTION (id BLINKYchases) (info "Chases MSPacman") (priority 90)))
 )
 (defrule INKYturnsNonEdibleBeforePacmanReaches
     (INKY (edible true))
-    (INKY (distanceToPacman * 0.5 * 0.5 ?dist) (SAFETY_DISTANCE_WHEN_EDIBLE + remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
+    (INKY (distanceToPacmanWithSpeed ?dist) (remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
     =>
     (assert (ACTION (id INKYchases) (info "Chases MSPacman") (priority 90)))
 )
 (defrule PINKYturnsNonEdibleBeforePacmanReaches
     (PINKY (edible true))
-    (PINKY (distanceToPacman * 0.5 * 0.5 ?dist) (SAFETY_DISTANCE_WHEN_EDIBLE + remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
+    (PINKY (distanceToPacmanWithSpeed ?dist) (remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
     =>
     (assert (ACTION (id PINKYchases) (info "Chases MSPacman") (priority 90)))
 )
 (defrule SUEturnsNonEdibleBeforePacmanReaches
     (SUE (edible true))
-    (SUE (distanceToPacman * 0.5 * 0.5 ?dist) (SAFETY_DISTANCE_WHEN_EDIBLE + remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
+    (SUE (distanceToPacmanWithSpeed ?dist) (remainingTime ?maxDist)) (test (<= ?dist ?maxDist))
     =>
     (assert (ACTION (id SUEchases) (info "Chases MSPacman") (priority 90)))
 )
 
 ;13
-(defrule INKYchaseAhead
-    (INKY (edible false))
+(defrule BLINKYtrapsPacmanInCorner
+    (BLINKY (edible false))
+    (BLINKY (pacmanInCorner true))
     =>
-    (assert (ACTION (id INKYchasesAhead) (info "Chases ahead MSPacman") (priority 20)))
+    (assert (ACTION (id BLINKYtrapCorner)))
+)
+(defrule INKYtrapsPacmanInCorner
+    (INKY (edible false))
+    (INKY (pacmanInCorner true))
+    =>
+    (assert (ACTION (id INKYtrapCorner)))
+)
+(defrule PINKYtrapsPacmanInCorner
+    (PINKY (edible false))
+    (PINKY (pacmanInCorner true))
+    =>
+    (assert (ACTION (id PINKYtrapCorner)))
+)
+(defrule SUEtrapsPacmanInCorner
+    (SUE (edible false))
+    (SUE (pacmanInCorner true))
+    =>
+    (assert (ACTION (id SUEtrapCorner)))
 )
 
 ;14
-(defrule SUEorbiting
-    (SUE (edible false))
-    (SUE (distanceToPacman ?dist) (ORBITING_DISTANCE ?maxDist)) (test (< ?dist ?maxDist) (priority 20))
+(defrule BLINKYinterceptsJunctionBeforePP
+    (BLINKY (edible false))
+    (BLINKY (intercept true))
     =>
-    (assert (ACTION (id SUEorbiting)))
+    (assert (ACTION (id BLINKYchases)))
 )
-
-;15
-(defrule SUEchasingTooMuch
-    (SUE (chasingTime ?time) (CHASING_TIME_LIMIT ?timeLimit)) (test (> ?time ?timeLimit) (priority 80))
+(defrule INKYinterceptsJunctionBeforePP
+    (INKY (edible false))
+    (INKY (intercept true))
     =>
-    (assert (ACTION(id SUErunsaway)))
+    (assert (ACTION (id INKYchases)))
+)
+(defrule PINKYinterceptsJunctionBeforePP
+    (PINKY (edible false))
+    (PINKY (intercept true))
+    =>
+    (assert (ACTION (id PINKYchases)))
+)
+(defrule SUEinterceptsJunctionBeforePP
+    (SUE (edible false))
+    (SUE (intercept true))
+    =>
+    (assert (ACTION (id SUEchases)))
 )
