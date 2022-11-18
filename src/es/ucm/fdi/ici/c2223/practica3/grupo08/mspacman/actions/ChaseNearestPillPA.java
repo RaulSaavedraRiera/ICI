@@ -8,10 +8,10 @@ import pacman.game.Constants.DM;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
-public class ChaseNearestPill implements RulesAction{
+public class ChaseNearestPillPA implements RulesAction{
 	
 	
-		public ChaseNearestPill() {
+		public ChaseNearestPillPA() {
 			
 		}
 

@@ -2,13 +2,27 @@
 
 ;falta obtener si se puede llegar PP, cuanto queda Ghost salga de Lair y poner todos los nombres correctos
 (deftemplate PACMAN
+
+
+    (slot NEAR_PP_DISTANCE(type INTEGER))
+    (slot NEAR_CORNER_DISTANCE(type INTEGER))
+    (slot NEAR_LAIR_DISTANCE(type INTEGER))
+    (slot ENOUGH_PILLS_NEAR(type INTEGER))
+
     (slot distToLair(type INTEGER))
     (slot distToNearestCorner(type INTEGER))
-    (slot distToNearestChasingNotBehind(type INTEGER))
-    (slot distToNearestChasingAnyDir(type INTEGER))
-    (slot distToNearestEdible(type INTEGER))
+    ;(slot distToNearestChasingNotBehind(type INTEGER))
+    ;(slot distToNearestChasingAnyDir(type INTEGER))
+   
     (slot distToNearestPP(type INTEGER))
-    (slot distToNearestPill(type INTEGER))
+    (slot nearNumPills(type INTEGER))
+
+    (slot nearChasingGhosts(type INTEGER))
+    (slot nearEdibleGhosts(type INTEGER))
+
+    (slot PacmanCanReachPP(type SYMBOL))
+    (slot isInIntersection(type SYMBOL))
+    (slot ghostFollowsPacman(type SYMBOL))
 )
 
 ;ACTION FACTS
@@ -24,7 +38,7 @@
 ;1 si hay mas de dos fantasmas agresivos cerca y se puede llegar a PP ve a PP
 (defrule PacmanGoPPMultipleGhosts
 (PACMAN (nearChasingGhosts ?g)) (test (<= 2 ?g))
-    (PACMAN (PacmanCanReachPP))    
+    (PACMAN (PacmanCanReachPP true))    
     =>
     (assert (ACTION (id ChasePowerPill) (info "2< Chasing ghost near Pacman && PP range -> Go PP") (priority 100)))
 )
@@ -33,9 +47,9 @@
 ;2 si hay 3 fantasmas agresivos o mas y no se puede llegar a PP estas encerrado probablemente, come y muere
 (defrule PacmanEatAll
  (PACMAN (nearChasingGhosts ?g)) (test (<= 3 ?g))
-    (PACMAN (!PacmanCanReachPP))   
+    (PACMAN (PacmanCanReachPP false))   
     =>
-    (assert (ACTION (id ChasePill) (info " 3< Chasing ghost near Pacman && PP non range -> Eat") (priority 100)))
+    (assert (ACTION (id ChaseNearestPill) (info " 3< Chasing ghost near Pacman && PP non range -> Eat") (priority 100)))
 )
 
 ;habria que hacer que fuera del que no le persigue en misma direccion
@@ -76,8 +90,8 @@
 (defrule PacmanDodgePPChasingGhost
     (PACMAN (nearChasingGhosts ?g)) (test (== 1 ?g))
     (PACMAN (ghostFollowsPacman true)) 
-     (PACMAN (isInIntersection true)) 
-       (PACMAN (PPNear true)) 
+    (PACMAN (isInIntersection true)) 
+    (PACMAN (distToNearestPP ?dp) (NEAR_PP_DISTANCE ?r)) (test (<= ?dp ?r))
     =>
     (assert 
         (ACTION (id RunAwayPowerPill) (info "1 Chasing ghost near Pacman && follow && intersection && PP -> dodgePP") (priority 90))
@@ -90,10 +104,10 @@
     (PACMAN (nearChasingGhosts ?g)) (test (== 1 ?g))
     (PACMAN (ghostFollowsPacman true)) 
     (PACMAN (isInIntersection true)) 
-    (PACMAN (PPNear false)) 
+    (PACMAN (distToNearestPP ?dp) (NEAR_PP_DISTANCE ?r)) (test (> ?dp ?r))
     =>
     (assert 
-        (ACTION (id ...bestWay) (info "1 Chasing ghost near Pacman && follow && intersection -> bestWay") (priority 90))
+        (ACTION (id ChasePill) (info "1 Chasing ghost near Pacman && follow && intersection -> bestWay") (priority 90))
     )
 )
 
@@ -104,7 +118,7 @@
      (PACMAN (isInIntersection false)) 
     =>
     (assert 
-        (ACTION (id ChasePill) (info "1 Chasing ghost near Pacman && follow && non intersection -> eatPill") (priority 90))
+        (ACTION (id ChaseNearestPill) (info "1 Chasing ghost near Pacman && follow && non intersection -> eatPill") (priority 90))
     )
 )
 
@@ -134,7 +148,7 @@
 ;11 evitar PP cercana
 (defrule PacmanDodgePPNoChasingGhost
     (PACMAN (nearEdibleGhosts ?g)) (test (== 0 ?g))
-     (PACMAN (distanceToNearestPP ?dp) (NEAR_PP_DISTANCE ?r)) (test (<= ?dp ?r))
+     (PACMAN (distToNearestPP ?dp) (NEAR_PP_DISTANCE ?r)) (test (<= ?dp ?r))
     =>
     (assert 
         (ACTION (id RunAwayPowerPill) (info "no Ghost near Pacman && nearPP -> dodgePP") (priority 60))
@@ -144,7 +158,7 @@
 ;12 evitar Rincon
 (defrule PacmanDodgeCorner
     (PACMAN (nearEdibleGhosts ?g)) (test (== 0 ?g))
-     (PACMAN (distanceToNearestCorner ?dp) (NEAR_CORNER_DISTANCE ?r)) (test (<= ?dp ?r))
+     (PACMAN (distToNearestCorner ?dp) (NEAR_CORNER_DISTANCE ?r)) (test (<= ?dp ?r))
     =>
     (assert 
         (ACTION (id RunAwayCorner) (info "no Ghost near Pacman && near Corner -> dodgeCorner") (priority 60))
@@ -154,7 +168,7 @@
 ;13 evitar celda
 (defrule PacmanDodgeLair
     (PACMAN (nearEdibleGhosts ?g)) (test (== 0 ?g))
-     (PACMAN (distanceToLair ?dp) (NEAR_LAIR_DISTANCE ?r)) (test (<= ?dp ?r))
+     (PACMAN (distToLair ?dp) (NEAR_LAIR_DISTANCE ?r)) (test (<= ?dp ?r))
     =>
     (assert 
         (ACTION (id RunAwayLair) (info "no Ghost near Pacman && near Lair -> dodgeLair") (priority 60))
@@ -163,78 +177,48 @@
 
 ;14 comer pills cercanas interseccion
 (defrule PacmanEatPillsIntersection
-     (PACMAN (pillsNear ?dp) (ENOUGH_PILLS_NEAR ?r)) (test (>= ?dp ?r))
+     (PACMAN (nearNumPills ?dp) (ENOUGH_PILLS_NEAR ?r)) (test (>= ?dp ?r))
         (PACMAN (isInIntersection true)) 
     =>
     (assert 
-        (ACTION (id ...bestWay) (info "no Ghost near Pacman && enough pills && intersection -> bestWay") (priority 50))
+        (ACTION (id ChasePill) (info "no Ghost near Pacman && enough pills && intersection -> bestWay") (priority 50))
     )
 )
 
 
 ;15 comer pills cercanas no interseccion
 (defrule PacmanEatPillsNonIntersection
-     (PACMAN (pillsNear ?dp) (ENOUGH_PILLS_NEAR ?r)) (test (>= ?dp ?r))
+     (PACMAN (nearNumPills ?dp) (ENOUGH_PILLS_NEAR ?r)) (test (>= ?dp ?r))
         (PACMAN (isInIntersection false)) 
     =>
     (assert 
-        (ACTION (id ChasePill) (info "no Ghost near Pacman && enough pills && no intersection -> eat pills") (priority 50))
+        (ACTION (id ChaseNearestPill) (info "no Ghost near Pacman && enough pills && no intersection -> eat pills") (priority 50))
     )
 )
 
 ;16 buscar chasing ghost
 (defrule PacmanChaseGhost
-     (PACMAN (pillsNear ?dp) (ENOUGH_PILLS_NEAR ?r)) (test (< ?dp ?r))
+     (PACMAN (nearNumPills ?dp) (ENOUGH_PILLS_NEAR ?r)) (test (< ?dp ?r))
     =>
     (assert 
         (ACTION (id ChaseGhost) (info "no Ghost near Pacman && no enough pills -> go chasing ghost") (priority 50))
     )
 )
 
-(defrule PACMANnearCorner
-    (MSPACMAN (distToNearestCorner < 50))
-    =>
-    (assert 
-        (ACTION (id ...HuirRincon...) (info "Rincon Cerca ---> Huir Rincon") (priority 30))
-    )
-)
 
-(defrule PACMANnearChasingNotBehind
-    (MSPACMAN (distToNearestChasingNotBehind < 50))
-    =>
-    (assert 
-        (ACTION (id ...HuirNearestChasingNotBehind...) (info "Chasing Cerca y no Misma Dir ---> Huir Chasing") (priority 30))
-    )
-)
+; (defrule PACMANnearChasingNotBehind
+;     (MSPACMAN (distToNearestChasingNotBehind < 50))
+;     =>
+;     (assert 
+;         (ACTION (id ...HuirNearestChasingNotBehind...) (info "Chasing Cerca y no Misma Dir ---> Huir Chasing") (priority 30))
+;     )
+; )
 
-(defrule PACMANnearChasingAnyDir
-    (MSPACMAN (distToNearestChasingAnyDir < 50))
-    =>
-    (assert 
-        (ACTION (id ...HuirNearestChasingAnyDir...) (info "Chasing Cerca Misma Dir ---> Huir Chasing") (priority 30))
-    )
-)
+; (defrule PACMANnearChasingAnyDir
+;     (MSPACMAN (distToNearestChasingAnyDir < 50))
+;     =>
+;     (assert 
+;         (ACTION (id ...HuirNearestChasingAnyDir...) (info "Chasing Cerca Misma Dir ---> Huir Chasing") (priority 30))
+;     )
+; )
 
-(defrule PACMANnearEdible
-    (MSPACMAN (distToNearestEdible < 50))
-    =>
-    (assert 
-        (ACTION (id ...ChaseEdible...) (info "Edible Cerca ---> ChaseEdible") (priority 30))
-    )
-)
-
-(defrule PACMANnearPP
-    (MSPACMAN (distToNearestPP < 50))
-    =>
-    (assert 
-        (...)
-    )
-)
-
-(defrule PACMANnearPill
-    (MSPACMAN (distToNearestPill < 50))
-    =>
-    (assert 
-        (...)
-    )
-)
