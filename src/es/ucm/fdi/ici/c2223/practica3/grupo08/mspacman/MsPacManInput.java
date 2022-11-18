@@ -12,6 +12,7 @@ public class MsPacManInput extends RulesInput {
 	final int DIST_NEAR_PILL = 30;
 	final int NEAR_CHASING_GHOST = 40;
 	final int MID_CHASING_GHOST = 70;
+	final int TIME_EDIBLE_GHOST_LIMIT = 6;
 	
 	
 	// Estos hacen falta para rules si lo vamos a sacar de GhostInput? Yo los he creado por si acaso
@@ -43,6 +44,7 @@ public class MsPacManInput extends RulesInput {
 	private int numPillsNear;
 	
 	private boolean pacmanInIntersection;
+	private boolean canTakePP;
 
 	public MsPacManInput(Game game) {
 		super(game);
@@ -84,6 +86,7 @@ public class MsPacManInput extends RulesInput {
 		
 		//preguntar
 		facts.add(String.format("(MSPACMAN (pacmanInIntersection %d))", this.pacmanInIntersection));
+		facts.add(String.format("(MSPACMAN (pacmanCanTakePP %d))", this.canTakePP));
 		
 		return facts;
 	}
@@ -203,7 +206,25 @@ public class MsPacManInput extends RulesInput {
 		
 		pacmanInIntersection = game.getNeighbouringNodes(game.getPacmanCurrentNodeIndex()).length > 2;
 		
+		canTakePP = false;
 		
+		for(int p : game.getActivePowerPillsIndices()) {
+			int d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), p, game.getPacmanLastMoveMade());
+			boolean valid = true;
+			for (GHOST g : GHOST.values()) {
+				if(game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) >= TIME_EDIBLE_GHOST_LIMIT)
+					if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), p, game.getGhostLastMoveMade(g)) <= d){
+						valid = false;
+						break;
+					}
+			}
+			
+			if(valid){
+				canTakePP = true;
+				break;
+			}
+				
+		}
 		
 	}
 	
