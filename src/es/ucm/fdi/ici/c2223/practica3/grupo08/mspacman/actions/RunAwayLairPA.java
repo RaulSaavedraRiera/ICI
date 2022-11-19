@@ -1,5 +1,6 @@
 package es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions;
 
+import java.awt.Color;
 import java.util.Random;
 
 import es.ucm.fdi.ici.rules.RulesAction;
@@ -8,6 +9,7 @@ import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
+import pacman.game.GameView;
 
 public class RunAwayLairPA implements RulesAction{
 	
@@ -24,8 +26,10 @@ public class RunAwayLairPA implements RulesAction{
 				jailIndex = game.getGhostCurrentNodeIndex(GHOST.BLINKY);
 			
 			
-			if(jailIndex != -1)
+			if(jailIndex != -1) {
+				GameView.addLines(game, Color.RED, game.getPacmanCurrentNodeIndex(), jailIndex);
 				return game.getApproximateNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), jailIndex, game.getPacmanLastMoveMade(), DM.PATH);
+			}
 						
 			else 
 				return game.getApproximateNextMoveTowardsTarget(

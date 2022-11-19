@@ -1,11 +1,15 @@
 package es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions;
 
+import java.awt.Color;
+
 import es.ucm.fdi.ici.rules.RulesAction;
 import jess.Fact;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
+import pacman.game.Constants;
 import pacman.game.Game;
+import pacman.game.GameView;
 
 public class ChaseGhostPA implements RulesAction{
 	
@@ -17,8 +21,13 @@ public class ChaseGhostPA implements RulesAction{
 		@Override
 		public MOVE execute(Game game) {
 	       
-			return game.getApproximateNextMoveTowardsTarget(
-					game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex( getNearestAgressiveGhost(game)), game.getPacmanLastMoveMade(), DM.PATH);
+			GHOST nearestGhost = getNearestAgressiveGhost(game);
+			
+			GameView.addLines(game, Color.GREEN, game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(nearestGhost));
+			return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
+					game.getGhostCurrentNodeIndex(nearestGhost),
+					game.getPacmanLastMoveMade(),
+					Constants.DM.PATH);
 			
 		}
 
