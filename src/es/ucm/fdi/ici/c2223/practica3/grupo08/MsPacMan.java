@@ -33,7 +33,7 @@ public class MsPacMan extends PacmanController {
 	
 	public MsPacMan() {
 		
-		setName("MsPacManIfUrNasty");
+		setName("MsPacman8");
 		setTeam("Team 08");
 		
 		map = new HashMap<String,RulesAction>();
@@ -67,14 +67,10 @@ public class MsPacMan extends PacmanController {
 
 
 		String rulesFile = String.format("%sRulesPacman.clp", RULES_PATH);
-		engine  = new RuleEngine("MsPacMan",rulesFile, map);
+		engine  = new RuleEngine("PACMAN",rulesFile, map);
 		
-		//add observer to every Ghost
-		//ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver(ghost.name(), true);
-		//engine.addObserver(observer);
-		
-		//add observer only to BLINKY
-		ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver("msPacMan", true);
+	
+		ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver("PACMAN", true);
 		engine.addObserver(observer);
 		
 		
@@ -85,6 +81,7 @@ public class MsPacMan extends PacmanController {
 
 		// Process input
 		RulesInput input = new MsPacManInput(game);
+		input.parseInput();
 		// load facts
 		// reset the rule engines
 

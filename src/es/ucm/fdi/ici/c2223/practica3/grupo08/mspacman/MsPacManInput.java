@@ -79,30 +79,36 @@ public class MsPacManInput extends RulesInput {
 //		facts.add(String.format("(PINKY (distToPacman %d))",  (int)this.ghostsDistanceToPacMan[GHOST.PINKY.ordinal()]));
 //		facts.add(String.format("(CLYDE (distToPacman %d))",  (int)this.ghostsDistanceToPacMan[GHOST.SUE.ordinal()]));
 		
+//		//facts.add(String.format("(PACMAN (distToNearestChasingNotBehind %d))", this.distanceToNearestChasingGhostNotBehind));
+//		//facts.add(String.format("(PACMAN (distToNearestChasingAnyDir %d))", this.distanceToNearestChasingGhostAnyDir));
+//	
 		
-		facts.add(String.format("(PACMAN (NEAR_PP_DISTANCE %d))", (int) this.NEAR_PP_DISTANCE));
-		facts.add(String.format("(PACMAN (NEAR_CORNER_DISTANCE %d))", (int) this.NEAR_CORNER_DISTANCE));
-		facts.add(String.format("(PACMAN (NEAR_LAIR_DISTANCE %d))", (int) this.NEAR_LAIR_DISTANCE));
-		facts.add(String.format("(PACMAN (ENOUGH_PILLS_NEAR %d))", (int) this.ENOUGH_PILLS_NEAR));
-		
-		
-		facts.add(String.format("(PACMAN (distToLair %d))", (int) this.distanceToLair));
-		facts.add(String.format("(PACMAN (distToNearestCorner %d))", (int) this.distanceToNearestCorner));
-		facts.add(String.format("(PACMAN (distToNearestPP %d))", (int) this.distanceToNearestPowerPill));
 
 		
-		//facts.add(String.format("(PACMAN (distToNearestChasingNotBehind %d))", this.distanceToNearestChasingGhostNotBehind));
-		//facts.add(String.format("(PACMAN (distToNearestChasingAnyDir %d))", this.distanceToNearestChasingGhostAnyDir));
 		
-		facts.add(String.format("(PACMAN (nearChasingGhosts %d))", (int) this.chasingGhostNear));
-		facts.add(String.format("(PACMAN (nearEdibleGhosts %d))", (int) this.edibleGhostNear));
 		
-		facts.add(String.format("(PACMAN (numPillsNear %d))", (int) this.numPillsNear));
+//		facts.add(String.format("(PACMAN (NEAR_PP_DISTANCE %d))", (int) this.NEAR_PP_DISTANCE));
+//		facts.add(String.format("(PACMAN (NEAR_CORNER_DISTANCE %d))", (int) this.NEAR_CORNER_DISTANCE));
+//		facts.add(String.format("(PACMAN (NEAR_LAIR_DISTANCE %d))", (int) this.NEAR_LAIR_DISTANCE));
+//		facts.add(String.format("(PACMAN (ENOUGH_PILLS_NEAR %d))", (int) this.ENOUGH_PILLS_NEAR));
+//		
+//		
+//		facts.add(String.format("(PACMAN (distToLair %d))", (int) this.distanceToLair));
+//		facts.add(String.format("(PACMAN (distToNearestCorner %d))", (int) this.distanceToNearestCorner));
+//		facts.add(String.format("(PACMAN (distToNearestPP %d))", (int) this.distanceToNearestPowerPill));
+//
+//		
+	
+//		facts.add(String.format("(PACMAN (nearChasingGhosts %d))",(int) this.chasingGhostNear));
+//		facts.add(String.format("(PACMAN (nearEdibleGhosts %d))", (int) this.edibleGhostNear));
+
 		
-		facts.add(String.format("(PACMAN (pacmanInIntersection %s))", this.pacmanInIntersection));
-		facts.add(String.format("(PACMAN (pacmanCanTakePP %s))", this.canTakePP));
-		facts.add(String.format("(PACMAN (ghostFollowsPacman %s))", this.ghostFollowsPacman));
+		facts.add(String.format("(PACMAN (nearNumPills %d))", (int) this.numPillsNear));
 		
+//		facts.add(String.format("(PACMAN (isInIntersection %s))", this.pacmanInIntersection));		
+//		facts.add(String.format("(PACMAN (canTakePP %s))", this.canTakePP));
+//		facts.add(String.format("(PACMAN (ghostFollowsPacman %s))", this.ghostFollowsPacman));
+//		
 		return facts;
 	}
 
