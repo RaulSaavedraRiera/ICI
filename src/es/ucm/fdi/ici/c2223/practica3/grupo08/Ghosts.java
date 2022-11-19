@@ -8,9 +8,11 @@ import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.ChaseJunctionsAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.GoToNearestPPAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.GoToObjectiveAction;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.ProtectEdibleAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.RunAwayAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.RunAwayToGhostAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.SearchObjectiveCloseToPacmanAction;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.TrapCornerAction;
 import es.ucm.fdi.ici.rules.RuleEngine;
 import es.ucm.fdi.ici.rules.RulesAction;
 import es.ucm.fdi.ici.rules.RulesInput;
@@ -78,32 +80,52 @@ public class Ghosts extends GhostController {
 		// search objective action
 		RulesAction BLINKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.BLINKY, gData);
 		actions.put("BLINKYsearchsObjective", BLINKYsearchsObjective);
-		RulesAction PINKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.INKY, gData);
+		RulesAction PINKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.PINKY, gData);
 		actions.put("PINKYsearchsObjective", PINKYsearchsObjective);
-		RulesAction INKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.PINKY, gData);
+		RulesAction INKYsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.INKY, gData);
 		actions.put("INKYsearchsObjective", INKYsearchsObjective);
-		RulesAction SUEsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.BLINKY, gData);
+		RulesAction SUEsearchsObjective = new SearchObjectiveCloseToPacmanAction(GHOST.SUE, gData);
 		actions.put("SUEsearchsObjective", SUEsearchsObjective);
 
 		// go to objective action
 		RulesAction BLINKgoesToObjective = new GoToObjectiveAction(GHOST.BLINKY, gData);
 		actions.put("BLINKgoesToObjective", BLINKgoesToObjective);
-		RulesAction PINKYgoesToObjective = new GoToObjectiveAction(GHOST.INKY, gData);
+		RulesAction PINKYgoesToObjective = new GoToObjectiveAction(GHOST.PINKY, gData);
 		actions.put("PINKYgoesToObjective", PINKYgoesToObjective);
-		RulesAction INKYgoesToObjective = new GoToObjectiveAction(GHOST.PINKY, gData);
+		RulesAction INKYgoesToObjective = new GoToObjectiveAction(GHOST.INKY, gData);
 		actions.put("INKYgoesToObjective", INKYgoesToObjective);
-		RulesAction SUEgoesToObjective = new GoToObjectiveAction(GHOST.BLINKY, gData);
+		RulesAction SUEgoesToObjective = new GoToObjectiveAction(GHOST.SUE, gData);
 		actions.put("SUEgoesToObjective", SUEgoesToObjective);
 
 		// go to nearest PP action
 		RulesAction BLINKgoToNearestPP = new GoToNearestPPAction(GHOST.BLINKY, gData);
 		actions.put("BLINKgoToNearestPP", BLINKgoToNearestPP);
-		RulesAction PINKYgoToNearestPP = new GoToNearestPPAction(GHOST.INKY, gData);
+		RulesAction PINKYgoToNearestPP = new GoToNearestPPAction(GHOST.PINKY, gData);
 		actions.put("PINKYgoToNearestPP", PINKYgoToNearestPP);
-		RulesAction INKYgoToNearestPP = new GoToNearestPPAction(GHOST.PINKY, gData);
+		RulesAction INKYgoToNearestPP = new GoToNearestPPAction(GHOST.INKY, gData);
 		actions.put("INKYgoToNearestPP", INKYgoToNearestPP);
-		RulesAction SUEgoToNearestPP = new GoToNearestPPAction(GHOST.BLINKY, gData);
+		RulesAction SUEgoToNearestPP = new GoToNearestPPAction(GHOST.SUE, gData);
 		actions.put("SUEgoToNearestPP", SUEgoToNearestPP);
+		
+		// protect edible action
+		RulesAction BLINKYrunTowardsEdibleGhost = new ProtectEdibleAction(GHOST.BLINKY, gData);
+		actions.put("BLINKYrunTowardsEdibleGhost", BLINKYrunTowardsEdibleGhost);
+		RulesAction PINKYrunTowardsEdibleGhost = new ProtectEdibleAction(GHOST.PINKY, gData);
+		actions.put("PINKYrunTowardsEdibleGhost", PINKYrunTowardsEdibleGhost);
+		RulesAction INKYrunTowardsEdibleGhost = new ProtectEdibleAction(GHOST.INKY, gData);
+		actions.put("INKYrunTowardsEdibleGhost", INKYrunTowardsEdibleGhost);
+		RulesAction SUErunTowardsEdibleGhost = new ProtectEdibleAction(GHOST.SUE, gData);
+		actions.put("SUErunTowardsEdibleGhost", SUErunTowardsEdibleGhost);
+		
+		// trap corner
+		RulesAction BLINKYtrapCorner = new TrapCornerAction(GHOST.BLINKY, gData);
+		actions.put("BLINKYtrapCorner", BLINKYtrapCorner);
+		RulesAction PINKYtrapCorner = new TrapCornerAction(GHOST.PINKY, gData);
+		actions.put("PINKYtrapCorner", PINKYtrapCorner);
+		RulesAction INKYtrapCorner = new TrapCornerAction(GHOST.INKY, gData);
+		actions.put("INKYtrapCorner", INKYtrapCorner);
+		RulesAction SUEtrapCorner = new TrapCornerAction(GHOST.SUE, gData);
+		actions.put("SUEtrapCorner", SUEtrapCorner);
 
 		ghostRuleEngines = new EnumMap<GHOST, RuleEngine>(GHOST.class);
 		for (GHOST ghost : GHOST.values()) {
@@ -112,8 +134,8 @@ public class Ghosts extends GhostController {
 			ghostRuleEngines.put(ghost, engine);
 
 			// add observer to every Ghost
-//			ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver(ghost.name(), true);
-//			engine.addObserver(observer);
+			ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver(ghost.name(), true);
+			engine.addObserver(observer);
 		}
 	}
 
