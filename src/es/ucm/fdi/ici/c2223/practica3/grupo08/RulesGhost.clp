@@ -159,40 +159,40 @@
     )
 )
 
-; 3
-(defrule BLINKYsearchsObjective
-    (BLINKY (edible false) (distanceToPacman ?d))
-    (test (<= ?d 50))
-    =>
-    (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
-)
-(defrule PINKYsearchsObjective
-    (PINKY (edible false) (distanceToPacman ?d))
-    (test (<= ?d 50))
-    =>
-    (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
-)
+; ; 3
+; (defrule BLINKYsearchsObjective
+;     (BLINKY (edible false) (distanceToPacman ?d))
+;     (test (<= ?d 50))
+;     =>
+;     (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
+; )
+; (defrule PINKYsearchsObjective
+;     (PINKY (edible false) (distanceToPacman ?d))
+;     (test (<= ?d 50))
+;     =>
+;     (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
+; )
 
-;4
-(defrule BLINKYgoesToObjective
-    (BLINKY (edible false) (hasObjective true))
-    =>
-    (assert (ACTION (id BLINKYgoesToObjective) (info "Goes to objective") (priority 100)))
-)
-(defrule PINKYgoesToObjective
-    (PINKY (edible false) (hasObjective true))
-    =>
-    (assert (ACTION (id PINKYgoesToObjective) (info "Goes to objective") (priority 100)))
-)
+; ;4
+; (defrule BLINKYgoesToObjective
+;     (BLINKY (edible false) (hasObjective true))
+;     =>
+;     (assert (ACTION (id BLINKYgoesToObjective) (info "Goes to objective") (priority 100)))
+; )
+; (defrule PINKYgoesToObjective
+;     (PINKY (edible false) (hasObjective true))
+;     =>
+;     (assert (ACTION (id PINKYgoesToObjective) (info "Goes to objective") (priority 100)))
+; )
 
 ;5
 (defrule INKYchasesOutOfRange
-    (INKY (edible false) (distanceToPacman ?d)) (test (<= ?d 50))
+    (INKY (edible false) (distanceToPacman ?d)) (test (> ?d 50))
     =>
     (assert (ACTION (id INKYchases) (info "Chases") (priority 100)))
 )
 (defrule SUEchasesOutOfRange
-    (SUE (edible false) (distanceToPacman ?d)) (test (<= ?d 50))
+    (SUE (edible false) (distanceToPacman ?d)) (test (> ?d 50))
     =>
     (assert (ACTION (id SUEchases) (info "Chases") (priority 100)))
 )
