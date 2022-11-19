@@ -101,9 +101,12 @@ public class MsPacManInput extends RulesInput {
 	
 //		facts.add(String.format("(PACMAN (nearChasingGhosts %d))",(int) this.chasingGhostNear));
 //		facts.add(String.format("(PACMAN (nearEdibleGhosts %d))", (int) this.edibleGhostNear));
-
+// falta pill near
 		
-		facts.add(String.format("(PACMAN (nearNumPills %d))", (int) this.numPillsNear));
+		facts.add(String.format("(PACMAN (ENOUGH_PILLS_NEAR %d) (NEAR_LAIR_DISTANCE %d) (NEAR_CORNER_DISTANCE %d) (NEAR_PP_DISTANCE %d) (distToTheLair %d) (distToNearestCorne %d) "
+				+ "(distToNearestPP %d) (nearNumPills %d) (nearChasingGhosts %d) (nearEdibleGhosts %d) (isInIntersection %s) (canTakePP %s) (ghostFollowsPacman %s))", 
+				this.ENOUGH_PILLS_NEAR, this.NEAR_LAIR_DISTANCE, this.NEAR_CORNER_DISTANCE, this.NEAR_PP_DISTANCE, this.distanceToLair, this.distanceToNearestCorner,
+				this.distanceToNearestPowerPill, this.numPillsNear, this.chasingGhostNear, this.edibleGhostNear, this.pacmanInIntersection, this.canTakePP, this.ghostFollowsPacman));
 		
 //		facts.add(String.format("(PACMAN (isInIntersection %s))", this.pacmanInIntersection));		
 //		facts.add(String.format("(PACMAN (canTakePP %s))", this.canTakePP));
