@@ -167,13 +167,13 @@
 ;3
 (defrule BLINKYsearchsObjective
     (BLINKY (edible false))
-    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp ?r))
+    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp 50))
     =>
     (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )
 (defrule PINKYsearchsObjective
     (BLINKY (edible false))
-    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp ?r))
+    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp 50))
     =>
     (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )
@@ -195,13 +195,13 @@
 ;5
 (defrule INKYchasesOutOfRange
     (INKY (edible false))
-    (INKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp ?r))
+    (INKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp 50))
     =>
     (assert (ACTION (id INKYchases) (info "Chases") (priority 100)))
 )
 (defrule SUEchasesOutOfRange
     (SUE (edible false))
-    (SUE (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp ?r))
+    (SUE (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp 50))
     =>
     (assert (ACTION (id SUEchases) (info "Chases") (priority 100)))
 )

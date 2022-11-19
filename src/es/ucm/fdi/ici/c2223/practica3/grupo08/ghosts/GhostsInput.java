@@ -17,7 +17,7 @@ public class GhostsInput extends RulesInput {
 	private boolean PINKYedible;
 	private boolean SUEedible;
 	private int minPacmanDistancePPill;
-	//private int pacmanNearestPP;
+	// private int pacmanNearestPP;
 	private int pacmanPosition;
 	private MOVE pacmanLastMove;
 
@@ -31,11 +31,10 @@ public class GhostsInput extends RulesInput {
 	private int[] ghostNearestPP;
 	private int[] distanceToPacman;
 	private int[] distanceToLair;
-	private double[] distanceToPacmanWithSpeed;
+	private int[] distanceToPacmanWithSpeed;
 
 	private MOVE[] ghostLastMove;
 
-	
 	private boolean pacmanInCorner;
 	private boolean BLINKYhasObjective;
 	private boolean PINKYhasObjective;
@@ -47,8 +46,8 @@ public class GhostsInput extends RulesInput {
 	private final int PACMAN_MAX_DIST_TO_PP = 40;
 	private final int SAFETY_DISTANCE_WHEN_EDIBLE = 20;
 	private final int SURE_DEATH_DISTANCE = 100;
-	//private final int ORBITING_DISTANCE = 30;
-	//private final int CHASING_TIME_LIMIT = 30;
+	// private final int ORBITING_DISTANCE = 30;
+	// private final int CHASING_TIME_LIMIT = 30;
 	private int BLINKYremainingTime;
 	private int INKYremainingTime;
 	private int PINKYremainingTime;
@@ -83,40 +82,40 @@ public class GhostsInput extends RulesInput {
 		facts.add(String.format("(MSPACMAN (mindistancePPill %d))", (int) this.minPacmanDistancePPill));
 
 		facts.add(String.format("(BLINKY (anotherGhostNotEdible %s))",
-				(boolean) this.thereIsAnotherGhostNotEdible[GHOST.BLINKY.ordinal()]));
+				this.thereIsAnotherGhostNotEdible[GHOST.BLINKY.ordinal()]));
 		facts.add(String.format("(INKY (anotherGhostNotEdible %s))",
-				(boolean) this.thereIsAnotherGhostNotEdible[GHOST.INKY.ordinal()]));
+				this.thereIsAnotherGhostNotEdible[GHOST.INKY.ordinal()]));
 		facts.add(String.format("(PINKY (anotherGhostNotEdible %s))",
-				(boolean) this.thereIsAnotherGhostNotEdible[GHOST.PINKY.ordinal()]));
+				this.thereIsAnotherGhostNotEdible[GHOST.PINKY.ordinal()]));
 		facts.add(String.format("(SUE (anotherGhostNotEdible %s))",
-				(boolean) this.thereIsAnotherGhostNotEdible[GHOST.SUE.ordinal()]));
+				this.thereIsAnotherGhostNotEdible[GHOST.SUE.ordinal()]));
 
 		facts.add(String.format("(BLINKY (anotherGhostEdible %s))",
-				(boolean) this.thereIsAnotherGhostEdible[GHOST.BLINKY.ordinal()]));
+				this.thereIsAnotherGhostEdible[GHOST.BLINKY.ordinal()]));
 		facts.add(String.format("(INKY (anotherGhostEdible %s))",
-				(boolean) this.thereIsAnotherGhostEdible[GHOST.INKY.ordinal()]));
+				this.thereIsAnotherGhostEdible[GHOST.INKY.ordinal()]));
 		facts.add(String.format("(PINKY (anotherGhostEdible %s))",
-				(boolean) this.thereIsAnotherGhostEdible[GHOST.PINKY.ordinal()]));
+				this.thereIsAnotherGhostEdible[GHOST.PINKY.ordinal()]));
 		facts.add(String.format("(SUE (anotherGhostEdible %s))",
-				(boolean) this.thereIsAnotherGhostEdible[GHOST.SUE.ordinal()]));
+				this.thereIsAnotherGhostEdible[GHOST.SUE.ordinal()]));
 
 		facts.add(String.format("(BLINKY (anotherGhostInLair %s))",
-				(boolean) this.thereIsAnotherGhostInLair[GHOST.BLINKY.ordinal()]));
+				this.thereIsAnotherGhostInLair[GHOST.BLINKY.ordinal()]));
 		facts.add(String.format("(INKY (anotherGhostInLair %s))",
-				(boolean) this.thereIsAnotherGhostInLair[GHOST.INKY.ordinal()]));
+				this.thereIsAnotherGhostInLair[GHOST.INKY.ordinal()]));
 		facts.add(String.format("(PINKY (anotherGhostInLair %s))",
-				(boolean) this.thereIsAnotherGhostInLair[GHOST.PINKY.ordinal()]));
+				this.thereIsAnotherGhostInLair[GHOST.PINKY.ordinal()]));
 		facts.add(String.format("(SUE (anotherGhostInLair %s))",
-				(boolean) this.thereIsAnotherGhostInLair[GHOST.SUE.ordinal()]));
-		
+				this.thereIsAnotherGhostInLair[GHOST.SUE.ordinal()]));
+
 		facts.add(String.format("(BLINKY (intercept %s))",
-				(boolean) this.ghostMustInterceptJunction[GHOST.BLINKY.ordinal()]));
+				this.ghostMustInterceptJunction[GHOST.BLINKY.ordinal()]));
 		facts.add(String.format("(INKY (intercept %s))",
-				(boolean) this.ghostMustInterceptJunction[GHOST.INKY.ordinal()]));
+				this.ghostMustInterceptJunction[GHOST.INKY.ordinal()]));
 		facts.add(String.format("(PINKY (intercept %s))",
-				(boolean) this.ghostMustInterceptJunction[GHOST.PINKY.ordinal()]));
-		facts.add(String.format("(SUE (intercept %s))",
-				(boolean) this.ghostMustInterceptJunction[GHOST.SUE.ordinal()]));
+				this.ghostMustInterceptJunction[GHOST.PINKY.ordinal()]));
+		facts.add(String.format("(SUE (intercept %s))", 
+				this.ghostMustInterceptJunction[GHOST.SUE.ordinal()]));
 
 		facts.add(String.format("(BLINKY (distanceToPacman %d))", (int) this.distanceToPacman[GHOST.BLINKY.ordinal()]));
 		facts.add(String.format("(INKY (distanceToPacman %d))", (int) this.distanceToPacman[GHOST.INKY.ordinal()]));
@@ -128,9 +127,12 @@ public class GhostsInput extends RulesInput {
 		facts.add(String.format("(PINKY (distanceToLair %d))", (int) this.distanceToLair[GHOST.PINKY.ordinal()]));
 		facts.add(String.format("(SUE (distanceToLair %d))", (int) this.distanceToLair[GHOST.SUE.ordinal()]));
 
-		facts.add(String.format("(BLINKY (remainingTime %d))", (int) this.BLINKYremainingTime + SAFETY_DISTANCE_WHEN_EDIBLE ));
-		facts.add(String.format("(INKY (remainingTime %d))", (int) this.INKYremainingTime + SAFETY_DISTANCE_WHEN_EDIBLE));
-		facts.add(String.format("(PINKY (remainingTime %d))", (int) this.PINKYremainingTime + SAFETY_DISTANCE_WHEN_EDIBLE));
+		facts.add(String.format("(BLINKY (remainingTime %d))",
+				(int) this.BLINKYremainingTime + SAFETY_DISTANCE_WHEN_EDIBLE));
+		facts.add(
+				String.format("(INKY (remainingTime %d))", (int) this.INKYremainingTime + SAFETY_DISTANCE_WHEN_EDIBLE));
+		facts.add(String.format("(PINKY (remainingTime %d))",
+				(int) this.PINKYremainingTime + SAFETY_DISTANCE_WHEN_EDIBLE));
 		facts.add(String.format("(SUE (remainingTime %d))", (int) this.SUEremainingTime + SAFETY_DISTANCE_WHEN_EDIBLE));
 
 		facts.add(String.format("(BLINKY (position %d))", (int) this.ghostPositions[GHOST.BLINKY.ordinal()]));
@@ -138,9 +140,8 @@ public class GhostsInput extends RulesInput {
 		facts.add(String.format("(INKY (position %d))", (int) this.ghostPositions[GHOST.INKY.ordinal()]));
 		facts.add(String.format("(SUE (position %d))", (int) this.ghostPositions[GHOST.SUE.ordinal()]));
 
-		facts.add(String.format("(BLINKY (hasObjective %s))", (boolean) this.BLINKYhasObjective));
-		facts.add(String.format("(PINKY (hasObjective %s))", (boolean) this.PINKYhasObjective));
-
+		facts.add(String.format("(BLINKY (hasObjective %s))", this.BLINKYhasObjective));
+		facts.add(String.format("(PINKY (hasObjective %s))", this.PINKYhasObjective));
 
 		facts.add(String.format("(BLINKY (RANGE %d))", (int) this.GHOST_RANGE));
 		facts.add(String.format("(INKY (RANGE %d))", (int) this.GHOST_RANGE));
@@ -162,15 +163,19 @@ public class GhostsInput extends RulesInput {
 		facts.add(String.format("(PINKY(SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
 		facts.add(String.format("(SUE(SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
 
-		facts.add(String.format("(BLINKY (hasObjective %s))", (boolean) this.pacmanInCorner));
-		facts.add(String.format("(INKY (hasObjective %s))", (boolean) this.pacmanInCorner));
-		facts.add(String.format("(PINKY (hasObjective %s))", (boolean) this.pacmanInCorner));
-		facts.add(String.format("(SUE (hasObjective %s))", (boolean) this.pacmanInCorner));
+		facts.add(String.format("(BLINKY (pacmanInCorner %s))", this.pacmanInCorner));
+		facts.add(String.format("(INKY (pacmanInCorner %s))", this.pacmanInCorner));
+		facts.add(String.format("(PINKY (pacmanInCorner %s))", this.pacmanInCorner));
+		facts.add(String.format("(SUE (pacmanInCorner %s))", this.pacmanInCorner));
 
-		facts.add(String.format("(BLINKY (distanceToPacmanWithSpeed  %d))", (int) this.distanceToPacmanWithSpeed [GHOST.BLINKY.ordinal()]));
-		facts.add(String.format("(PINKY (distanceToPacmanWithSpeed  %d))", (int) this.distanceToPacmanWithSpeed [GHOST.PINKY.ordinal()]));
-		facts.add(String.format("(INKY (distanceToPacmanWithSpeed  %d))", (int) this.distanceToPacmanWithSpeed [GHOST.INKY.ordinal()]));
-		facts.add(String.format("(SUE (distanceToPacmanWithSpeed  %d))", (int) this.distanceToPacmanWithSpeed [GHOST.SUE.ordinal()]));
+		facts.add(String.format("(BLINKY (distanceToPacmanWithSpeed  %d))",
+				(int) this.distanceToPacmanWithSpeed[GHOST.BLINKY.ordinal()]));
+		facts.add(String.format("(PINKY (distanceToPacmanWithSpeed  %d))",
+				(int) this.distanceToPacmanWithSpeed[GHOST.PINKY.ordinal()]));
+		facts.add(String.format("(INKY (distanceToPacmanWithSpeed  %d))",
+				(int) this.distanceToPacmanWithSpeed[GHOST.INKY.ordinal()]));
+		facts.add(String.format("(SUE (distanceToPacmanWithSpeed  %d))",
+				(int) this.distanceToPacmanWithSpeed[GHOST.SUE.ordinal()]));
 
 		return facts;
 	}
@@ -183,7 +188,6 @@ public class GhostsInput extends RulesInput {
 	public void parseInput() {
 		// TODO Auto-generated method stub
 
-
 		// edible
 		BLINKYedible = game.isGhostEdible(GHOST.BLINKY);
 		PINKYedible = game.isGhostEdible(GHOST.PINKY);
@@ -193,16 +197,16 @@ public class GhostsInput extends RulesInput {
 		// positions, distances and last moves
 		pacmanPosition = game.getPacmanCurrentNodeIndex();
 		pacmanLastMove = game.getPacmanLastMoveMade();
-		
-		distanceToPacmanWithSpeed = new double[4];
+
+		distanceToPacmanWithSpeed = new int[4];
 		ghostPositions = new int[4];
 		ghostNearestPP = new int[4];
 		distanceToPacman = new int[4];
-		distanceToLair = new int[4];
+		distanceToLair = new int[] {0, 0, 0, 0};
 		minGhostsDistancePPill = new int[4];
 		ghostLastMove = new MOVE[4];
 		for (GHOST g : GHOST.values()) {
-			
+
 			try {
 				ghostLastMove[g.ordinal()] = game.getGhostLastMoveMade(g);
 
@@ -213,14 +217,14 @@ public class GhostsInput extends RulesInput {
 
 			distanceToPacman[g.ordinal()] = game.getShortestPathDistance(ghostPositions[g.ordinal()], pacmanPosition,
 					ghostLastMove[g.ordinal()]);
-			
-			distanceToPacmanWithSpeed[g.ordinal()]=game.getShortestPathDistance(ghostPositions[g.ordinal()], pacmanPosition,
-					ghostLastMove[g.ordinal()]) * 0.5 * 0.5;
+
+			distanceToPacmanWithSpeed[g.ordinal()] = game.getShortestPathDistance(ghostPositions[g.ordinal()],
+					pacmanPosition, ghostLastMove[g.ordinal()]) * 2;
 
 			thereIsAnotherGhostEdible = new boolean[] { false, false, false, false };
 			thereIsAnotherGhostNotEdible = new boolean[] { false, false, false, false };
 			thereIsAnotherGhostInLair = new boolean[] { false, false, false, false };
-			ghostMustInterceptJunction = new boolean[] {false, false,false,false};
+			ghostMustInterceptJunction = new boolean[] { false, false, false, false };
 
 			// ghost edible or not
 			for (GHOST g2 : GHOST.values()) {
@@ -236,36 +240,37 @@ public class GhostsInput extends RulesInput {
 				}
 			}
 
-			// objectives
-			if (g == GHOST.BLINKY) {
-				if (ghostData.getGhostObjective(g) == -1) {
-					BLINKYhasObjective = false;
-					BLINKYdistanceToObjective = 0;
-				}
+			if (ghostData != null) {
+				// objectives
+				if (g == GHOST.BLINKY) {
+					if (ghostData.getGhostObjective(g) == -1) {
+						BLINKYhasObjective = false;
+						BLINKYdistanceToObjective = 0;
+					}
 
-				else {
-					BLINKYhasObjective = true;
-					BLINKYdistanceToObjective = game.getShortestPathDistance(ghostPositions[g.ordinal()],
-							ghostData.getGhostObjective(g), ghostLastMove[g.ordinal()]);
-				}
-			}
-			else if (g == GHOST.PINKY) {
-				if (ghostData.getGhostObjective(g) == -1) {
-					PINKYhasObjective = false;
-					PINKYdistanceToObjective = 0;
-				}
+					else {
+						BLINKYhasObjective = true;
+						BLINKYdistanceToObjective = game.getShortestPathDistance(ghostPositions[g.ordinal()],
+								ghostData.getGhostObjective(g), ghostLastMove[g.ordinal()]);
+					}
+				} else if (g == GHOST.PINKY) {
+					if (ghostData.getGhostObjective(g) == -1) {
+						PINKYhasObjective = false;
+						PINKYdistanceToObjective = 0;
+					}
 
-				else {
-					PINKYhasObjective = true;
-					PINKYdistanceToObjective = game.getShortestPathDistance(ghostPositions[g.ordinal()],
-							ghostData.getGhostObjective(g), ghostLastMove[g.ordinal()]);
+					else {
+						PINKYhasObjective = true;
+						PINKYdistanceToObjective = game.getShortestPathDistance(ghostPositions[g.ordinal()],
+								ghostData.getGhostObjective(g), ghostLastMove[g.ordinal()]);
+					}
 				}
 			}
 		}
-
 		// power pill distances
 
 		int closestPP = -1;
+		minPacmanDistancePPill = Integer.MAX_VALUE;
 		for (int pp : game.getActivePowerPillsIndices()) {
 			int dist = game.getShortestPathDistance(pacmanPosition, pp, pacmanLastMove);
 
@@ -284,14 +289,15 @@ public class GhostsInput extends RulesInput {
 		}
 		int[] shortestPath = game.getShortestPath(closestPP, pacmanPosition);
 		int closestJunctionFromPP = -1;
-		for(int node : shortestPath){
-			if(game.isJunction(node) && closestJunctionFromPP == -1) {
+		for (int node : shortestPath) {
+			if (game.isJunction(node) && closestJunctionFromPP == -1) {
 				closestJunctionFromPP = node;
 			}
 		}
-		
-		for(GHOST g: GHOST.values()) {
-			if(game.getShortestPathDistance(ghostPositions[g.ordinal()],closestJunctionFromPP) < game.getShortestPathDistance(pacmanPosition,closestJunctionFromPP) ) {
+
+		for (GHOST g : GHOST.values()) {
+			if (game.getShortestPathDistance(ghostPositions[g.ordinal()], closestJunctionFromPP) < game
+					.getShortestPathDistance(pacmanPosition, closestJunctionFromPP)) {
 				ghostMustInterceptJunction[g.ordinal()] = true;
 			}
 		}

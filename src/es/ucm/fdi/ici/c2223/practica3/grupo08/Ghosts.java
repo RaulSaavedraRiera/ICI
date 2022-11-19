@@ -128,6 +128,7 @@ public class Ghosts extends GhostController {
 		// TODO Auto-generated method stub
 		// Process input
 		RulesInput input = new GhostsInput(game, gData);
+		input.parseInput();
 		// load facts
 		// reset the rule engines
 		for (RuleEngine engine : ghostRuleEngines.values()) {
