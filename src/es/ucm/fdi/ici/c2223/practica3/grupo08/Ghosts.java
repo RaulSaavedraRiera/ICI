@@ -59,11 +59,11 @@ public class Ghosts extends GhostController {
 		RulesAction BLINKYrunAway = new RunAwayAction(GHOST.BLINKY, gData);
 		actions.put("BLINKYrunAway", BLINKYrunAway);
 		RulesAction PINKYrunAway = new RunAwayAction(GHOST.PINKY, gData);
-		actions.put("BLINKYrunAway", PINKYrunAway);
+		actions.put("PINKYrunAway", PINKYrunAway);
 		RulesAction INKYrunAway = new RunAwayAction(GHOST.INKY, gData);
-		actions.put("BLINKYrunAway", INKYrunAway);
+		actions.put("INKYrunAway", INKYrunAway);
 		RulesAction SUErunAway = new RunAwayAction(GHOST.SUE, gData);
-		actions.put("BLINKYrunAway", SUErunAway);
+		actions.put("SUErunAway", SUErunAway);
 
 		// runaway to ghost action
 		RulesAction BLINKYrunAwayToGhost = new RunAwayToGhostAction(GHOST.BLINKY, gData);
@@ -112,8 +112,8 @@ public class Ghosts extends GhostController {
 			ghostRuleEngines.put(ghost, engine);
 
 			// add observer to every Ghost
-			ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver(ghost.name(), true);
-			engine.addObserver(observer);
+//			ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver(ghost.name(), true);
+//			engine.addObserver(observer);
 		}
 	}
 
