@@ -166,14 +166,14 @@
 
 ;3
 (defrule BLINKYsearchsObjective
-    (BLINKY (edible false))
-    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp 50))
+    (BLINKY (edible false) (distanceToPacman ?d))
+    (test (<= ?d 50))
     =>
     (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )
 (defrule PINKYsearchsObjective
-    (BLINKY (edible false))
-    (BLINKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp 50))
+    (PINKY (edible false) (distanceToPacman ?d))
+    (test (<= ?d 50))
     =>
     (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )
@@ -194,14 +194,14 @@
 
 ;5
 (defrule INKYchasesOutOfRange
-    (INKY (edible false))
-    (INKY (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp 50))
+    (INKY (edible false) (distanceToPacman ?d))
+    (test (<= ?d 50))
     =>
     (assert (ACTION (id INKYchases) (info "Chases") (priority 100)))
 )
 (defrule SUEchasesOutOfRange
-    (SUE (edible false))
-    (SUE (distanceToPacman ?dp) (RANGE ?r)) (test (<= ?dp 50))
+    (SUE (edible false) (distanceToPacman ?d))
+    (test (<= ?d 50))
     =>
     (assert (ACTION (id SUEchases) (info "Chases") (priority 100)))
 )
@@ -340,7 +340,7 @@
     (SUE (edible false))
     (SUE (anotherGhostEdible))
     =>
-    (asser (ACTION (id SUErunsTowardsEdibleGhost) (info "Run to edible ghost") (priority 80)))
+    (assert (ACTION (id SUErunsTowardsEdibleGhost) (info "Run to edible ghost") (priority 80)))
 )
 
 ;11

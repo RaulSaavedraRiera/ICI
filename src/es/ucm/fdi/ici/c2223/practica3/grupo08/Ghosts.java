@@ -14,6 +14,7 @@ import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.SearchObjectiveClos
 import es.ucm.fdi.ici.rules.RuleEngine;
 import es.ucm.fdi.ici.rules.RulesAction;
 import es.ucm.fdi.ici.rules.RulesInput;
+import es.ucm.fdi.ici.rules.observers.ConsoleRuleEngineObserver;
 import pacman.controllers.GhostController;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
@@ -111,9 +112,8 @@ public class Ghosts extends GhostController {
 			ghostRuleEngines.put(ghost, engine);
 
 			// add observer to every Ghost
-			// ConsoleRuleEngineObserver observer = new
-			// ConsoleRuleEngineObserver(ghost.name(), true);
-			// engine.addObserver(observer);
+			ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver(ghost.name(), true);
+			engine.addObserver(observer);
 		}
 	}
 
@@ -137,7 +137,8 @@ public class Ghosts extends GhostController {
 		}
 
 		EnumMap<GHOST, MOVE> result = new EnumMap<GHOST, MOVE>(GHOST.class);
-		for (GHOST ghost : GHOST.values()) {
+		for (GHOST ghost : GHOST.values()) 
+		{
 			RuleEngine engine = ghostRuleEngines.get(ghost);
 			MOVE move = engine.run(game);
 			result.put(ghost, move);
