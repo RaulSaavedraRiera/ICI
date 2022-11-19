@@ -70,16 +70,14 @@ public class GhostsInput extends RulesInput {
 		facts.add(String.format("(PINKY (edible %s))", this.PINKYedible));
 		facts.add(String.format("(SUE (edible %s))", this.SUEedible));
 
-		facts.add(String.format("(BLINKY (minBLINKYDistancePPill %d))",
+		facts.add(String.format("(BLINKY (minDistancePPill %d))",
 				(int) this.minGhostsDistancePPill[GHOST.BLINKY.ordinal()]));
-		facts.add(String.format("(INKY (minINKYDistancePPill %d))",
+		facts.add(String.format("(INKY (minDistancePPill %d))",
 				(int) this.minGhostsDistancePPill[GHOST.INKY.ordinal()]));
-		facts.add(String.format("(PINKY (minPINKYDistancePPill %d))",
+		facts.add(String.format("(PINKY (minDistancePPill %d))",
 				(int) this.minGhostsDistancePPill[GHOST.PINKY.ordinal()]));
-		facts.add(String.format("(SUE (minSUEDistancePPill %d))",
+		facts.add(String.format("(SUE (minDistancePPill %d))",
 				(int) this.minGhostsDistancePPill[GHOST.SUE.ordinal()]));
-
-		facts.add(String.format("(MSPACMAN (mindistancePPill %d))", (int) this.minPacmanDistancePPill));
 
 		facts.add(String.format("(BLINKY (anotherGhostNotEdible %s))",
 				this.thereIsAnotherGhostNotEdible[GHOST.BLINKY.ordinal()]));
@@ -148,20 +146,20 @@ public class GhostsInput extends RulesInput {
 		facts.add(String.format("(PINKY (RANGE %d))", (int) this.GHOST_RANGE));
 		facts.add(String.format("(SUE (RANGE %d))", (int) this.GHOST_RANGE));
 
-		facts.add(String.format("(BLINKY(PACMAN_MAX_DIST_TO_PP %d)", (int) this.PACMAN_MAX_DIST_TO_PP));
-		facts.add(String.format("(INKY(PACMAN_MAX_DIST_TO_PP %d)", (int) this.PACMAN_MAX_DIST_TO_PP));
-		facts.add(String.format("(PINKY(PACMAN_MAX_DIST_TO_PP %d)", (int) this.PACMAN_MAX_DIST_TO_PP));
-		facts.add(String.format("(SUE(PACMAN_MAX_DIST_TO_PP %d)", (int) this.PACMAN_MAX_DIST_TO_PP));
+		facts.add(String.format("(BLINKY (PACMAN_MAX_DIST_TO_PP %d))", (int) this.PACMAN_MAX_DIST_TO_PP));
+		facts.add(String.format("(INKY (PACMAN_MAX_DIST_TO_PP %d))", (int) this.PACMAN_MAX_DIST_TO_PP));
+		facts.add(String.format("(PINKY (PACMAN_MAX_DIST_TO_PP %d))", (int) this.PACMAN_MAX_DIST_TO_PP));
+		facts.add(String.format("(SUE (PACMAN_MAX_DIST_TO_PP %d))", (int) this.PACMAN_MAX_DIST_TO_PP));
 
-		facts.add(String.format("(BLINKY(SAFETY_DISTANCE_WHEN_EDIBLE %d))", (int) this.SAFETY_DISTANCE_WHEN_EDIBLE));
-		facts.add(String.format("(INKY(SAFETY_DISTANCE_WHEN_EDIBLE %d))", (int) this.SAFETY_DISTANCE_WHEN_EDIBLE));
-		facts.add(String.format("(PINKY(SAFETY_DISTANCE_WHEN_EDIBLE %d))", (int) this.SAFETY_DISTANCE_WHEN_EDIBLE));
-		facts.add(String.format("(SUE(SAFETY_DISTANCE_WHEN_EDIBLE %d))", (int) this.SAFETY_DISTANCE_WHEN_EDIBLE));
+		facts.add(String.format("(BLINKY (SAFETY_DISTANCE_WHEN_EDIBLE %d))", (int) this.SAFETY_DISTANCE_WHEN_EDIBLE));
+		facts.add(String.format("(INKY (SAFETY_DISTANCE_WHEN_EDIBLE %d))", (int) this.SAFETY_DISTANCE_WHEN_EDIBLE));
+		facts.add(String.format("(PINKY (SAFETY_DISTANCE_WHEN_EDIBLE %d))", (int) this.SAFETY_DISTANCE_WHEN_EDIBLE));
+		facts.add(String.format("(SUE (SAFETY_DISTANCE_WHEN_EDIBLE %d))", (int) this.SAFETY_DISTANCE_WHEN_EDIBLE));
 
-		facts.add(String.format("(BLINKY(SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
-		facts.add(String.format("(INKY(SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
-		facts.add(String.format("(PINKY(SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
-		facts.add(String.format("(SUE(SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
+		facts.add(String.format("(BLINKY (SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
+		facts.add(String.format("(INKY (SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
+		facts.add(String.format("(PINKY (SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
+		facts.add(String.format("(SUE (SURE_DEATH_DISTANCE %d))", (int) this.SURE_DEATH_DISTANCE));
 
 		facts.add(String.format("(BLINKY (pacmanInCorner %s))", this.pacmanInCorner));
 		facts.add(String.format("(INKY (pacmanInCorner %s))", this.pacmanInCorner));
