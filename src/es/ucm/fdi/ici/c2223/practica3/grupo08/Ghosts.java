@@ -140,7 +140,7 @@ public class Ghosts extends GhostController {
 
 		ghostRuleEngines = new EnumMap<GHOST, RuleEngine>(GHOST.class);
 		for (GHOST ghost : GHOST.values()) {
-			String rulesFile = String.format("%sRulesGhost.clp", RULES_PATH);
+			String rulesFile = String.format("%s%sRules.clp", RULES_PATH, ghost.name());
 			RuleEngine engine = new RuleEngine(ghost.name(), rulesFile, actions);
 			ghostRuleEngines.put(ghost, engine);
 

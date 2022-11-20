@@ -25,6 +25,8 @@ public class GoToObjectiveAction implements RulesAction {
 
 		int thisGhost = game.getGhostCurrentNodeIndex(ghost);
 		int objective = gData.getGhostObjective(ghost);
+		
+		GameView.addLines(game, Color.GREEN, thisGhost, objective);
 
 		if (game.doesGhostRequireAction(ghost))        //if it requires an action
         {	

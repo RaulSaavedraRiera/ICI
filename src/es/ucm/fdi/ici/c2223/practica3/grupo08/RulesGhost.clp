@@ -151,11 +151,12 @@
 )
 
 ; 3
-(defrule BLINKYsearchsObjective
-    (BLINKY (edible false))
-    (BLINKY (distanceToPacman ?d) (RANGE ?r)) (test (> ?d ?r))
+(defrule BLINKYrunsAwayToGhost
+    (BLINKY (edible true) (anotherGhostNotEdible true))
     =>
-    (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
+    (assert 
+        (ACTION (id BLINKYrunAwayToGhost) (info "RunAway to ghost") (priority 60))
+    )
 )
 (defrule PINKYsearchsObjective
     (PINKY (edible false))
@@ -193,28 +194,28 @@
 ; ;6
 ; (defrule BLINKYarrivesFirstToPP
 ;     (BLINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
+;     (test (<= ?dist ?maxDist)) 
 ;     (test (<= ?d ?dist))
 ;     =>
 ;     (assert (ACTION (id BLINKYgoesToPP) (info "Goes to PP first") (priority 80)))
 ; )
 ; (defrule PINKYarrivesFirstToPP
 ;     (PINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
+;     (test (<= ?dist ?maxDist)) 
 ;     (test (<= ?d ?dist))
 ;     =>
 ;     (assert (ACTION (id PINKYgoesToPP) (info "Goes to PP first") (priority 80)))
 ; )
 ; (defrule INKYarrivesFirstToPP
 ;     (INKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
+;     (test (<= ?dist ?maxDist)) 
 ;     (test (<= ?d ?dist))
 ;     =>
 ;     (assert (ACTION (id INKYgoesToPP) (info "Goes to PP first") (priority 80)))
 ; )
 ; (defrule SUEarrivesFirstToPP
 ;     (SUE (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
+;     (test (<= ?dist ?maxDist)) 
 ;     (test (<= ?d ?dist))
 ;     =>
 ;     (assert (ACTION (id SUEgoesToPP) (info "Goes to PP first") (priority 80)))
@@ -415,16 +416,16 @@
     (assert (ACTION (id SUEchases)))
 )
 
-; ;15
-; (defrule BLINKYarrivestToObjective
-;     (BLINKY (edible false) (distanceToObjective ?d))
-;     (test (<= ?d 4))
-;     =>
-;     (assert BLINKYsearchsObjective)
-; )
-; (defrule PINKYarrivestToObjective
-;     (PINKY (edible false) (distanceToObjective ?d))
-;     (test (<= ?d 4))
-;     =>
-;     (assert PINKYsearchsObjective)
-; )
+;15
+(defrule BLINKYarrivestToObjective
+    (BLINKY (edible false) (distanceToObjective ?d))
+    (test (<= ?d "4"))
+    =>
+    (assert BLINKYsearchsObjective)
+)
+(defrule PINKYarrivestToObjective
+    (PINKY (edible false) (distanceToObjective ?d))
+    (test (<= ?d "4"))
+    =>
+    (assert PINKYsearchsObjective)
+)

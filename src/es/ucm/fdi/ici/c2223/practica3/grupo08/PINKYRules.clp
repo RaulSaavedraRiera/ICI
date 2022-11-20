@@ -1,5 +1,49 @@
 ;FACTS ASSERTED BY GAME INPUT
+(deftemplate BLINKY
+    (slot edible(type SYMBOL))
+    (slot anotherGhostNotEdible(type SYMBOL))
+    (slot anotherGhostInLair(type SYMBOL))
+    (slot anotherGhostEdible (type SYMBOL))
+    (slot minDistancePPill(type INTEGER))
+    (slot pacmanDistanceToPPill (type INTEGER))
+    (slot distanceToPacman (type INTEGER))
+    (slot distanceToPacmanWithSpeed (type INTEGER))
+    (slot distanceToLair (type INTEGER))
+    (slot remainingTime(type INTEGER))
+    (slot hasObjective (type SYMBOL))
+    (slot distanceToObjective (type INTEGER))
+    (slot pacmanInCorner (type SYMBOL))
+    (slot intercept (type SYMBOL))
+    ;CONSTANTS
+    (slot RANGE (type INTEGER))
+    (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
+    (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
+    (slot SURE_DEATH_DISTANCE(type INTEGER))
+)
+
 (deftemplate PINKY
+    (slot edible(type SYMBOL))
+    (slot anotherGhostNotEdible(type SYMBOL))
+    (slot anotherGhostInLair(type SYMBOL))
+    (slot anotherGhostEdible (type SYMBOL))
+    (slot minDistancePPill(type INTEGER))
+    (slot pacmanDistanceToPPill (type INTEGER))
+    (slot distanceToPacman (type INTEGER))
+    (slot distanceToPacmanWithSpeed (type INTEGER))
+    (slot distanceToLair (type INTEGER))
+    (slot remainingTime(type INTEGER))
+    (slot hasObjective (type SYMBOL))
+    (slot distanceToObjective (type INTEGER))
+    (slot pacmanInCorner (type SYMBOL))
+    (slot intercept (type SYMBOL))
+    ;CONSTANTS
+    (slot RANGE (type INTEGER))
+    (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
+    (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
+    (slot SURE_DEATH_DISTANCE(type INTEGER))
+)
+
+(deftemplate INKY
     (slot edible(type SYMBOL))
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
@@ -10,17 +54,36 @@
     (slot distanceToPacmanWithSpeed (type INTEGER))
     (slot distanceToLair (type INTEGER))
     (slot remainingTime (type INTEGER))
-    (slot minGhostTimeUntilFree (type INTEGER))
     (slot pacmanInCorner (type SYMBOL))
-    (slot position (type INTEGER))
-    (slot hasObjective (type SYMBOL))
-    (slot distanceToObjective (type INTEGER))
     (slot intercept (type SYMBOL))
     ;CONSTANTS
     (slot RANGE (type INTEGER))
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
     (slot SURE_DEATH_DISTANCE(type INTEGER))
+)
+
+(deftemplate SUE
+    (slot edible(type SYMBOL))
+    (slot anotherGhostNotEdible(type SYMBOL))
+    (slot anotherGhostInLair(type SYMBOL))
+    (slot anotherGhostEdible (type SYMBOL))
+    (slot minDistancePPill(type INTEGER))
+    (slot pacmanDistanceToPPill (type INTEGER))
+    (slot distanceToPacman(type INTEGER))
+    (slot distanceToPacmanWithSpeed (type INTEGER))
+    (slot distanceToLair (type INTEGER))
+    (slot remainingTime(type INTEGER))
+    (slot chasingTime (type INTEGER))
+    (slot pacmanInCorner (type SYMBOL))
+    (slot intercept (type SYMBOL))
+    ;CONSTANTS
+    (slot RANGE (type INTEGER))
+    (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
+    (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
+    (slot SURE_DEATH_DISTANCE(type INTEGER))
+    (slot ORBITING_DISTANCE (type INTEGER))
+    (slot CHASING_TIME_LIMIT (type INTEGER))
 )
 
 ;ACTION FACTS
@@ -47,8 +110,8 @@
 
 ; 3
 (defrule PINKYsearchsObjective
-    (PINKY (edible false) (distanceToPacman ?d))
-    (test (<= ?d 50))
+    (PINKY (edible false))
+    (PINKY (distanceToPacman ?d) (RANGE ?r)) (test (> ?d ?r))
     =>
     (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )
@@ -60,23 +123,23 @@
     (assert (ACTION (id PINKYgoesToObjective) (info "Goes to objective") (priority 100)))
 )
 
-;6
-(defrule PINKYarrivesFirstToPP
-    (PINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-    (test (<= ?dist ?maxDist))
-    (test (<= ?d ?dist))
-    =>
-    (assert (ACTION (id PINKYgoesToPP) (info "Goes to PP first") (priority 80)))
-)
+; ;6
+; (defrule PINKYarrivesFirstToPP
+;     (PINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
+;     (test (<= ?dist ?maxDist))
+;     (test (<= ?d ?dist))
+;     =>
+;     (assert (ACTION (id PINKYgoesToPP) (info "Goes to PP first") (priority 80)))
+; )
 
-;7
-(defrule PINKYdoesNotArriveFirstToPP
-    (PINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-    (test (<= ?dist ?maxDist))
-    (test (> ?d ?dist))
-    =>
-    (assert (ACTION (id PINKYrunAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
-)
+; ;7
+; (defrule PINKYdoesNotArriveFirstToPP
+;     (PINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
+;     (test (<= ?dist ?maxDist))
+;     (test (> ?d ?dist))
+;     =>
+;     (assert (ACTION (id PINKYrunAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
+; )
 
 ;8
 (defrule PINKYrunsToLair
@@ -94,14 +157,14 @@
 
 ;10
 (defrule PINKYprotectEdibles
-    (PINKY (edible false) (anotherGhostEdible))
+    (PINKY (edible false) (anotherGhostEdible true))
     =>
     (assert (ACTION (id PINKYrunTowardsEdibleGhost) (info "Run to edible ghost") (priority 80)))
 )
 
 ;11
 (defrule PINKYgoesToCornerToDie
-    (PINKY (edible true) (anotherGhostEdible) (distanceToPacman ?dist) (SURE_DEATH_DISTANCE ?deathDist)) 
+    (PINKY (edible true) (anotherGhostEdible true) (distanceToPacman ?dist) (SURE_DEATH_DISTANCE ?deathDist)) 
     (test (<= ?dist ?deathDist))
     =>
     (assert (ACTION (id PINKYgoesToPP) (info "Goes to PP") (priority 80)))
@@ -132,7 +195,7 @@
 ;15
 (defrule PINKYarrivestToObjective
     (PINKY (edible false) (distanceToObjective ?d))
-    (test (<= ?d 4))
+    (test (<= ?d "4"))
     =>
     (assert PINKYsearchsObjective)
 )
