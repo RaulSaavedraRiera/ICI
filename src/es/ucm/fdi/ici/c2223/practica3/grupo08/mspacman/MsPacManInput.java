@@ -13,7 +13,7 @@ public class MsPacManInput extends RulesInput {
 	final int NEAR_CHASING_GHOST = 40;
 	final int NEAR_EDIBLE_GHOST = 60;
 	final int MID_CHASING_GHOST = 70;
-	final int TIME_EDIBLE_GHOST_LIMIT = 6;
+	final int TIME_EDIBLE_GHOST_LIMIT = 5;
 	
 	
 	final int NEAR_PP_DISTANCE = 30;

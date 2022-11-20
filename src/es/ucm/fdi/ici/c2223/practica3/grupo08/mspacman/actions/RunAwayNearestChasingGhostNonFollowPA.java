@@ -13,7 +13,7 @@ import pacman.game.GameView;
 
 public class RunAwayNearestChasingGhostNonFollowPA implements RulesAction{
 
-	final int LIMIT_EDIBLE_TIME = 6;
+	final int LIMIT_EDIBLE_TIME = 5;
 	
 		public RunAwayNearestChasingGhostNonFollowPA() {
 			
