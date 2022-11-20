@@ -6,6 +6,7 @@ import java.util.HashMap;
 
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.ChaseJunctionsAction;
+import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.GoToLairAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.GoToNearestPPAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.GoToObjectiveAction;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.ghosts.actions.ProtectEdibleAction;
@@ -126,6 +127,16 @@ public class Ghosts extends GhostController {
 		actions.put("INKYtrapCorner", INKYtrapCorner);
 		RulesAction SUEtrapCorner = new TrapCornerAction(GHOST.SUE, gData);
 		actions.put("SUEtrapCorner", SUEtrapCorner);
+		
+		// go to lair
+		RulesAction BLINKYgoesToLair = new GoToLairAction(GHOST.BLINKY, gData);
+		actions.put("BLINKYgoesToLair", BLINKYgoesToLair);
+		RulesAction PINKYgoesToLair = new GoToLairAction(GHOST.PINKY, gData);
+		actions.put("PINKYgoesToLair", PINKYgoesToLair);
+		RulesAction INKYgoesToLair = new GoToLairAction(GHOST.INKY, gData);
+		actions.put("INKYgoesToLair", INKYgoesToLair);
+		RulesAction SUEgoesToLair = new GoToLairAction(GHOST.SUE, gData);
+		actions.put("SUEgoesToLair", SUEgoesToLair);
 
 		ghostRuleEngines = new EnumMap<GHOST, RuleEngine>(GHOST.class);
 		for (GHOST ghost : GHOST.values()) {
