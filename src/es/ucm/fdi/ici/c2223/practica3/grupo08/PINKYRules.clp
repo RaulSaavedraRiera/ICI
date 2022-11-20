@@ -193,5 +193,5 @@
     (PINKY (edible false) (hasObjective true) (distanceToObjective ?d))
     (test (<= ?d "4"))
     =>
-    (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
+    (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 110)))
 )

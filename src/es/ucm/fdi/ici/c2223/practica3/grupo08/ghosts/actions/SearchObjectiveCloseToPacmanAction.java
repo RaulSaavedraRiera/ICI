@@ -41,8 +41,7 @@ public class SearchObjectiveCloseToPacmanAction implements RulesAction {
 				close = true;
 		}
 
-		if (gData.getGhostObjective(ghost) == -1) 
-			gData.setGhostObjective(ghost, randomNode);
+		gData.setGhostObjective(ghost, randomNode);
 		
         return MOVE.NEUTRAL;
 	}

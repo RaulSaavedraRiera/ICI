@@ -190,8 +190,8 @@
 
 ;15
 (defrule BLINKYarrivestToObjective
-    (BLINKY (edible false) (distanceToObjective ?d))
+    (BLINKY (edible false) (hasObjective true) (distanceToObjective ?d))
     (test (<= ?d "4"))
     =>
-    (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
+    (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 110)))
 )
