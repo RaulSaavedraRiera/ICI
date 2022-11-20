@@ -48,7 +48,7 @@ public class ChaseGroupGhostsPA implements RulesAction{
 	private GHOST getGroupEdibleGhosts(Game game) {
 		GHOST target = null;
 		boolean groupFound = false;
-		int sizeGroup = 0;
+		int sizeGroup = -1;
 
 		for (Constants.GHOST g : Constants.GHOST.values()) {
 			
