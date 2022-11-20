@@ -41,7 +41,7 @@ public class ChasePowerPillPA implements RulesAction{
 		 int getNearestPPValid(Game game) {
 			 int to = -1; int distance = 9999;
 			 
-			 for (int pill : game.getActivePillsIndices())
+			 for (int pill : game.getActivePowerPillsIndices())
 				{
 				 int d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), pill, game.getPacmanLastMoveMade());
 				 boolean valid = true;

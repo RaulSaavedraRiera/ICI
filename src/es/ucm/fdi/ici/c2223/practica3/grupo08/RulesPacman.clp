@@ -56,6 +56,16 @@
 
 ; ;RULES
 
+;1 Huir del mas cercano si no viene detras
+(defrule PacmanAwayVeryNearGhost
+    (PACMAN (nearChasingGhosts ?g)) (test (> ?g 0))
+    (PACMAN (ghostFollowsPacman false))
+    =>
+    (assert 
+        (ACTION (id RunAwayNearestChasingGhostNonFollow) (info "1 Chasing ghost near Pacman && non follow && PP non range -> Away") (priority 90))
+    )
+)
+
 ;2< chasing ghosts cerca
 
 ;1 si hay mas de dos fantasmas agresivos cerca y se puede llegar a PP ve a PP
@@ -72,7 +82,7 @@
  (PACMAN (nearChasingGhosts ?g)) (test (> ?g 2))
     (PACMAN (canTakePP false))   
     =>
-    (assert (ACTION (id ChaseNearestPill) (info " 3< Chasing ghost near Pacman && PP non range -> Eat") (priority 100)))
+    (assert (ACTION (id RunAwayNearestChasingGhostNonFollow) (info " 3< Chasing ghost near Pacman && PP non range -> Eat") (priority 100)))
 )
 
 ;habria que hacer que fuera del que no le persigue en misma direccion
