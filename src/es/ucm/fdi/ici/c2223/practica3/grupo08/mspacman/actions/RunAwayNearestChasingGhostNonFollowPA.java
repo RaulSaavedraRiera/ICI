@@ -41,9 +41,31 @@ public class RunAwayNearestChasingGhostNonFollowPA implements RulesAction{
 			
 		}
 		
+		private GHOST getNearestGhost(Game game) {
+			int d;
+			int distance = 99999;
+			GHOST n = null;
+
+			for (Constants.GHOST g : Constants.GHOST.values()) {
+
+				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) == 0) {
+					d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g),
+							game.getPacmanLastMoveMade());
+
+					if (d < distance) {
+						distance = d;
+						n = g;
+					}
+				}
+
+			}
+
+			return n;
+		}
+		
 		
 		int getNearestChasingGhost(Game game) {
-			GHOST nearest = null;
+			GHOST nearest = getNearestGhost(game);
 			int minDistance = 9999;
 			int currentDistance;
 			
