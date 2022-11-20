@@ -4,7 +4,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -26,7 +26,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -48,7 +48,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill (type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -68,7 +68,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman(type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -82,8 +82,6 @@
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
     (slot SURE_DEATH_DISTANCE(type INTEGER))
-    (slot ORBITING_DISTANCE (type INTEGER))
-    (slot CHASING_TIME_LIMIT (type INTEGER))
 )
 
 ;ACTION FACTS
@@ -109,12 +107,11 @@
 )
 
 ; 3
-(defrule BLINKYrunsAwayToGhost
-    (BLINKY (edible true) (anotherGhostNotEdible true))
+(defrule BLINKYsearchsObjective
+    (BLINKY (edible false) (hasObjective false))
+    (BLINKY (distanceToPacman ?d) (RANGE ?r)) (test (> ?d ?r))
     =>
-    (assert 
-        (ACTION (id BLINKYrunAwayToGhost) (info "RunAway to ghost") (priority 60))
-    )
+    (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )
 
 ;4
@@ -124,23 +121,21 @@
     (assert (ACTION (id BLINKYgoesToObjective) (info "Goes to objective") (priority 100)))
 )
 
-; ;6
-; (defrule BLINKYarrivesFirstToPP
-;     (BLINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
-;     (test (<= ?d ?dist))
-;     =>
-;     (assert (ACTION (id BLINKYgoesToPP) (info "Goes to PP first") (priority 80)))
-; )
+;6
+(defrule BLINKYarrivesFirstToPP
+    (BLINKY (edible false) (arrivesFirstToPP true) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) 
+    (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id BLINKYgoesToPP) (info "Goes to PP first") (priority 80)))
+)
 
-; ;7
-; (defrule BLINKYdoesNotArriveFirstToPP
-;     (BLINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
-;     (test (> ?d ?dist))
-;     =>
-;     (assert (ACTION (id BLINKYrunAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
-; )
+;7
+(defrule BLINKYdoesNotArriveFirstToPP
+    (BLINKY (edible false) (arrivesFirstToPP false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) 
+    (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id BLINKYrunAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
+)
 
 ;8
 (defrule BLINKYrunsToLair
@@ -183,14 +178,14 @@
 (defrule BLINKYtrapsPacmanInCorner
     (BLINKY (edible false) (pacmanInCorner true))
     =>
-    (assert (ACTION (id BLINKYtrapCorner)))
+    (assert (ACTION (id BLINKYtrapCorner) (info "Traps in corner") (priority 90)))
 )
 
 ;14
 (defrule BLINKYinterceptsJunctionBeforePP
     (BLINKY (edible false) (intercept true))
     =>
-    (assert (ACTION (id BLINKYchases)))
+    (assert (ACTION (id BLINKYchases) (info "Chases MSPacman") (priority 20)))
 )
 
 ;15
@@ -198,5 +193,5 @@
     (BLINKY (edible false) (distanceToObjective ?d))
     (test (<= ?d "4"))
     =>
-    (assert BLINKYsearchsObjective)
+    (assert (ACTION (id BLINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )

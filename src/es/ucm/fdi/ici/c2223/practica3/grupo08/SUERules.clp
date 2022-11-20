@@ -4,7 +4,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -26,7 +26,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -48,7 +48,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill (type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -68,7 +68,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman(type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -82,8 +82,6 @@
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
     (slot SURE_DEATH_DISTANCE(type INTEGER))
-    (slot ORBITING_DISTANCE (type INTEGER))
-    (slot CHASING_TIME_LIMIT (type INTEGER))
 )
 
 ;ACTION FACTS
@@ -116,23 +114,21 @@
     (assert (ACTION (id SUEchases) (info "Chases out of range") (priority 100)))
 )
 
-; ;6
-; (defrule SUEarrivesFirstToPP
-;     (SUE (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
-;     (test (<= ?d ?dist))
-;     =>
-;     (assert (ACTION (id SUEgoesToPP) (info "Goes to PP first") (priority 80)))
-; )
+;6
+(defrule SUEarrivesFirstToPP
+    (SUE (edible false) (arrivesFirstToPP true) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) 
+    (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id SUEgoesToPP) (info "Goes to PP first") (priority 80)))
+)
 
-; ;7
-; (defrule SUEdoesNotArriveFirstToPP
-;     (SUE (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
-;     (test (> ?d ?dist))
-;     =>
-;     (assert (ACTION (id SUErunAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
-; )
+;7
+(defrule SUEdoesNotArriveFirstToPP
+    (SUE (edible false) (arrivesFirstToPP false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) 
+    (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id SUErunAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
+)
 
 ;8
 (defrule SUErunsToLair
@@ -175,12 +171,12 @@
 (defrule SUEtrapsPacmanInCorner
     (SUE (edible false) (pacmanInCorner true))
     =>
-    (assert (ACTION (id SUEtrapCorner)))
+    (assert (ACTION (id SUEtrapCorner) (info "Traps in corner") (priority 90)))
 )
 
 ;14
 (defrule SUEinterceptsJunctionBeforePP
     (SUE (edible false) (intercept true))
     =>
-    (assert (ACTION (id SUEchases)))
+    (assert (ACTION (id SUEchases) (info "Chases MSPacman") (priority 20)))
 )

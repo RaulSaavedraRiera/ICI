@@ -4,7 +4,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -26,7 +26,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -48,7 +48,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill (type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman (type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -68,7 +68,7 @@
     (slot anotherGhostNotEdible(type SYMBOL))
     (slot anotherGhostInLair(type SYMBOL))
     (slot anotherGhostEdible (type SYMBOL))
-    (slot minDistancePPill(type INTEGER))
+    (slot arrivesFirstToPP (type SYMBOL))
     (slot pacmanDistanceToPPill (type INTEGER))
     (slot distanceToPacman(type INTEGER))
     (slot distanceToPacmanWithSpeed (type INTEGER))
@@ -82,8 +82,6 @@
     (slot PACMAN_MAX_DIST_TO_PP (type INTEGER))
     (slot SAFETY_DISTANCE_WHEN_EDIBLE (type INTEGER))
     (slot SURE_DEATH_DISTANCE(type INTEGER))
-    (slot ORBITING_DISTANCE (type INTEGER))
-    (slot CHASING_TIME_LIMIT (type INTEGER))
 )
 
 ;ACTION FACTS
@@ -110,7 +108,7 @@
 
 ; 3
 (defrule PINKYsearchsObjective
-    (PINKY (edible false))
+    (PINKY (edible false) (hasObjective false))
     (PINKY (distanceToPacman ?d) (RANGE ?r)) (test (> ?d ?r))
     =>
     (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
@@ -123,23 +121,21 @@
     (assert (ACTION (id PINKYgoesToObjective) (info "Goes to objective") (priority 100)))
 )
 
-; ;6
-; (defrule PINKYarrivesFirstToPP
-;     (PINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
-;     (test (<= ?d ?dist))
-;     =>
-;     (assert (ACTION (id PINKYgoesToPP) (info "Goes to PP first") (priority 80)))
-; )
+;6
+(defrule PINKYarrivesFirstToPP
+    (PINKY (edible false) (arrivesFirstToPP true) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) 
+    (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id PINKYgoesToPP) (info "Goes to PP first") (priority 80)))
+)
 
-; ;7
-; (defrule PINKYdoesNotArriveFirstToPP
-;     (PINKY (edible false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist) (minDistancePPill ?d)) 
-;     (test (<= ?dist ?maxDist))
-;     (test (> ?d ?dist))
-;     =>
-;     (assert (ACTION (id PINKYrunAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
-; )
+;7
+(defrule PINKYdoesNotArriveFirstToPP
+    (PINKY (edible false) (arrivesFirstToPP false) (pacmanDistanceToPPill ?dist) (PACMAN_MAX_DIST_TO_PP ?maxDist)) 
+    (test (<= ?dist ?maxDist))
+    =>
+    (assert (ACTION (id PINKYrunAway) (info "Runs away from PP") (priority 90))) ;prioridad menor que la de estar fuera de rango (100)
+)
 
 ;8
 (defrule PINKYrunsToLair
@@ -182,20 +178,20 @@
 (defrule PINKYtrapsPacmanInCorner
     (PINKY (edible false) (pacmanInCorner true))
     =>
-    (assert (ACTION (id PINKYtrapCorner)))
+    (assert (ACTION (id PINKYtrapCorner) (info "Traps in corner") (priority 90)))
 )
 
 ;14
 (defrule PINKYinterceptsJunctionBeforePP
     (PINKY (edible false) (intercept true))
     =>
-    (assert (ACTION (id PINKYchases)))
+    (assert (ACTION (id PINKYchases) (info "Chases MSPacman") (priority 20)))
 )
 
 ;15
 (defrule PINKYarrivestToObjective
-    (PINKY (edible false) (distanceToObjective ?d))
+    (PINKY (edible false) (hasObjective true) (distanceToObjective ?d))
     (test (<= ?d "4"))
     =>
-    (assert PINKYsearchsObjective)
+    (assert (ACTION (id PINKYsearchsObjective) (info "Searchs objective") (priority 100)))
 )

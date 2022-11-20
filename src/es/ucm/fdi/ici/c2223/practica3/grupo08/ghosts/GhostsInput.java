@@ -25,6 +25,7 @@ public class GhostsInput extends RulesInput {
 	private boolean[] thereIsAnotherGhostEdible;
 	private boolean[] thereIsAnotherGhostInLair;
 	private boolean[] ghostMustInterceptJunction;
+	private boolean[] ghostArrivesFirstToPP;
 
 	private int[] ghostPositions;
 	private int[] minGhostsDistancePPill;
@@ -66,12 +67,12 @@ public class GhostsInput extends RulesInput {
 		Vector<String> facts = new Vector<String>();
 
 		facts.add(String.format(
-				"(BLINKY (edible %s) (minDistancePPill %d) (anotherGhostNotEdible %s) (anotherGhostEdible %s) "
-						+ "(anotherGhostInLair %s)) (intercept %s) (distanceToPacman %d) (distanceToLair %d) "
+				"(BLINKY (edible %s) (arrivesFirstToPP %s) (anotherGhostNotEdible %s) (anotherGhostEdible %s) "
+						+ "(anotherGhostInLair %s) (intercept %s) (distanceToPacman %d) (distanceToLair %d) "
 						+ "(remainingTime %d) (RANGE %d) (PACMAN_MAX_DIST_TO_PP %d) (SAFETY_DISTANCE_WHEN_EDIBLE %d) "
 						+ "(SURE_DEATH_DISTANCE %d) (pacmanInCorner %s) (distanceToPacmanWithSpeed %d) (hasObjective %s) "
-						+ "(distanceToObjective %d) (pacmanDistanceToPPill %d)",
-				this.BLINKYedible, (int) this.minGhostsDistancePPill[GHOST.BLINKY.ordinal()],
+						+ "(distanceToObjective %d) (pacmanDistanceToPPill %d))",
+				this.BLINKYedible, this.ghostArrivesFirstToPP[GHOST.BLINKY.ordinal()],
 				this.thereIsAnotherGhostNotEdible[GHOST.BLINKY.ordinal()],
 				this.thereIsAnotherGhostEdible[GHOST.BLINKY.ordinal()],
 				this.thereIsAnotherGhostInLair[GHOST.BLINKY.ordinal()],
@@ -83,12 +84,12 @@ public class GhostsInput extends RulesInput {
 				(int) this.distanceToPacmanWithSpeed[GHOST.BLINKY.ordinal()], this.BLINKYhasObjective,
 				(int) this.BLINKYdistanceToObjective, (int) this.minPacmanDistancePPill));
 		facts.add(String.format(
-				"(PINKY (edible %s) (minDistancePPill %d) (anotherGhostNotEdible %s) (anotherGhostEdible %s) "
-						+ "(anotherGhostInLair %s)) (intercept %s) (distanceToPacman %d) (distanceToLair %d) "
+				"(PINKY (edible %s) (arrivesFirstToPP %s) (anotherGhostNotEdible %s) (anotherGhostEdible %s) "
+						+ "(anotherGhostInLair %s) (intercept %s) (distanceToPacman %d) (distanceToLair %d) "
 						+ "(remainingTime %d) (RANGE %d) (PACMAN_MAX_DIST_TO_PP %d) (SAFETY_DISTANCE_WHEN_EDIBLE %d) "
 						+ "(SURE_DEATH_DISTANCE %d) (pacmanInCorner %s) (distanceToPacmanWithSpeed %d) (hasObjective %s) "
-						+ "(distanceToObjective %d) (pacmanDistanceToPPill %d)",
-				this.PINKYedible, (int) this.minGhostsDistancePPill[GHOST.PINKY.ordinal()],
+						+ "(distanceToObjective %d) (pacmanDistanceToPPill %d))",
+				this.PINKYedible, this.ghostArrivesFirstToPP[GHOST.PINKY.ordinal()],
 				this.thereIsAnotherGhostNotEdible[GHOST.PINKY.ordinal()],
 				this.thereIsAnotherGhostEdible[GHOST.PINKY.ordinal()],
 				this.thereIsAnotherGhostInLair[GHOST.PINKY.ordinal()],
@@ -100,11 +101,11 @@ public class GhostsInput extends RulesInput {
 				(int) this.distanceToPacmanWithSpeed[GHOST.PINKY.ordinal()], this.PINKYhasObjective,
 				this.PINKYdistanceToObjective, (int) this.minPacmanDistancePPill));
 		facts.add(String.format(
-				"(INKY (edible %s) (minDistancePPill %d) (anotherGhostNotEdible %s) (anotherGhostEdible %s) "
-						+ "(anotherGhostInLair %s)) (intercept %s) (distanceToPacman %d) (distanceToLair %d) "
+				"(INKY (edible %s) (arrivesFirstToPP %s) (anotherGhostNotEdible %s) (anotherGhostEdible %s) "
+						+ "(anotherGhostInLair %s) (intercept %s) (distanceToPacman %d) (distanceToLair %d) "
 						+ "(remainingTime %d) (RANGE %d) (PACMAN_MAX_DIST_TO_PP %d) (SAFETY_DISTANCE_WHEN_EDIBLE %d) "
-						+ "(SURE_DEATH_DISTANCE %d) (pacmanInCorner %s) (distanceToPacmanWithSpeed %d) (pacmanDistanceToPPill %d)",
-				this.INKYedible, (int) this.minGhostsDistancePPill[GHOST.INKY.ordinal()],
+						+ "(SURE_DEATH_DISTANCE %d) (pacmanInCorner %s) (distanceToPacmanWithSpeed %d) (pacmanDistanceToPPill %d))",
+				this.INKYedible, this.ghostArrivesFirstToPP[GHOST.INKY.ordinal()],
 				this.thereIsAnotherGhostNotEdible[GHOST.INKY.ordinal()],
 				this.thereIsAnotherGhostEdible[GHOST.INKY.ordinal()],
 				this.thereIsAnotherGhostInLair[GHOST.INKY.ordinal()],
@@ -115,11 +116,11 @@ public class GhostsInput extends RulesInput {
 				(int) this.SURE_DEATH_DISTANCE, this.pacmanInCorner,
 				(int) this.distanceToPacmanWithSpeed[GHOST.INKY.ordinal()], (int) this.minPacmanDistancePPill));
 		facts.add(String.format(
-				"(SUE (edible %s) (minDistancePPill %d) (anotherGhostNotEdible %s) (anotherGhostEdible %s) "
-						+ "(anotherGhostInLair %s)) (intercept %s) (distanceToPacman %d) (distanceToLair %d) "
+				"(SUE (edible %s) (arrivesFirstToPP %s) (anotherGhostNotEdible %s) (anotherGhostEdible %s) "
+						+ "(anotherGhostInLair %s) (intercept %s) (distanceToPacman %d) (distanceToLair %d) "
 						+ "(remainingTime %d) (RANGE %d) (PACMAN_MAX_DIST_TO_PP %d) (SAFETY_DISTANCE_WHEN_EDIBLE %d) "
-						+ "(SURE_DEATH_DISTANCE %d) (pacmanInCorner %s) (distanceToPacmanWithSpeed %d) (pacmanDistanceToPPill %d)",
-				this.SUEedible, (int) this.minGhostsDistancePPill[GHOST.SUE.ordinal()],
+						+ "(SURE_DEATH_DISTANCE %d) (pacmanInCorner %s) (distanceToPacmanWithSpeed %d) (pacmanDistanceToPPill %d))",
+				this.SUEedible, this.ghostArrivesFirstToPP[GHOST.SUE.ordinal()],
 				this.thereIsAnotherGhostNotEdible[GHOST.SUE.ordinal()],
 				this.thereIsAnotherGhostEdible[GHOST.SUE.ordinal()],
 				this.thereIsAnotherGhostInLair[GHOST.SUE.ordinal()],
@@ -151,12 +152,14 @@ public class GhostsInput extends RulesInput {
 		pacmanPosition = game.getPacmanCurrentNodeIndex();
 		pacmanLastMove = game.getPacmanLastMoveMade();
 
+		int nNode = game.getNumberOfNodes();
+
 		distanceToPacmanWithSpeed = new int[4];
 		ghostPositions = new int[4];
 		ghostNearestPP = new int[4];
 		distanceToPacman = new int[4];
 		distanceToLair = new int[] { 0, 0, 0, 0 };
-		minGhostsDistancePPill = new int[4];
+		minGhostsDistancePPill = new int[] { nNode, nNode, nNode, nNode };
 		ghostLastMove = new MOVE[4];
 		for (GHOST g : GHOST.values()) {
 
@@ -178,6 +181,7 @@ public class GhostsInput extends RulesInput {
 			thereIsAnotherGhostNotEdible = new boolean[] { false, false, false, false };
 			thereIsAnotherGhostInLair = new boolean[] { false, false, false, false };
 			ghostMustInterceptJunction = new boolean[] { false, false, false, false };
+			ghostArrivesFirstToPP = new boolean[] { false, false, false, false };
 
 			// ghost edible or not
 			for (GHOST g2 : GHOST.values()) {
@@ -234,7 +238,7 @@ public class GhostsInput extends RulesInput {
 			for (GHOST g : GHOST.values()) {
 				dist = game.getShortestPathDistance(ghostPositions[g.ordinal()], pp, ghostLastMove[g.ordinal()]);
 
-				if (dist < minGhostsDistancePPill[g.ordinal()]) {
+				if (dist != 0 && dist < minGhostsDistancePPill[g.ordinal()]) {
 					minGhostsDistancePPill[g.ordinal()] = dist;
 					ghostNearestPP[g.ordinal()] = pp;
 				}
@@ -255,6 +259,9 @@ public class GhostsInput extends RulesInput {
 						.getShortestPathDistance(pacmanPosition, closestJunctionFromPP)) {
 					ghostMustInterceptJunction[g.ordinal()] = true;
 				}
+
+				// ghost arrives first to pp
+				ghostArrivesFirstToPP[g.ordinal()] = minGhostsDistancePPill[g.ordinal()] < minPacmanDistancePPill;
 			}
 		}
 	}

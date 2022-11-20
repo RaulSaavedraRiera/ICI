@@ -90,7 +90,7 @@ public class Ghosts extends GhostController {
 
 		// go to objective action
 		RulesAction BLINKgoesToObjective = new GoToObjectiveAction(GHOST.BLINKY, gData);
-		actions.put("BLINKgoesToObjective", BLINKgoesToObjective);
+		actions.put("BLINKYgoesToObjective", BLINKgoesToObjective);
 		RulesAction PINKYgoesToObjective = new GoToObjectiveAction(GHOST.PINKY, gData);
 		actions.put("PINKYgoesToObjective", PINKYgoesToObjective);
 		RulesAction INKYgoesToObjective = new GoToObjectiveAction(GHOST.INKY, gData);
@@ -100,13 +100,13 @@ public class Ghosts extends GhostController {
 
 		// go to nearest PP action
 		RulesAction BLINKgoToNearestPP = new GoToNearestPPAction(GHOST.BLINKY, gData);
-		actions.put("BLINKgoToNearestPP", BLINKgoToNearestPP);
+		actions.put("BLINKYgoesToPP", BLINKgoToNearestPP);
 		RulesAction PINKYgoToNearestPP = new GoToNearestPPAction(GHOST.PINKY, gData);
-		actions.put("PINKYgoToNearestPP", PINKYgoToNearestPP);
+		actions.put("PINKYgoesToPP", PINKYgoToNearestPP);
 		RulesAction INKYgoToNearestPP = new GoToNearestPPAction(GHOST.INKY, gData);
-		actions.put("INKYgoToNearestPP", INKYgoToNearestPP);
+		actions.put("INKYgoesToPP", INKYgoToNearestPP);
 		RulesAction SUEgoToNearestPP = new GoToNearestPPAction(GHOST.SUE, gData);
-		actions.put("SUEgoToNearestPP", SUEgoToNearestPP);
+		actions.put("SUEgoesToPP", SUEgoToNearestPP);
 		
 		// protect edible action
 		RulesAction BLINKYrunTowardsEdibleGhost = new ProtectEdibleAction(GHOST.BLINKY, gData);
