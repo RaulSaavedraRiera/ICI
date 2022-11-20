@@ -57,14 +57,14 @@
 ; ;RULES
 
 ;1 Huir del mas cercano si no viene detras
-(defrule PacmanAwayVeryNearGhost
-    (PACMAN (nearChasingGhosts ?g)) (test (> ?g 0))
-    (PACMAN (ghostFollowsPacman false))
-    =>
-    (assert 
-        (ACTION (id RunAwayNearestChasingGhostNonFollow) (info "1 Chasing ghost near Pacman && non follow && PP non range -> Away") (priority 90))
-    )
-)
+;(defrule PacmanAwayVeryNearGhost
+;    (PACMAN (nearChasingGhosts ?g)) (test (> ?g 0))
+;    (PACMAN (ghostFollowsPacman false))
+;    =>
+;    (assert 
+;        (ACTION (id RunAwayNearestChasingGhostNonFollow) (info "1 Chasing ghost near Pacman && non follow && PP non range -> Away") (priority 90))
+;    )
+;)
 
 ;2< chasing ghosts cerca
 
