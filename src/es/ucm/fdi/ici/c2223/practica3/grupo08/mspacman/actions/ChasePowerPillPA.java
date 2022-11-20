@@ -46,7 +46,7 @@ public class ChasePowerPillPA implements RulesAction{
 				 int d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), pill, game.getPacmanLastMoveMade());
 				 boolean valid = true;
 				 for (GHOST g : GHOST.values()) {
-						if(game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) >= TIME_EDIBLE_GHOST_LIMIT)
+						if(game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) <= TIME_EDIBLE_GHOST_LIMIT)
 							if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pill, game.getGhostLastMoveMade(g)) <= d){
 								valid = false;
 								break;

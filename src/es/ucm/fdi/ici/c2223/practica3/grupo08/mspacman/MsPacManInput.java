@@ -154,7 +154,7 @@ public class MsPacManInput extends RulesInput {
 //		}
 //		
 		
-		chasingGhostNear = chasingGhostMid = 0;
+		chasingGhostNear = chasingGhostMid = edibleGhostNear = 0;
 		distanceToNearestChasingGhostAnyDir = 99999;
 		int d;
 		for (GHOST g : GHOST.values()) {
@@ -247,7 +247,7 @@ public class MsPacManInput extends RulesInput {
 			int d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), p, game.getPacmanLastMoveMade());
 			boolean valid = true;
 			for (GHOST g : GHOST.values()) {
-				if(game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) >= TIME_EDIBLE_GHOST_LIMIT)
+				if(game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) <= TIME_EDIBLE_GHOST_LIMIT)
 					if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), p, game.getGhostLastMoveMade(g)) <= d){
 						valid = false;
 						break;
