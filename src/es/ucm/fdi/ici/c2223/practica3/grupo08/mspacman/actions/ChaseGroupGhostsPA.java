@@ -45,8 +45,30 @@ public class ChaseGroupGhostsPA implements RulesAction{
 			
 		}
 		
+		private GHOST getNearestGhost(Game game) {
+			int d;
+			int distance = 99999;
+			GHOST n = null;
+
+			for (Constants.GHOST g : Constants.GHOST.values()) {
+
+				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > 0) {
+					d = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), game.getGhostCurrentNodeIndex(g),
+							game.getPacmanLastMoveMade());
+
+					if (d < distance) {
+						distance = d;
+						n = g;
+					}
+				}
+
+			}
+
+			return n;
+		}
 	private GHOST getGroupEdibleGhosts(Game game) {
-		GHOST target = null;
+		GHOST target = getNearestGhost(game);
+		
 		boolean groupFound = false;
 		int sizeGroup = -1;
 
