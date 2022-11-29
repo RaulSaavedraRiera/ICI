@@ -22,7 +22,7 @@ public class GhostsInput extends FuzzyInput {
 	}
 
 	@Override
-	public Map<String, Double> getFuzzyValues() {
+	public HashMap<String, Double> getFuzzyValues() {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Double> vars = new HashMap<String, Double>();
