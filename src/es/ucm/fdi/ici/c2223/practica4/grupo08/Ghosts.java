@@ -12,7 +12,6 @@ import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.ChaseAction;
 import es.ucm.fdi.ici.fuzzy.ActionSelector;
 import es.ucm.fdi.ici.fuzzy.FuzzyEngine;
 import es.ucm.fdi.ici.fuzzy.observers.ConsoleFuzzyEngineObserver;
-import es.ucm.fdi.ici.practica4.demofuzzy.mspacman.MsPacManInput;
 import pacman.controllers.GhostController;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
@@ -45,7 +44,7 @@ public class Ghosts extends GhostController {
 
 	@Override
 	public EnumMap<GHOST, MOVE> getMove(Game game, long timeDue) {
-		GhostsInput input = new GhostsInput(game);
+		GhostsInput input = new GhostsInput(game, fuzzyMemory);
 		input.parseInput();
 		fuzzyMemory.getInput(input);
 

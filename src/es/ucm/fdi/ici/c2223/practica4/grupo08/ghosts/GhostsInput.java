@@ -10,11 +10,14 @@ import pacman.game.Constants.GHOST;
 
 public class GhostsInput extends FuzzyInput {
 
-	private int[] distance;
+	private boolean pacmanVisible;
 
-	public GhostsInput(Game game) {
+	private GhostsFuzzyMemory mem;
+
+	public GhostsInput(Game game, GhostsFuzzyMemory ghostsMem) {
 		super(game);
 		// TODO Auto-generated constructor stub
+		mem = ghostsMem;
 	}
 
 	public boolean isPacmanVisible() {
@@ -26,22 +29,35 @@ public class GhostsInput extends FuzzyInput {
 		// TODO Auto-generated method stub
 
 		HashMap<String, Double> vars = new HashMap<String, Double>();
+
+		if (pacmanVisible)
+			vars.put("PacmanVisible", (double) 1);
+
+		else
+			vars.put("PacmanVisible", (double) 0);
+
 		for (GHOST g : GHOST.values()) {
-			vars.put(g.name() + "distance", (double) distance[g.ordinal()]);
+
 		}
 		return vars;
 	}
 
 	@Override
 	public void parseInput() {
-		// TODO Auto-generated method stub
-		distance = new int[] { -1, -1, -1, -1 };
-
+		// TODO Auto-generated method stub	
+		pacmanVisible = false;
+		
 		for (GHOST g : GHOST.values()) {
 			int pos = game.getPacmanCurrentNodeIndex();
 			if (pos != -1) {
-				distance[g.ordinal()] = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pos,
+				pacmanVisible = true;
+				
+				int dist = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pos,
 						game.getGhostLastMoveMade(g));
+
+				mem.setPacmanLastDistance(g, dist);
+
+				mem.setPacmanLastPosition(pos);
 			}
 		}
 	}
