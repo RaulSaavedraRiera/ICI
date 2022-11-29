@@ -19,7 +19,8 @@ HashMap<String,Double> mem;
 	{
 		for(GHOST g: GHOST.values()) {
 			double conf = confidence[g.ordinal()];
-			if(input.isVisible(g))
+			//si esta en celda sabemos que de ahi no se va a mover hasta que acabe el tiempo
+			if(input.isVisible(g) || input.lairTimeGhosts[g.ordinal()] > 0)
 				conf = 100;
 			else
 				conf = Double.max(0, conf-5);
