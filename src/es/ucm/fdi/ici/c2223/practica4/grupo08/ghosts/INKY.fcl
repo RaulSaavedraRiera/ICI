@@ -1,0 +1,130 @@
+FUNCTION_BLOCK FuzzyGhosts
+
+VAR_INPUT
+	pacmanConfidence : REAL;
+        distanceToPacman : REAL;
+        pacmanDistanceToPPill : REAL;
+        distanceToPacmanWithSpeed : REAL;
+	pacmanInCorner : REAL;
+
+	distanceToLair : REAL;
+        remainingTime : REAL;
+	edible : REAL;
+	distanceToLair : REAL;
+	arrivesFirstToPP : REAL;
+	anotherGhostNotEdible : REAL;
+	anotherGhostInLair : REAL;
+	anotherGhostEdible : REAL;
+	intercept : REAL;
+
+	
+	RANGE : REAL;
+        PACMAN_MAX_DIST_TO_PP : REAL;
+	SAFETY_DISTANCE_WHEN_EDIBLE : REAL;
+	SURE_DEATH_DISTANCE : REAL;
+END_VAR
+
+VAR_OUTPUT
+
+END_VAR
+
+FUZZIFY distanceToPacman
+	TERM near:=(0,1)(50,0);
+	TERM medium := (40,0)(100,1)(150,0);
+	TERM far := (120,0)(160,1)(200,1);
+END_FUZZIFY
+
+FUZZIFY pacmanDistanceToPPill
+	TERM near:=(0,1)(40,1)(60,0);
+	TERM medium := (50,0)(80,1)(100,0);
+	TERM far := (90,0)(120,1);
+END_FUZZIFY
+FUZZIFY distanceToPacmanWithSpeed
+	TERM near:=(0,1)(20,1)(40,0);
+	TERM medium := (30,0)(50,1)(70,0);
+	TERM far := (60,0)(80,1);
+END_FUZZIFY
+
+FUZZIFY remainingTime
+	TERM low := (0,1)(20,0)
+	TERM medium := gauss 20 20;
+	TERM high := (40,0)(50,1);
+END_FUZZIFY
+
+FUZZIFY edible
+	TERM yes:=(1,1);
+	TERM no := (0,0);
+END_FUZZIFY
+
+
+FUZZIFY distanceToLair
+	TERM near:=(0,1)(20,1)(40,0);
+	TERM medium := (30,0)(50,1)(70,0);
+	TERM far := (60,0)(80,1);
+END_FUZZIFY
+
+FUZZIFY arrivesFirstToPP
+	TERM yes:=(1,1);
+	TERM no := (0,0);
+END_FUZZIFY
+
+
+FUZZIFY anotherGhostNotEdible
+	TERM yes:=(1,1);
+	TERM no := (0,0);
+END_FUZZIFY
+
+
+FUZZIFY anotherGhostEdible
+	TERM yes:=(1,1);
+	TERM no := (0,0);
+END_FUZZIFY
+
+
+FUZZIFY anotherGhostInLair
+	TERM yes:=(1,1);
+	TERM no := (0,0);
+END_FUZZIFY
+
+FUZZIFY intercept
+	TERM yes:=(1,1);
+	TERM no := (0,0);
+END_FUZZIFY
+
+FUZZIFY hasObjective
+	TERM yes:=(1,1);
+	TERM no := (0,0);
+END_FUZZIFY
+
+FUZZIFY distanceToObjective
+	TERM near:=(0,1)(40,1)(60,0);
+	TERM medium := (50,0)(80,1)(100,0);
+	TERM far := (90,0)(200,1);
+END_FUZZIFY	
+
+FUZZIFY pacmanConfidence
+	TERM low := (0,1)(25,1)(50,0) ; 
+	TERM medium := gauss 50 25;
+	TERM high := (50,0)(75,1)(100,1);
+END_FUZZIFY
+
+DEFUZZIFY Runaway
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+DEFFUZIFY Chase
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+RULEBLOCK INKYRules
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK
