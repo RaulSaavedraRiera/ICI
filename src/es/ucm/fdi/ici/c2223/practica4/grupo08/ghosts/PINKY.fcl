@@ -2,13 +2,13 @@ FUNCTION_BLOCK FuzzyGhosts
 
 VAR_INPUT
 	pacmanConfidence : REAL;
-        distanceToPacman : REAL;
-        pacmanDistanceToPPill : REAL;
-        distanceToPacmanWithSpeed : REAL;
+    distanceToPacman : REAL;
+    pacmanDistanceToPPill : REAL;
+    distanceToPacmanWithSpeed : REAL;
 	pacmanInCorner : REAL;
 
 	distanceToLair : REAL;
-        remainingTime : REAL;
+    remainingTime : REAL;
 	edible : REAL;
 	distanceToLair : REAL;
 	arrivesFirstToPP : REAL;
@@ -16,8 +16,6 @@ VAR_INPUT
 	anotherGhostInLair : REAL;
 	anotherGhostEdible : REAL;
 	intercept : REAL;
-	hasObjective : REAL;
-	distanceToObjective : REAL;
 	
 	RANGE : REAL;
         PACMAN_MAX_DIST_TO_PP : REAL;
@@ -95,18 +93,6 @@ END_FUZZIFY
 FUZZIFY hasObjective
 	TERM yes:=(1,1);
 	TERM no := (0,0);
-END_FUZZIFY
-
-FUZZIFY distanceToObjective
-	TERM near:=(0,1)(40,1)(60,0);
-	TERM medium := (50,0)(80,1)(100,0);
-	TERM far := (90,0)(200,1);
-END_FUZZIFY	
-
-FUZZIFY pacmanConfidence
-	TERM low := (0,1)(25,1)(50,0) ; 
-	TERM medium := gauss 50 25;
-	TERM high := (50,0)(75,1)(100,1);
 END_FUZZIFY
 
 DEFUZZIFY Runaway

@@ -36,7 +36,7 @@ public class Ghosts extends GhostController {
 		ActionSelector actionSelector = new MaxActionSelector(actions);
 
 		ConsoleFuzzyEngineObserver observer = new ConsoleFuzzyEngineObserver("MsPacMan", "MsPacManRules");
-		fuzzyEngine = new FuzzyEngine("MsPacMan", RULES_PATH + "mspacman.fcl", "FuzzyMsPacMan", actionSelector);
+		fuzzyEngine = new FuzzyEngine("Ghosts", RULES_PATH + "BLINKY.fcl", "FuzzyGhosts", actionSelector);
 		fuzzyEngine.addObserver(observer);
 
 		fuzzyMemory = new GhostsFuzzyMemory();

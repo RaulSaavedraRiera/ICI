@@ -16,7 +16,6 @@ VAR_INPUT
 	anotherGhostInLair : REAL;
 	anotherGhostEdible : REAL;
 	intercept : REAL;
-
 	
 	RANGE : REAL;
         PACMAN_MAX_DIST_TO_PP : REAL;

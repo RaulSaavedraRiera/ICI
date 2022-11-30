@@ -38,15 +38,16 @@ public class GhostsInput extends FuzzyInput {
 
 		HashMap<String, Double> vars = new HashMap<String, Double>();
 
-		if (pacmanVisible)
-			vars.put("PacmanVisible", (double) 1);
-
-		else
-			vars.put("PacmanVisible", (double) 0);
+		vars.put("PacmanVisible", parseBoolToDouble(pacmanVisible));
 
 		for (GHOST g : GHOST.values()) {
 
 			vars.put("DistanceToPacman", (double) distanceToPacmanLastPosition[g.ordinal()]);
+						
+			vars.put(g.name() + "edible", parseBoolToDouble(edible[g.ordinal()]));
+			vars.put(g.name() + "anotherGhostEdible", parseBoolToDouble(anotherGhostEdible[g.ordinal()]));
+			vars.put(g.name() + "anotherGhostNotEdible", parseBoolToDouble(anotherGhostNotEdible[g.ordinal()]));
+			vars.put(g.name() + "anotherGhostInLair", parseBoolToDouble(anotherGhostInLair[g.ordinal()]));
 		}
 		return vars;
 	}
@@ -92,18 +93,32 @@ public class GhostsInput extends FuzzyInput {
 				if (!mem.PPEntryExists(pp))
 					mem.setPPActive(pp, true);
 				
+				//pp mas cercana a pacman
 				else if (mem.isPPActive(pp)) 
 				{
 					dist = game.getShortestPathDistance(mem.getPacmanLastPosition(), pp, mem.getPacmanLastDirection());
+					if (dist < minDistToPP) 
+					{
+						nearestPP = pp;
+						minDistToPP = dist;
+					}
 				}
 				
 				//si ve que no hay una PP lo marca
 				if (game.isNodeObservable(pp) && !game.isPowerPillStillAvailable(pp)) 
 					mem.setPPActive(pp, false);
-				
-				
 			}
+			
+			pacmanDistToPP = minDistToPP;
+			pacmanNearestPP = nearestPP;
 		}
+	}
+	
+	double parseBoolToDouble(boolean bool) 
+	{
+		if (bool) return 1.0;
+		
+		return 0.0;
 	}
 
 }
