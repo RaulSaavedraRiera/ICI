@@ -3,9 +3,8 @@ package es.ucm.fdi.ici.c2223.practica4.grupo08;
 import java.io.File;
 import java.util.HashMap;
 
-import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
-import es.ucm.fdi.ici.fuzzy.ActionSelector;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManInput;
 import es.ucm.fdi.ici.fuzzy.FuzzyEngine;
 import es.ucm.fdi.ici.fuzzy.observers.ConsoleFuzzyEngineObserver;
 import pacman.controllers.PacmanController;
@@ -18,6 +17,7 @@ public class MsPacMan extends PacmanController {
 	FuzzyEngine fuzzyEngine;
 	MsPacManFuzzyMemory fuzzyMemory;
 	
+	private boolean first = true;
 	
 	public MsPacMan()
 	{
@@ -35,8 +35,17 @@ public class MsPacMan extends PacmanController {
 	
 	@Override
 	public MOVE getMove(Game game, long timeDue) {
-
-		return null;
+		//aqui va a haber que diferenciar si se llama nuevo mapa o no, de momento un booleano 
+		MsPacManInput input = new MsPacManInput(game,fuzzyMemory, first);
+		first = false;
+		
+		input.parseInput();
+		fuzzyMemory.getInput(input);
+		
+		HashMap<String, Double> fvars = input.getFuzzyValues();
+		fvars.putAll(fuzzyMemory.getFuzzyValues());
+		
+		return fuzzyEngine.run(fvars,game);
 	}
 
 }
