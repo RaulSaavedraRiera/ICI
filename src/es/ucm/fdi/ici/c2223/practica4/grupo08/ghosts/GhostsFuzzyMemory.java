@@ -3,13 +3,15 @@ package es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts;
 import java.util.HashMap;
 
 import pacman.game.Constants.GHOST;
+import pacman.game.Constants.MOVE;
 
 public class GhostsFuzzyMemory {
 
 	private int pacmanLastPosition;
-	private int[] distanceToPacmanLastPosition;
+	private MOVE pacmanLastDirection;
 
 	private int pacmanPosConfidence;
+	
 	private HashMap<Integer, Boolean> activePP;
 
 	private HashMap<String, Double> mem;
@@ -27,7 +29,7 @@ public class GhostsFuzzyMemory {
 
 		for (GHOST g : GHOST.values()) {
 
-			mem.put("DistanceToPacman", (double) distanceToPacmanLastPosition[g.ordinal()]);
+			
 		}
 		
 		for (int ppNode : activePP.keySet()) {
@@ -53,13 +55,26 @@ public class GhostsFuzzyMemory {
 		this.pacmanLastPosition = pacmanLastPosition;
 	}
 	
-	public void setPacmanLastDistance(GHOST g, int distance) 
+	public boolean isPPActive(int node) 
 	{
-		distanceToPacmanLastPosition[g.ordinal()] = distance;
+		return activePP.get(node);
 	}
 	
-	public int getPacmanLastDistance(GHOST g) 
+	public void setPPActive(int node, boolean active) 
 	{
-		return distanceToPacmanLastPosition[g.ordinal()];
+		activePP.put(node, active);
+	}
+	
+	public boolean PPEntryExists(int node) 
+	{
+		return activePP.containsKey(node);
+	}
+
+	public MOVE getPacmanLastDirection() {
+		return pacmanLastDirection;
+	}
+	
+	public void setPacmanLastDirection(MOVE pacmanLastDirection) {
+		this.pacmanLastDirection = pacmanLastDirection;
 	}
 }

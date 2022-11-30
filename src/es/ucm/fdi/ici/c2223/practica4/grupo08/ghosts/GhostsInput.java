@@ -10,7 +10,15 @@ import pacman.game.Constants.GHOST;
 
 public class GhostsInput extends FuzzyInput {
 
-	private boolean pacmanVisible;
+	boolean pacmanVisible;
+	private boolean[] edible; 
+	private boolean[] anotherGhostEdible;
+	private boolean[] anotherGhostNotEdible;
+	private boolean[] anotherGhostInLair;
+
+	private int pacmanDistToPP;
+	private int pacmanNearestPP;
+	private int[] distanceToPacmanLastPosition;
 
 	private GhostsFuzzyMemory mem;
 
@@ -38,6 +46,7 @@ public class GhostsInput extends FuzzyInput {
 
 		for (GHOST g : GHOST.values()) {
 
+			vars.put("DistanceToPacman", (double) distanceToPacmanLastPosition[g.ordinal()]);
 		}
 		return vars;
 	}
@@ -51,13 +60,48 @@ public class GhostsInput extends FuzzyInput {
 			int pos = game.getPacmanCurrentNodeIndex();
 			if (pos != -1) {
 				pacmanVisible = true;
-				
-				int dist = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), pos,
-						game.getGhostLastMoveMade(g));
-
-				mem.setPacmanLastDistance(g, dist);
 
 				mem.setPacmanLastPosition(pos);
+			}
+			
+			//distancia a la ultima posicion conocida de pacman
+			distanceToPacmanLastPosition[g.ordinal()] = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), mem.getPacmanLastPosition(),
+					game.getGhostLastMoveMade(g));
+			
+			edible[g.ordinal()] = game.isGhostEdible(g);
+		
+			for (GHOST g2 : GHOST.values()) {
+				if (g2 != g) {
+					anotherGhostEdible[g.ordinal()] = anotherGhostEdible[g.ordinal()]
+							|| game.isGhostEdible(g2);
+
+					anotherGhostNotEdible[g.ordinal()] = anotherGhostNotEdible[g.ordinal()]
+							|| !game.isGhostEdible(g2);
+
+					anotherGhostInLair[g.ordinal()] = anotherGhostInLair[g.ordinal()]
+							|| game.getGhostLairTime(g2) > 0;
+				}
+			}
+			
+			int minDistToPP = Integer.MAX_VALUE;
+			int dist;
+			int nearestPP = -1;
+			for (int pp : game.getCurrentMaze().powerPillIndices) 
+			{
+				//inicializar a true la existencia de las PP
+				if (!mem.PPEntryExists(pp))
+					mem.setPPActive(pp, true);
+				
+				else if (mem.isPPActive(pp)) 
+				{
+					dist = game.getShortestPathDistance(mem.getPacmanLastPosition(), pp, mem.getPacmanLastDirection());
+				}
+				
+				//si ve que no hay una PP lo marca
+				if (game.isNodeObservable(pp) && !game.isPowerPillStillAvailable(pp)) 
+					mem.setPPActive(pp, false);
+				
+				
 			}
 		}
 	}

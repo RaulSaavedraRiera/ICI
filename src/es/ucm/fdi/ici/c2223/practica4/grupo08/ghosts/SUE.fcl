@@ -2,13 +2,13 @@ FUNCTION_BLOCK FuzzyGhosts
 
 VAR_INPUT
 	pacmanConfidence : REAL;
-        distanceToPacman : REAL;
-        pacmanDistanceToPPill : REAL;
-        distanceToPacmanWithSpeed : REAL;
+    distanceToPacman : REAL;
+    pacmanDistanceToPPill : REAL;
+    distanceToPacmanWithSpeed : REAL;
 	pacmanInCorner : REAL;
 
 	distanceToLair : REAL;
-        remainingTime : REAL;
+    remainingTime : REAL;
 	edible : REAL;
 	distanceToLair : REAL;
 	arrivesFirstToPP : REAL;
