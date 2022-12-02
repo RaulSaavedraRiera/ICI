@@ -194,15 +194,14 @@ public class MsPacManInput extends FuzzyInput {
 		
 		for(GHOST g: GHOST.values()) {
 			vars.put(g.name()+"distance",   distanceGhosts[g.ordinal()]);
-			vars.put(g.name()+"direction",   (double)mem.lastDirectionGhosts[g.ordinal()].ordinal());
 		}
 		
 		for(int i = 0; i < 4; ++i)
-			vars.put("DistanceToPP" + Integer.toString(i), distancePP[i]);
+			vars.put("PP" + Integer.toString(i) + "Distance" , distancePP[i]);
 		
-		vars.put("PillsNear", (double)pillsNear);
-		vars.put("DistanceLair", (double)distanceToLair);
-		vars.put("DistanceNearestCorner", (double)distanceToNearestCorner);
+		vars.put("PILLSNear", (double)pillsNear);
+		vars.put("LAIRDistance", (double)distanceToLair);
+		vars.put("NEARESTCORNERDistance", (double)distanceToNearestCorner);
 
 		
 		return vars;

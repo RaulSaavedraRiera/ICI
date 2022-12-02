@@ -72,7 +72,8 @@ public class MsPacManFuzzyMemory {
 			mem.put(g.name()+"confidence", conf);
 			mem.put(g.name()+"lairTime", lairTimeghosts);
 			mem.put(g.name()+"edibleTime", edibleGhostTime);
-		
+
+			mem.put(g.name()+"direction",   (double)lastDirectionGhosts[g.ordinal()].ordinal());
 			
 			confidence[g.ordinal()] = conf;
 			lairTimeGhosts[g.ordinal()] = lairTimeghosts;

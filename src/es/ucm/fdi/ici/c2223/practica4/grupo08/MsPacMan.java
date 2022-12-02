@@ -35,14 +35,12 @@ public class MsPacMan extends PacmanController {
 	
 	@Override
 	public MOVE getMove(Game game, long timeDue) {
-		//aqui va a haber que diferenciar si se llama nuevo mapa o no, de momento un booleano 
+		//aqui va a haber que diferenciar si se llama nuevo mapa o no, de momento un booleano
+		
+		
+		MsPacManInput input = new MsPacManInput(game,fuzzyMemory, first);; 
 		if(first)
-		{
-			MsPacManInput input = new MsPacManInput(game,fuzzyMemory, first);
-			fuzzy
 			first = false;
-		}
-	
 		
 		input.parseInput();
 		fuzzyMemory.getInput(input);
