@@ -40,15 +40,20 @@ public class GhostsInput extends FuzzyInput {
 
 		vars.put("PacmanVisible", parseBoolToDouble(pacmanVisible));
 
-		for (GHOST g : GHOST.values()) {
+		return vars;
+	}
 
-			vars.put("DistanceToPacman", (double) distanceToPacmanLastPosition[g.ordinal()]);
-						
-			vars.put(g.name() + "edible", parseBoolToDouble(edible[g.ordinal()]));
-			vars.put(g.name() + "anotherGhostEdible", parseBoolToDouble(anotherGhostEdible[g.ordinal()]));
-			vars.put(g.name() + "anotherGhostNotEdible", parseBoolToDouble(anotherGhostNotEdible[g.ordinal()]));
-			vars.put(g.name() + "anotherGhostInLair", parseBoolToDouble(anotherGhostInLair[g.ordinal()]));
-		}
+	public HashMap<String, Double> getFuzzyValues(GHOST g) {
+		// TODO Auto-generated method stub
+
+		HashMap<String, Double> vars = new HashMap<String, Double>();
+
+		vars.put(g.name() + "DistanceToPacman", (double) distanceToPacmanLastPosition[g.ordinal()]);						
+		vars.put(g.name() + "Edible", parseBoolToDouble(edible[g.ordinal()]));
+		vars.put(g.name() + "AnotherGhostEdible", parseBoolToDouble(anotherGhostEdible[g.ordinal()]));
+		vars.put(g.name() + "AnotherGhostNotEdible", parseBoolToDouble(anotherGhostNotEdible[g.ordinal()]));
+		vars.put(g.name() + "AnotherGhostInLair", parseBoolToDouble(anotherGhostInLair[g.ordinal()]));
+			
 		return vars;
 	}
 

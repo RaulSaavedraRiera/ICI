@@ -9,6 +9,7 @@ import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.GhostsFuzzyMemory;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.MaxActionSelector;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.ChaseAction;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.RunAwayAction;
 import es.ucm.fdi.ici.fuzzy.ActionSelector;
 import es.ucm.fdi.ici.fuzzy.FuzzyEngine;
 import es.ucm.fdi.ici.fuzzy.observers.ConsoleFuzzyEngineObserver;
@@ -22,7 +23,9 @@ public class Ghosts extends GhostController {
 	private static final String RULES_PATH = "bin" + File.separator + "es" + File.separator + "ucm" + File.separator
 			+ "fdi" + File.separator + "ici" + File.separator + "c2223" + File.separator + "practica4" + File.separator
 			+ "grupo08" + File.separator + "ghosts" + File.separator;
-	FuzzyEngine fuzzyEngine;
+	
+	FuzzyEngine[] fuzzyEngines;
+	
 	GhostsFuzzyMemory fuzzyMemory;
 
 	public Ghosts() {
@@ -31,14 +34,28 @@ public class Ghosts extends GhostController {
 
 		setTeam("Team 08");
 
-		Action[] actions = { new ChaseAction(GHOST.BLINKY) };
+		Action[] actions = 
+			{ 
+				new ChaseAction(GHOST.BLINKY, fuzzyMemory), new ChaseAction(GHOST.PINKY, fuzzyMemory), new ChaseAction(GHOST.INKY, fuzzyMemory), new ChaseAction(GHOST.SUE, fuzzyMemory),
+				new RunAwayAction(GHOST.BLINKY, fuzzyMemory), new RunAwayAction(GHOST.PINKY, fuzzyMemory), new RunAwayAction(GHOST.INKY, fuzzyMemory), new RunAwayAction(GHOST.SUE, fuzzyMemory)
+			};
 
 		ActionSelector actionSelector = new MaxActionSelector(actions);
 
-		ConsoleFuzzyEngineObserver observer = new ConsoleFuzzyEngineObserver("MsPacMan", "MsPacManRules");
-		fuzzyEngine = new FuzzyEngine("Ghosts", RULES_PATH + "BLINKY.fcl", "FuzzyGhosts", actionSelector);
-		fuzzyEngine.addObserver(observer);
+		ConsoleFuzzyEngineObserver observer = new ConsoleFuzzyEngineObserver("Ghost", "FuzzyGhosts");
+		
+		fuzzyEngines[GHOST.BLINKY.ordinal()] = new FuzzyEngine("Blinky", RULES_PATH + "BLINKY.fcl", "FuzzyGhosts", actionSelector);
+		fuzzyEngines[GHOST.BLINKY.ordinal()].addObserver(observer);
 
+		fuzzyEngines[GHOST.PINKY.ordinal()] = new FuzzyEngine("Pinky", RULES_PATH + "PINKY.fcl", "FuzzyGhosts", actionSelector);
+		fuzzyEngines[GHOST.PINKY.ordinal()].addObserver(observer);
+
+		fuzzyEngines[GHOST.INKY.ordinal()] = new FuzzyEngine("Inky", RULES_PATH + "INKY.fcl", "FuzzyGhosts", actionSelector);
+		fuzzyEngines[GHOST.INKY.ordinal()].addObserver(observer);
+
+		fuzzyEngines[GHOST.SUE.ordinal()] = new FuzzyEngine("Sue", RULES_PATH + "SUE.fcl", "FuzzyGhosts", actionSelector);
+		fuzzyEngines[GHOST.SUE.ordinal()].addObserver(observer);
+		
 		fuzzyMemory = new GhostsFuzzyMemory();
 	}
 
@@ -48,15 +65,17 @@ public class Ghosts extends GhostController {
 		input.parseInput();
 		fuzzyMemory.getInput(input);
 
-		HashMap<String, Double> fvars = input.getFuzzyValues();
-		fvars.putAll(fuzzyMemory.getFuzzyValues());
-
 		EnumMap<GHOST, MOVE> moves = new EnumMap<GHOST, MOVE>(GHOST.class);
 
-		for (GHOST g : GHOST.values()) {
-			moves.put(g, fuzzyEngine.run(fvars, game));
-		}
+		for (GHOST g : GHOST.values())
+		{
+			HashMap<String, Double> fvars = input.getFuzzyValues();
+			fvars.putAll(fuzzyMemory.getFuzzyValues());
+			fvars.putAll(input.getFuzzyValues(g));
 
+			moves.put(g, fuzzyEngines[g.ordinal()].run(fvars, game));
+		}
+		
 		return moves;
 	}
 

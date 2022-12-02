@@ -114,9 +114,9 @@ RULEBLOCK BLINKYRules
 	ACT : MIN;			// Use 'min' activation method
 	ACCU : MAX;			// Use 'MAX' accumulation method (Other options PROBOR and SUM)
 
-	RULE 1 : IF distanceToPacman IS near AND pacmanConfidence IS high THEN Runaway IS emergency;
-	RULE 2 : IF distanceToPacman IS medium AND PINKYconfidence IS high THEN Runaway IS nervious;
-	RULE 3 : IF distanceToPacman IS far AND INKYconfidence IS high THEN Runaway IS calm;
+	RULE 1 : IF distanceToPacman IS near AND pacmanConfidence IS high THEN Chase IS emergency;
+	RULE 2 : IF distanceToPacman IS medium AND PINKYconfidence IS high THEN Chase IS nervious;
+	RULE 3 : IF distanceToPacman IS far AND INKYconfidence IS high THEN Chase IS calm;
 
 	RULE 4 : IF pacmanDistanceToPPill IS near AND pacmanConfidence IS high THEN Runaway IS emergency;
     RULE 5 : IF pacmanDistanceToPPill IS near AND pacmanConfidence IS medium THEN Runaway IS calm;
