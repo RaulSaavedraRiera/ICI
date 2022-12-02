@@ -31,7 +31,7 @@ public class ChaseAction implements Action {
 
 	@Override
 	public String getActionId() {
-		return ghost + "chases";
+		return ghost + "Chase";
 	}
 
 }

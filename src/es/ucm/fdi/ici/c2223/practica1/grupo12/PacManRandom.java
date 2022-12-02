@@ -18,21 +18,21 @@ public class PacManRandom extends PacmanController {
 	public MOVE getMove(Game game, long timeDue) {
 
 		//show lines to powerPills
-		int[] activePowerPills = game.getActivePowerPillsIndices();
-
-		for (int i = 0; i < activePowerPills.length; i++)
-			GameView.addLines(game, Color.CYAN, game.getPacmanCurrentNodeIndex(), activePowerPills[i]);
+//		int[] activePowerPills = game.getActivePowerPillsIndices();
+//
+//		for (int i = 0; i < activePowerPills.length; i++)
+//			GameView.addLines(game, Color.CYAN, game.getPacmanCurrentNodeIndex(), activePowerPills[i]);
 
 		// Show way to ghosts
-		for (Constants.GHOST g : Constants.GHOST.values()) {
-			int ghost = game.getGhostCurrentNodeIndex(g);
-			int mspacman = game.getPacmanCurrentNodeIndex();
-			Color[] colours = { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW };
-
-			if (game.getGhostLairTime(g) <= 0)
-
-				GameView.addPoints(game, colours[g.ordinal()], game.getShortestPath(ghost, mspacman));
-		}
+//		for (Constants.GHOST g : Constants.GHOST.values()) {
+//			int ghost = game.getGhostCurrentNodeIndex(g);
+//			int mspacman = game.getPacmanCurrentNodeIndex();
+//			Color[] colours = { Color.BLUE, Color.RED, Color.GREEN, Color.YELLOW };
+//
+//			if (game.getGhostLairTime(g) <= 0)
+//
+//				GameView.addPoints(game, colours[g.ordinal()], game.getShortestPath(ghost, mspacman));
+//		}
 		 
 		return allMoves[rnd.nextInt(allMoves.length)];
 	}

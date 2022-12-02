@@ -44,6 +44,8 @@ public class Ghosts extends GhostController {
 
 		ConsoleFuzzyEngineObserver observer = new ConsoleFuzzyEngineObserver("Ghost", "FuzzyGhosts");
 		
+		fuzzyEngines = new FuzzyEngine[4];
+		
 		fuzzyEngines[GHOST.BLINKY.ordinal()] = new FuzzyEngine("Blinky", RULES_PATH + "BLINKY.fcl", "FuzzyGhosts", actionSelector);
 		fuzzyEngines[GHOST.BLINKY.ordinal()].addObserver(observer);
 

@@ -1,7 +1,7 @@
 FUNCTION_BLOCK FuzzyGhosts
 
 VAR_INPUT
-	pacmanConfidence : REAL;
+	pacmanPosConfidence : REAL;
     distanceToPacman : REAL;
     pacmanDistanceToPPill : REAL;
     distanceToPacmanWithSpeed : REAL;
@@ -10,7 +10,6 @@ VAR_INPUT
 	distanceToLair : REAL;
     remainingTime : REAL;
 	edible : REAL;
-	distanceToLair : REAL;
 	arrivesFirstToPP : REAL;
 	anotherGhostNotEdible : REAL;
 	anotherGhostInLair : REAL;
@@ -18,20 +17,20 @@ VAR_INPUT
 	intercept : REAL;
 	
 	RANGE : REAL;
-        PACMAN_MAX_DIST_TO_PP : REAL;
+    PACMAN_MAX_DIST_TO_PP : REAL;
 	SAFETY_DISTANCE_WHEN_EDIBLE : REAL;
 	SURE_DEATH_DISTANCE : REAL;
 END_VAR
 
 VAR_OUTPUT
-    Runaway : REAL;
-    Chase : REAL;
+    BLINKYRunaway : REAL;
+    BLINKYChase : REAL;
 END_VAR
 
 FUZZIFY distanceToPacman
 	TERM near:=(0,1)(50,0);
 	TERM medium := (40,0)(100,1)(150,0);
-	TERM far := (120,0)(160,1)(200,1);
+	TERM far := (120,0)(160,1)(20000,1);
 END_FUZZIFY
 
 FUZZIFY pacmanDistanceToPPill
@@ -47,7 +46,7 @@ FUZZIFY distanceToPacmanWithSpeed
 END_FUZZIFY
 
 FUZZIFY remainingTime
-	TERM low := (0,1)(20,0)
+	TERM low := (0,1)(20,0);
 	TERM medium := gauss 20 20;
 	TERM high := (40,0)(50,1);
 END_FUZZIFY
@@ -88,20 +87,20 @@ FUZZIFY intercept
 	TERM no := (0,0);
 END_FUZZIFY
 
-FUZZIFY pacmanConfidence
+FUZZIFY pacmanPosConfidence
 	TERM low := (0,1)(25,1)(50,0) ; 
 	TERM medium := gauss 50 25;
 	TERM high := (50,0)(75,1)(100,1);
 END_FUZZIFY
 
-DEFUZZIFY Runaway
+DEFUZZIFY BLINKYRunaway
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
 	TERM emergency := (15,0) (25,1) (30,1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
-DEFFUZIFY Chase
+DEFUZZIFY BLINKYChase
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
 	TERM emergency := (15,0) (25,1) (30,1);
@@ -114,21 +113,21 @@ RULEBLOCK BLINKYRules
 	ACT : MIN;			// Use 'min' activation method
 	ACCU : MAX;			// Use 'MAX' accumulation method (Other options PROBOR and SUM)
 
-	RULE 1 : IF distanceToPacman IS near AND pacmanConfidence IS high THEN Chase IS emergency;
-	RULE 2 : IF distanceToPacman IS medium AND PINKYconfidence IS high THEN Chase IS nervious;
-	RULE 3 : IF distanceToPacman IS far AND INKYconfidence IS high THEN Chase IS calm;
+	RULE 1 : IF distanceToPacman IS near AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
+	RULE 2 : IF distanceToPacman IS medium AND pacmanPosConfidence IS high THEN BLINKYChase IS nervious;
+	RULE 3 : IF distanceToPacman IS far AND pacmanPosConfidence IS high THEN BLINKYChase IS calm;
 
-	RULE 4 : IF pacmanDistanceToPPill IS near AND pacmanConfidence IS high THEN Runaway IS emergency;
-    RULE 5 : IF pacmanDistanceToPPill IS near AND pacmanConfidence IS medium THEN Runaway IS calm;
-    RULE 6 : IF pacmanDistanceToPPill IS near AND pacmanConfidence IS low THEN Runaway IS calm;
+	RULE 4 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN BLINKYRunaway IS emergency;
+    RULE 5 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN BLINKYRunaway IS calm;
+    RULE 6 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN BLINKYRunaway IS calm;
 
-    RULE 4 : IF pacmanDistanceToPPill IS medium AND pacmanConfidence IS high THEN Runaway IS emergency;
-    RULE 5 : IF pacmanDistanceToPPill IS medium AND pacmanConfidence IS medium THEN Runaway IS nervious;
-    RULE 6 : IF pacmanDistanceToPPill IS medium AND pacmanConfidence IS low THEN Runaway IS calm;
+    RULE 4 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN BLINKYRunaway IS emergency;
+    RULE 5 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN BLINKYRunaway IS nervious;
+    RULE 6 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN BLINKYRunaway IS calm;
 
-    RULE 7 : IF pacmanDistanceToPPill IS far AND pacmanConfidence IS high THEN Runaway IS calm;
-    RULE 8 : IF pacmanDistanceToPPill IS far AND pacmanConfidence IS medium THEN Runaway IS calm;
-    RULE 9 : IF pacmanDistanceToPPill IS far AND pacmanConfidence IS low THEN Runaway IS calm;
+    RULE 7 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS high THEN BLINKYRunaway IS calm;
+    RULE 8 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS medium THEN BLINKYRunaway IS calm;
+    RULE 9 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS low THEN BLINKYRunaway IS calm;
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

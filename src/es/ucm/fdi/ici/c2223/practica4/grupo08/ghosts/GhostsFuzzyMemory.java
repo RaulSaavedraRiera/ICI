@@ -15,6 +15,16 @@ public class GhostsFuzzyMemory {
 	private HashMap<Integer, Boolean> activePP;
 
 	private HashMap<String, Double> mem;
+	
+	public GhostsFuzzyMemory() 
+	{
+		activePP = new HashMap<Integer, Boolean>();
+		mem = new HashMap<String, Double>();
+		
+		pacmanLastPosition = 0;
+		pacmanLastDirection = MOVE.UP;
+		pacmanPosConfidence = 0;
+	}
 
 	public void getInput(GhostsInput input) {
 
@@ -24,8 +34,8 @@ public class GhostsFuzzyMemory {
 		else
 			conf = Double.max(0, conf - 5);
 		
-		mem.put("PacmanPosConfidence", conf);
-		mem.put("PacmanPos", (double) pacmanLastPosition);
+		mem.put("pacmanPosConfidence", conf);
+		//mem.put("pacmanPos", (double) pacmanLastPosition);
 
 		for (GHOST g : GHOST.values()) {
 
@@ -38,7 +48,7 @@ public class GhostsFuzzyMemory {
 			if (activePP.get(ppNode))
 				active = 1;
 			
-			mem.put("PP" + ppNode, active);
+			//mem.put("PP" + ppNode, active);
 		}
 
 	}

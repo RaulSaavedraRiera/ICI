@@ -38,7 +38,7 @@ public class GhostsInput extends FuzzyInput {
 
 		HashMap<String, Double> vars = new HashMap<String, Double>();
 
-		vars.put("PacmanVisible", parseBoolToDouble(pacmanVisible));
+		//vars.put("pacmanVisible", parseBoolToDouble(pacmanVisible));
 
 		return vars;
 	}
@@ -48,11 +48,11 @@ public class GhostsInput extends FuzzyInput {
 
 		HashMap<String, Double> vars = new HashMap<String, Double>();
 
-		vars.put(g.name() + "DistanceToPacman", (double) distanceToPacmanLastPosition[g.ordinal()]);						
-		vars.put(g.name() + "Edible", parseBoolToDouble(edible[g.ordinal()]));
-		vars.put(g.name() + "AnotherGhostEdible", parseBoolToDouble(anotherGhostEdible[g.ordinal()]));
-		vars.put(g.name() + "AnotherGhostNotEdible", parseBoolToDouble(anotherGhostNotEdible[g.ordinal()]));
-		vars.put(g.name() + "AnotherGhostInLair", parseBoolToDouble(anotherGhostInLair[g.ordinal()]));
+		vars.put("distanceToPacman", (double) distanceToPacmanLastPosition[g.ordinal()]);						
+		vars.put("edible", parseBoolToDouble(edible[g.ordinal()]));
+		vars.put("anotherGhostEdible", parseBoolToDouble(anotherGhostEdible[g.ordinal()]));
+		vars.put("anotherGhostNotEdible", parseBoolToDouble(anotherGhostNotEdible[g.ordinal()]));
+		vars.put("anotherGhostInLair", parseBoolToDouble(anotherGhostInLair[g.ordinal()]));
 			
 		return vars;
 	}
@@ -61,6 +61,14 @@ public class GhostsInput extends FuzzyInput {
 	public void parseInput() {
 		// TODO Auto-generated method stub	
 		pacmanVisible = false;
+		
+		distanceToPacmanLastPosition = new int[4];
+		edible = new boolean[4];
+		anotherGhostEdible = new boolean[4];
+		anotherGhostNotEdible = new boolean[4];
+		anotherGhostInLair = new boolean[4];
+		
+		if (mem == null) return;
 		
 		for (GHOST g : GHOST.values()) {
 			int pos = game.getPacmanCurrentNodeIndex();
@@ -110,7 +118,7 @@ public class GhostsInput extends FuzzyInput {
 				}
 				
 				//si ve que no hay una PP lo marca
-				if (game.isNodeObservable(pp) && !game.isPowerPillStillAvailable(pp)) 
+				if (game.isNodeObservable(pp) && game.getActivePowerPillsIndices().length == 0) // && !game.isPowerPillStillAvailable(pp)
 					mem.setPPActive(pp, false);
 			}
 			

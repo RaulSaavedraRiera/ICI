@@ -1,7 +1,7 @@
 FUNCTION_BLOCK FuzzyGhosts
 
 VAR_INPUT
-	pacmanConfidence : REAL;
+	pacmanPosConfidence : REAL;
     distanceToPacman : REAL;
     pacmanDistanceToPPill : REAL;
     distanceToPacmanWithSpeed : REAL;
@@ -10,7 +10,6 @@ VAR_INPUT
 	distanceToLair : REAL;
     remainingTime : REAL;
 	edible : REAL;
-	distanceToLair : REAL;
 	arrivesFirstToPP : REAL;
 	anotherGhostNotEdible : REAL;
 	anotherGhostInLair : REAL;
@@ -18,13 +17,14 @@ VAR_INPUT
 	intercept : REAL;
 	
 	RANGE : REAL;
-        PACMAN_MAX_DIST_TO_PP : REAL;
+    PACMAN_MAX_DIST_TO_PP : REAL;
 	SAFETY_DISTANCE_WHEN_EDIBLE : REAL;
 	SURE_DEATH_DISTANCE : REAL;
 END_VAR
 
 VAR_OUTPUT
-
+    BLINKYRunaway : REAL;
+    BLINKYChase : REAL;
 END_VAR
 
 FUZZIFY distanceToPacman
@@ -45,7 +45,7 @@ FUZZIFY distanceToPacmanWithSpeed
 END_FUZZIFY
 
 FUZZIFY remainingTime
-	TERM low := (0,1)(20,0)
+	TERM low := (0,1)(20,0);
 	TERM medium := gauss 20 20;
 	TERM high := (40,0)(50,1);
 END_FUZZIFY
@@ -90,11 +90,6 @@ FUZZIFY intercept
 	TERM no := (0,0);
 END_FUZZIFY
 
-FUZZIFY hasObjective
-	TERM yes:=(1,1);
-	TERM no := (0,0);
-END_FUZZIFY
-
 DEFUZZIFY Runaway
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
@@ -102,7 +97,7 @@ DEFUZZIFY Runaway
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
-DEFFUZIFY Chase
+DEFUZZIFY Chase
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
 	TERM emergency := (15,0) (25,1) (30,1);
