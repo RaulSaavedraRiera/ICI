@@ -20,7 +20,7 @@ public class MsPacManFuzzyMemory {
 	//confianza, probablemente con esto vale en vez de ultima vez visto
 	double[] confidence = {100,100,100,100};
 	//variables sobre los fantasmas que debemos almacenar en el tiempo
-	protected double[] lairTimeGhosts;	
+	public double[] lairTimeGhosts;	
 	public double[] edibleTimeGhosts;	
 	public double[] lastPosGhost;	
 	public MOVE[] lastDirectionGhosts;
@@ -72,8 +72,7 @@ public class MsPacManFuzzyMemory {
 			mem.put(g.name()+"confidence", conf);
 			mem.put(g.name()+"lairTime", lairTimeghosts);
 			mem.put(g.name()+"edibleTime", edibleGhostTime);
-
-			mem.put(g.name()+"direction",   (double)lastDirectionGhosts[g.ordinal()].ordinal());
+		
 			
 			confidence[g.ordinal()] = conf;
 			lairTimeGhosts[g.ordinal()] = lairTimeghosts;
