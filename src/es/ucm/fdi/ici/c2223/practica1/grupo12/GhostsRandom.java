@@ -17,6 +17,12 @@ public class GhostsRandom extends GhostController {
 	public EnumMap<GHOST, MOVE> getMove(Game game, long timeDue) {
 		moves.clear();
 		for (GHOST ghostType : GHOST.values()) {
+//			if(game.wasGhostEaten(ghostType))
+//				System.out.println("lair" + game.getGhostLairTime(ghostType));
+//			
+//			 if(game.getGhostEdibleTime(ghostType) > 0)
+//				 System.out.println("edible"+game.getGhostEdibleTime(ghostType));
+			 
 			if (game.doesGhostRequireAction(ghostType)) {
 				moves.put(ghostType, allMoves[rnd.nextInt(allMoves.length)]);
 			}
