@@ -17,14 +17,13 @@ public class MsPacManInput extends FuzzyInput {
 	private MsPacManFuzzyMemory mem;
 	
 	final int NEAR_PILL = 30; 
+	final int DISTANCE_GHOST_NEAR = 40;
+	final int DISTANCE_GHOST_MEDIUM = 60;
 	
 	private double[] distanceGhosts;
 	
 	private int[] corners;
-	
-	protected HashMap<Integer,Boolean> pills = new HashMap<Integer,Boolean>();
-	protected HashMap<Integer,Boolean> powerPills = new HashMap<Integer,Boolean>();
-	
+
 	private int lairPos; 
 	
 	private int pillsNear;
@@ -33,20 +32,17 @@ public class MsPacManInput extends FuzzyInput {
 	private double[] distancePP;
 	
 	
-	protected boolean firstInteractMap;
 	
-	
-	public MsPacManInput(Game game,  MsPacManFuzzyMemory pacMem,  boolean first) {
+	public MsPacManInput(Game game,  MsPacManFuzzyMemory pacMem) {
 		super(game);
 		
-		//llamar a esto por cada cambio de mapa
-		if(first) 
-		{
-			firstInteractMap = true;
-			initialValues(game);
-		}
-		//para acceder informacion de memoria
 		mem = pacMem;
+		//llamar a esto por cada cambio de mapa
+		if(mem.currentMaze != game.getMazeIndex()) 
+			mem.setMapValues(game.getMazeIndex(), game.getCurrentMaze().lairNodeIndex, game.getCurrentMaze().pillIndices, game.getCurrentMaze().powerPillIndices);;
+		
+		//para acceder informacion de memoria
+		
 		//para obtener las posiciones fijas del mapa
 		lairPos = game.getCurrentMaze().lairNodeIndex;		
 		corners = game.getPowerPillIndices();
@@ -55,6 +51,8 @@ public class MsPacManInput extends FuzzyInput {
 	
 	@Override
 	public void parseInput() {
+		
+		if (mem == null) return;
 		
 		mapValues(game);
 		
@@ -80,19 +78,6 @@ public class MsPacManInput extends FuzzyInput {
 	{
 		return game.wasGhostEaten(ghost);
 	}
-	
-	
-
-	void initialValues(Game game) {
-		
-		for(int p : game.getCurrentMaze().pillIndices) 
-			pills.put(p, true);
-		
-		for(int p : game.getCurrentMaze().powerPillIndices) 
-			powerPills.put(p, true);
-			
-	}
-	
 	
 	//metodos para cuando se debe actualziar informacion en la memoria
 	void pillEaten(Game game) {
@@ -197,15 +182,54 @@ public class MsPacManInput extends FuzzyInput {
 			vars.put(g.name()+"direction",   (double)mem.lastDirectionGhosts[g.ordinal()].ordinal());
 		}
 		
-		for(int i = 0; i < 4; ++i)
-			vars.put("DistanceToPP" + Integer.toString(i), distancePP[i]);
 		
-		vars.put("PillsNear", (double)pillsNear);
-		vars.put("DistanceLair", (double)distanceToLair);
-		vars.put("DistanceNearestCorner", (double)distanceToNearestCorner);
+		
+		for(int i = 0; i < 4; ++i)
+			vars.put("PP" + Integer.toString(i) + "distance", distancePP[i]);
+			
+		
+		vars.put("PILLSnear", (double)pillsNear);
+		vars.put("LAIRdistance", (double)distanceToLair);
+		vars.put("NEARESTCORNERDistance", (double)distanceToNearestCorner);
+		
+		saveNumGhostDistance(vars);
 
 		
 		return vars;
+	}
+	
+	void saveNumGhostDistance(HashMap<String,Double> vars) {
+		int farGhosts = 0, mediumGhosts = 0, nearGhosts = 0;
+		
+		
+		//los fantasmas salen media distancia si estan en jaula vistos por ultiam vez
+		for(double dG : distanceGhosts)
+		{
+			if(dG >= this.DISTANCE_GHOST_MEDIUM)
+				farGhosts++;
+			else if(dG >= this.DISTANCE_GHOST_NEAR || dG == -1)
+				mediumGhosts++;
+			else
+				nearGhosts++;
+		}
+			
+		
+		for(int i = 1; i <=4; ++i) {
+			if(i == farGhosts)
+				vars.put("G" + Integer.toString(i) + "DISTANCE_far", 1.);
+			else
+				vars.put("G" + Integer.toString(i) + "DISTANCE_far", 0.);
+			
+			if(i == mediumGhosts)
+				vars.put("G" + Integer.toString(i) + "DISTANCE_medium", 1.);
+			else
+				vars.put("G" + Integer.toString(i) + "DISTANCE_medium", 0.);
+			
+			if(i == nearGhosts)
+				vars.put("G" + Integer.toString(i) + "DISTANCE_near", 1.);
+			else
+				vars.put("G" + Integer.toString(i) + "DISTANCE_near", 0.);
+		}
 	}
 
 }

@@ -1,7 +1,6 @@
 package es.ucm.fdi.ici.c2223.practica4.grupo08;
 
-import es.ucm.fdi.ici.c2223.practica1.grupo12.MsPacManRunAway;
-import es.ucm.fdi.ici.c2223.practica1.grupo12.PacManRandom;
+import es.ucm.fdi.ici.c2223.practica1.grupo12.GhostsRandom;
 import pacman.Executor;
 import pacman.controllers.GhostController;
 import pacman.controllers.PacmanController;
@@ -20,9 +19,9 @@ public class ExecutorTest {
 				.setVisual(true)
 				.setScaleFactor(2.0)
 				.build();
-		PacmanController pacMan = new PacManRandom();
-		GhostController ghosts = new Ghosts();
+		PacmanController pacMan = new MsPacMan();
+		GhostController ghosts = new GhostsRandom();
 
-		System.out.println(executor.runGame(pacMan, ghosts, 20));
+		System.out.println(executor.runGame(pacMan, ghosts, 1));
 	}
 }

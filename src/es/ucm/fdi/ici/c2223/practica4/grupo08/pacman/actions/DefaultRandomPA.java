@@ -65,7 +65,7 @@ public class DefaultRandomPA implements Action {
 		
 		@Override
 		public String getActionId() {
-			return "PacmanDefaultRandom";
+			return "DefaultAction";
 			
 		}
 		

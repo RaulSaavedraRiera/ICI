@@ -28,19 +28,50 @@ VAR_INPUT				// Define input variables
 	SUElairTime : REAL;
 
 	PILLSnear : REAL;
-	LAIRDistance : REAL;
+	LAIRdistance : REAL;
 	NEARESTCORNERDistance : REAL;
 
-	PP0distance : double;
-	PP1distance : double;
-	PP2distance : double;
-	PP3distance : double;
+	PP0distance : REAL;
+	PP1distance : REAL;
+	PP2distance : REAL;
+	PP3distance : REAL;
+	
+	G4CONFIDENCE_high : REAL;
+	G3CONFIDENCE_high : REAL;
+	G2CONFIDENCE_high : REAL;
+	G1CONFIDENCE_high : REAL;
+	
+	G4CONFIDENCE_medium : REAL;
+	G3CONFIDENCE_medium : REAL;
+	G2CONFIDENCE_medium : REAL;
+	G1CONFIDENCE_medium : REAL;
+	
+	G4CONFIDENCE_low : REAL;
+	G3CONFIDENCE_low : REAL;
+	G2CONFIDENCE_low : REAL;
+	G1CONFIDENCE_low : REAL;
+	
+	G4DISTANCE_far : REAL;
+	G3DISTANCE_far : REAL;
+	G2DISTANCE_far : REAL;
+	G1DISTANCE_far : REAL;
+	
+	G4DISTANCE_medium : REAL;
+	G3DISTANCE_medium : REAL;
+	G2DISTANCE_medium : REAL;
+	G1DISTANCE_medium : REAL;
+	
+	G4DISTANCE_near : REAL;
+	G3DISTANCE_near : REAL;
+	G2DISTANCE_near : REAL;
+	G1DISTANCE_near : REAL;
 	
 END_VAR
 
 VAR_OUTPUT				// Define output variable
 	Runaway : REAL;
 	GoToPPill: REAL;
+	DefaultAction: REAL;
 END_VAR
 
 
@@ -204,6 +235,106 @@ FUZZIFY PP3distance
 	TERM far := (90, 0) (150, 1) (200, 1);
 END_FUZZIFY
 
+//FACTORES PARA TENER UNA MAYOR FACILIDAD A LA HORA DE CREAR REGLAS
+//conocer la confianza respectoa la posicion de los fantasmas
+FUZZIFY G4CONFIDENCE_high			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G3CONFIDENCE_high			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G2CONFIDENCE_high			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G1CONFIDENCE_high			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G4CONFIDENCE_medium			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G3CONFIDENCE_medium			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G2CONFIDENCE_medium			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G1CONFIDENCE_medium			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G4CONFIDENCE_low			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G3CONFIDENCE_low			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G2CONFIDENCE_low			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G1CONFIDENCE_low			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+//conocer la distancia respecto a los fantasmas
+FUZZIFY G4DISTANCE_far		
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G3DISTANCE_far			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G2DISTANCE_far			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G1DISTANCE_far			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G4DISTANCE_medium		
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G3DISTANCE_medium			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G2DISTANCE_medium			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G1DISTANCE_medium			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G4DISTANCE_near		
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G3DISTANCE_near			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G2DISTANCE_near			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+FUZZIFY G1DISTANCE_near			
+	TERM true := (0, 0) (1,1) ; 
+	TERM false := (0, 1) (1, 0);
+END_FUZZIFY
+
 
 DEFUZZIFY Runaway			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
 	TERM calm := (0,1) (5,1) (15,0);
@@ -221,6 +352,14 @@ DEFUZZIFY GoToPPill			// Defzzzify output variable 'tip' : {'cheap', 'average', 
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
 
+DEFUZZIFY DefaultAction		
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
 
 //se podria guardar cuantos fantasmas cumplen x condicion
 RULEBLOCK MsPacManRules
@@ -228,7 +367,7 @@ RULEBLOCK MsPacManRules
 	ACT : MIN;			// Use 'min' activation method
 	ACCU : MAX;			// Use 'MAX' accumulation method (Other options PROBOR and SUM)
 
-	RULE 1: IF PILLSnear IS few OR PILLSnear IS medium OR PILLSnear IS high THEM DefaultAction is emergency;
+	RULE 1: IF PILLSnear IS few OR PILLSnear IS medium OR PILLSnear IS high THEN DefaultAction IS emergency;
 
 	//if powerpill cerca && todos los fantasmas a media distancia && confianza alta o media ir a pp
 	
