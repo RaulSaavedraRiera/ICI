@@ -3,20 +3,19 @@ package es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions;
 import java.awt.Color;
 
 import es.ucm.fdi.ici.Action;
-import es.ucm.fdi.ici.rules.RulesAction;
-import jess.Fact;
-import pacman.game.Constants.DM;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
+import pacman.game.Constants;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
-import pacman.game.Constants;
 import pacman.game.Game;
 import pacman.game.GameView;
 
 public class ChaseGhostPA implements Action{
+
+		MsPacManFuzzyMemory memory;
 	
-	
-		public ChaseGhostPA() {
-			
+		public ChaseGhostPA(MsPacManFuzzyMemory mem) {
+			memory = mem;
 		}
 
 		@Override
@@ -24,9 +23,9 @@ public class ChaseGhostPA implements Action{
 	       
 			GHOST nearestGhost = getNearestAgressiveGhost(game);
 			
-			GameView.addLines(game, Color.GREEN, game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(nearestGhost));
+			GameView.addLines(game, Color.GREEN, game.getPacmanCurrentNodeIndex(), (int)memory.lastPosGhost[nearestGhost.ordinal()]);
 			return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
-					game.getGhostCurrentNodeIndex(nearestGhost),
+					(int)memory.lastPosGhost[nearestGhost.ordinal()],
 					game.getPacmanLastMoveMade(),
 					Constants.DM.PATH);
 			
@@ -46,12 +45,11 @@ public class ChaseGhostPA implements Action{
 
 			for (GHOST ghostType : GHOST.values()) {
 				
-				if (game.getGhostLairTime(ghostType) <= 0 && !game.isGhostEdible(ghostType)) {
+				if (memory.lairTimeGhosts[ghostType.ordinal()] <= 0 && memory.edibleTimeGhosts[ghostType.ordinal()] <= 0) {
 				
-					int dist = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghostType), game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(ghostType));
+					int dist = game.getShortestPathDistance((int)memory.lastPosGhost[ghostType.ordinal()], game.getPacmanCurrentNodeIndex(), memory.lastDirectionGhosts[ghostType.ordinal()]);
 					
-					if (game.getGhostLairTime(ghostType) <= 0 && !game.isGhostEdible(ghostType) && dist < closestGhostDist
-							&& game.getGhostLastMoveMade(ghostType) != game.getPacmanLastMoveMade()) {
+					if (dist < closestGhostDist && memory.lastDirectionGhosts[ghostType.ordinal()] != game.getPacmanLastMoveMade()) {
 						closestGhostDist = dist;
 						ret = ghostType;
 					}			

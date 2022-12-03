@@ -3,12 +3,11 @@ package es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions;
 import java.awt.Color;
 
 import es.ucm.fdi.ici.Action;
-import es.ucm.fdi.ici.rules.RulesAction;
-import jess.Fact;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
+import pacman.game.Constants;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
-import pacman.game.Constants;
 import pacman.game.Game;
 import pacman.game.GameView;
 
@@ -17,10 +16,10 @@ public class ChaseGroupGhostsPA implements Action{
 	final int MAXTIME_EDIBLEGHOST = 5;
 	final int MAXDISTANCE_GHOSTSGROUP = 30;
 
+	MsPacManFuzzyMemory memory;
 	
-	
-		public ChaseGroupGhostsPA() {
-			
+		public ChaseGroupGhostsPA(MsPacManFuzzyMemory mem) {
+			memory = mem;
 		}
 
 		@Override
@@ -28,9 +27,9 @@ public class ChaseGroupGhostsPA implements Action{
 	       
 			GHOST nearestGhost = getGroupEdibleGhosts(game);
 
-			GameView.addLines(game, Color.BLUE, game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(nearestGhost));
+			GameView.addLines(game, Color.BLUE, game.getPacmanCurrentNodeIndex(), (int)memory.lastPosGhost[nearestGhost.ordinal()]);
 			return game.getApproximateNextMoveTowardsTarget(
-					game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex( getGroupEdibleGhosts(game)), game.getPacmanLastMoveMade(), DM.PATH);
+					game.getPacmanCurrentNodeIndex(), (int)memory.lastPosGhost[nearestGhost.ordinal()], game.getPacmanLastMoveMade(), DM.PATH);
 			
 		}
 
@@ -40,29 +39,9 @@ public class ChaseGroupGhostsPA implements Action{
 			
 		}
 		
-		private GHOST getNearestGhost(Game game) {
-			int d;
-			int distance = 99999;
-			GHOST n = null;
-
-			for (Constants.GHOST g : Constants.GHOST.values()) {
-
-				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > 0) {
-					d = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), game.getGhostCurrentNodeIndex(g),
-							game.getPacmanLastMoveMade());
-
-					if (d < distance) {
-						distance = d;
-						n = g;
-					}
-				}
-
-			}
-
-			return n;
-		}
+		
 	private GHOST getGroupEdibleGhosts(Game game) {
-		GHOST target = getNearestGhost(game);
+		GHOST target = null;
 		
 		boolean groupFound = false;
 		int sizeGroup = -1;
@@ -70,7 +49,7 @@ public class ChaseGroupGhostsPA implements Action{
 		for (Constants.GHOST g : Constants.GHOST.values()) {
 			
 			
-			if(game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > MAXTIME_EDIBLEGHOST)
+			if(memory.lairTimeGhosts[g.ordinal()] <= 0 && memory.edibleTimeGhosts[g.ordinal()] > MAXTIME_EDIBLEGHOST)
 			{
 				int group = 0;
 				
@@ -79,7 +58,7 @@ public class ChaseGroupGhostsPA implements Action{
 					// segundos o sacar la distancia a pacman
 					
 					//se van a repetir grupo pero da igual pq si es el mismo tamaño no se va a sobreescribir
-					if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > MAXTIME_EDIBLEGHOST) {
+					if (memory.lairTimeGhosts[gO.ordinal()] <= 0 && memory.edibleTimeGhosts[gO.ordinal()] > MAXTIME_EDIBLEGHOST) {
 						try {
 							if (game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g),
 									game.getGhostCurrentNodeIndex(gO),
