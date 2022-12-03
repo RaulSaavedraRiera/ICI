@@ -1,4 +1,4 @@
-FUNCTION_BLOCK FuzzyGhosts
+FUNCTION_BLOCK FuzzyInky
 
 VAR_INPUT
 	pacmanPosConfidence : REAL;
