@@ -42,21 +42,21 @@ public class Ghosts extends GhostController {
 
 		ActionSelector actionSelector = new MaxActionSelector(actions);
 
-		ConsoleFuzzyEngineObserver observer = new ConsoleFuzzyEngineObserver("Ghost", "FuzzyGhosts");
+		ConsoleFuzzyEngineObserver observer = new ConsoleFuzzyEngineObserver("Blinky", "FuzzyBlinky");
 		
 		fuzzyEngines = new FuzzyEngine[4];
 		
-		fuzzyEngines[GHOST.BLINKY.ordinal()] = new FuzzyEngine("Blinky", RULES_PATH + "BLINKY.fcl", "FuzzyGhosts", actionSelector);
+		fuzzyEngines[GHOST.BLINKY.ordinal()] = new FuzzyEngine("Blinky", RULES_PATH + "BLINKY.fcl", "FuzzyBlinky", actionSelector);
 		fuzzyEngines[GHOST.BLINKY.ordinal()].addObserver(observer);
 
 		fuzzyEngines[GHOST.PINKY.ordinal()] = new FuzzyEngine("Pinky", RULES_PATH + "PINKY.fcl", "FuzzyGhosts", actionSelector);
-		fuzzyEngines[GHOST.PINKY.ordinal()].addObserver(observer);
+		//fuzzyEngines[GHOST.PINKY.ordinal()].addObserver(observer);
 
 		fuzzyEngines[GHOST.INKY.ordinal()] = new FuzzyEngine("Inky", RULES_PATH + "INKY.fcl", "FuzzyGhosts", actionSelector);
-		fuzzyEngines[GHOST.INKY.ordinal()].addObserver(observer);
+		//fuzzyEngines[GHOST.INKY.ordinal()].addObserver(observer);
 
 		fuzzyEngines[GHOST.SUE.ordinal()] = new FuzzyEngine("Sue", RULES_PATH + "SUE.fcl", "FuzzyGhosts", actionSelector);
-		fuzzyEngines[GHOST.SUE.ordinal()].addObserver(observer);
+		//fuzzyEngines[GHOST.SUE.ordinal()].addObserver(observer);
 		
 		fuzzyMemory = new GhostsFuzzyMemory();
 	}
