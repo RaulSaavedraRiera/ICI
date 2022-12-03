@@ -23,18 +23,10 @@ public class RunAwayLairPA implements Action{
 
 		@Override
 		public MOVE execute(Game game) {
-			if (jailIndex == -1 && game.getGhostLairTime(GHOST.BLINKY) <= 0) 
-				jailIndex = game.getGhostCurrentNodeIndex(GHOST.BLINKY);
 			
-			
-			if(jailIndex != -1) {
-				GameView.addLines(game, Color.RED, game.getPacmanCurrentNodeIndex(), jailIndex);
-				return game.getApproximateNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), jailIndex, game.getPacmanLastMoveMade(), DM.PATH);
-			}
+				GameView.addLines(game, Color.RED, game.getPacmanCurrentNodeIndex(), game.getCurrentMaze().lairNodeIndex);
+				return game.getApproximateNextMoveAwayFromTarget(game.getPacmanCurrentNodeIndex(), game.getCurrentMaze().lairNodeIndex, game.getPacmanLastMoveMade(), DM.PATH);
 						
-			else 
-				return game.getApproximateNextMoveTowardsTarget(
-						game.getPacmanCurrentNodeIndex(), game.getPowerPillIndices()[rnd.nextInt(game.getPowerPillIndices().length)], game.getPacmanLastMoveMade(), DM.PATH);
 		}
 		
 		@Override
