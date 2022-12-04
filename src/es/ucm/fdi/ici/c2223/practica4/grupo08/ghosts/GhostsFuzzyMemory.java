@@ -19,6 +19,8 @@ public class GhostsFuzzyMemory {
 	private HashMap<String, Double> mem;
 	
 	private int[] ghostAsignedPP; //PP asignada a cada fantasma, utilizada para dividirse y buscar a mspacman
+	private int[] ghostPositions;
+	private MOVE[] ghostLastMoves;
 	
 	public GhostsFuzzyMemory() 
 	{
@@ -31,6 +33,8 @@ public class GhostsFuzzyMemory {
 		pacmanTimeSinceSeen = 0;
 		
 		ghostAsignedPP = new int[4];
+		ghostPositions = new int[4];
+		ghostLastMoves = new MOVE[4];
 	}
 
 	public void getInput(GhostsInput input) {
@@ -97,6 +101,26 @@ public class GhostsFuzzyMemory {
 	public void setGhostAsignedPP(GHOST ghost, int PPNode) 
 	{
 		ghostAsignedPP[ghost.ordinal()] = PPNode;
+	}
+	
+	public int getGhostPosition(GHOST ghost) 
+	{
+		return ghostPositions[ghost.ordinal()];
+	}
+	
+	public void setGhostPostion(GHOST ghost, int pos) 
+	{
+		ghostPositions[ghost.ordinal()] = pos;
+	}
+	
+	public MOVE getGhostLastMove(GHOST ghost) 
+	{
+		return ghostLastMoves[ghost.ordinal()];
+	}
+	
+	public void setGhostLastMove(GHOST ghost, MOVE lastMove) 
+	{
+		ghostLastMoves[ghost.ordinal()] = lastMove;
 	}
 	
 	public int getPacmanTimeSinceSeen() {

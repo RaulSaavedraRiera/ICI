@@ -23,6 +23,6 @@ public class ExecutorTest {
 		PacmanController pacMan = new MsPacMan();
 		GhostController ghosts = new Ghosts();
 
-		System.out.println(executor.runGame(pacMan, ghosts, 20));
+		System.out.println(executor.runGame(pacMan, ghosts, 40));
 	}
 }
