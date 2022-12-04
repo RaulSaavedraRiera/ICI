@@ -40,16 +40,15 @@ FUZZIFY distanceToPacmanWithSpeed
 END_FUZZIFY
 
 FUZZIFY remainingTime
-	TERM low := (0,1)(20,0);
-	TERM medium := gauss 20 20;
-	TERM high := (40,0)(50,1);
+	TERM low := (0,1)(10,0);
+	TERM medium := (5,0)(10,1)(30,1)(35,0);
+	TERM high := (30,0)(50,1);
 END_FUZZIFY
 
 FUZZIFY edible
-	TERM no := (0,0)(0.5,0);
+	TERM no := (0,1)(0.5,1)(0.5,0);
 	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
-
 
 FUZZIFY distanceToLair
 	TERM near:=(0,1)(20,1)(40,0);
@@ -58,49 +57,47 @@ FUZZIFY distanceToLair
 END_FUZZIFY
 
 FUZZIFY arrivesFirstToPP
-	TERM no := (0,0)(0.5,0);
+	TERM no := (0,1)(0.5,1)(0.5,0);
 	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
-
 
 FUZZIFY anotherGhostNotEdible
-	TERM no := (0,0)(0.5,0);
+	TERM no := (0,1)(0.5,1)(0.5,0);
 	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
-
 
 FUZZIFY anotherGhostEdible
-	TERM no := (0,0)(0.5,0);
+	TERM no := (0,1)(0.5,1)(0.5,0);
 	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
-
 FUZZIFY anotherGhostInLair
-	TERM no := (0,0)(0.5,0);
+	TERM no := (0,1)(0.5,1)(0.5,0);
 	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
 FUZZIFY intercept
-	TERM no := (0,0)(0.5,0);
+	TERM no := (0,1)(0.5,1)(0.5,0);
 	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
 FUZZIFY pacmanPosConfidence
-	TERM low := (0,1)(25,1)(50,0) ; 
-	TERM medium := gauss 50 25;
+	TERM zero := (0,1)(1,1)(1,0);
+	TERM low := (1,0)(1,1)(25,1)(50,0) ; 
+	TERM medium := (30,0)(40,1)(60,1)(70,0);
 	TERM high := (50,0)(75,1)(100,1);
 END_FUZZIFY
 
 DEFUZZIFY PINKYRunaway
 	TERM calm := (0,1) (5,1) (15,0);
-	TERM nervious := gauss 15 5;
+	TERM nervious := (5, 0) (15, 1) (25, 0);
 	TERM emergency := (15,0) (25,1) (30,1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
 DEFUZZIFY PINKYChase
 	TERM calm := (0,1) (5,1) (15,0);
-	TERM nervious := gauss 15 5;
+	TERM nervious := (5, 0) (15, 1) (25, 0);
 	TERM emergency := (15,0) (25,1) (30,1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
