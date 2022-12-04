@@ -385,14 +385,40 @@ RULEBLOCK MsPacManRules
 	// RULE 2 : IF PINKYdistance IS near AND PINKYconfidence IS high THEN Runaway IS emergency;
 	// RULE 3 : IF INKYdistance IS near AND INKYconfidence IS high THEN Runaway IS emergency;
 	// RULE 4 : IF SUEdistance IS near AND SUEconfidence IS high THEN Runaway IS emergency;
+
 	// RULE 5 : IF BLINKYconfidence IS medium THEN GoToPPill IS nervious;
 	// RULE 6 : IF PINKYconfidence IS medium THEN GoToPPill IS nervious;
 	// RULE 7 : IF INKYconfidence IS medium THEN GoToPPill IS nervious;
 	// RULE 8 : IF SUEconfidence IS medium THEN GoToPPill IS nervious;
+
 	// RULE 9 : IF BLINKYdistance IS far THEN Runaway IS calm;
 	// RULE 10 : IF PINKYdistance IS far THEN Runaway IS calm;
 	// RULE 11 : IF INKYdistance IS far THEN Runaway IS calm;
 	// RULE 12 : IF SUEdistance IS far THEN Runaway IS calm;
+
+
+	// RULE 13: IF BLINKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
+	// RULE 14: IF INKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
+	// RULE 15: IF PINKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
+	// RULE 16: IF SUElairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
+
+	// RULE 17: IF BLINKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
+	// RULE 18: IF BLINKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
+	// RULE 19: IF INKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
+	// RULE 20: IF INKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
+	// RULE 21: IF PINKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
+	// RULE 22: IF PINKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
+	// RULE 23: IF SUElairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
+	// RULE 24: IF SUElairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
+	
+	// RULE 25: IF BLINKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
+	// RULE 26: IF INKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
+	// RULE 27: IF PINKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
+	// RULE 28: IF SUElairTime IS lockedLong THEN RunawayLAIR IS calm;
+	
+	// RULE 29: IF LAIRdistance IS far THEN RunawayLAIR IS calm;
+
+
 
 	//IF 4fantasmasCerca && buenas tardes THEN hola
 END_RULEBLOCK

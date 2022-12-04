@@ -3,8 +3,7 @@ package es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions;
 import java.awt.Color;
 
 import es.ucm.fdi.ici.Action;
-import es.ucm.fdi.ici.rules.RulesAction;
-import jess.Fact;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
 import pacman.game.Constants;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
@@ -14,10 +13,11 @@ import pacman.game.GameView;
 
 public class RunAwayDangerousEdibleGhostPA implements Action{
 	
+	MsPacManFuzzyMemory memory;
 	final int LIMIT_EDIBLE_TIME = 6;
 	
-		public RunAwayDangerousEdibleGhostPA() {
-			
+		public RunAwayDangerousEdibleGhostPA(MsPacManFuzzyMemory mem) {
+			memory = mem;
 		}
 
 		@Override
@@ -32,7 +32,7 @@ public class RunAwayDangerousEdibleGhostPA implements Action{
 
 		@Override
 		public String getActionId() {
-			return "PacmanRunAwayLDangerousEdibleGhost";
+			return "PacmanRunAwayDangerousEdibleGhost";
 			
 		}
 		
@@ -44,9 +44,9 @@ public class RunAwayDangerousEdibleGhostPA implements Action{
 			
 			for (GHOST g : Constants.GHOST.values()) {
 				
-				if (game.getGhostLairTime(g) == 0 && game.getGhostEdibleTime(g) > 0 && game.getGhostEdibleTime(g)  <= LIMIT_EDIBLE_TIME) {
+				if (memory.lairTimeGhosts[g.ordinal()] <= 0 && memory.edibleTimeGhosts[g.ordinal()] > 0 && memory.edibleTimeGhosts[g.ordinal()] <= LIMIT_EDIBLE_TIME) {
 					// comprobamos si esta mas cerca que el limite actual
-					currentDistance = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(g), game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(g));
+					currentDistance = game.getShortestPathDistance((int)memory.lastPosGhost[g.ordinal()], game.getPacmanCurrentNodeIndex(), memory.lastDirectionGhosts[g.ordinal()]);
 					if (currentDistance < minDistance) {
 						// en caso correcto lo guardamos
 						nearest = g; 
@@ -55,7 +55,7 @@ public class RunAwayDangerousEdibleGhostPA implements Action{
 				}
 
 			}
-			return game.getGhostCurrentNodeIndex(nearest);
+			return (int)memory.lastPosGhost[nearest.ordinal()];
 		}
 
 		
