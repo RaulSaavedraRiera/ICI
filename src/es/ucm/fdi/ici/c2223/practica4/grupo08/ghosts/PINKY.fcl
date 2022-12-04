@@ -15,11 +15,6 @@ VAR_INPUT
 	anotherGhostInLair : REAL;
 	anotherGhostEdible : REAL;
 	intercept : REAL;
-	
-	GHOST_RANGE : REAL;
-    PACMAN_MAX_DIST_TO_PP : REAL;
-	SAFETY_DISTANCE_WHEN_EDIBLE : REAL;
-	SURE_DEATH_DISTANCE : REAL;
 END_VAR
 
 VAR_OUTPUT
@@ -51,8 +46,8 @@ FUZZIFY remainingTime
 END_FUZZIFY
 
 FUZZIFY edible
-	TERM yes:=(1,1);
-	TERM no := (0,0);
+	TERM no := (0,0)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
 
@@ -63,31 +58,31 @@ FUZZIFY distanceToLair
 END_FUZZIFY
 
 FUZZIFY arrivesFirstToPP
-	TERM yes:=(1,1);
-	TERM no := (0,0);
+	TERM no := (0,0)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
 
 FUZZIFY anotherGhostNotEdible
-	TERM yes:=(1,1);
-	TERM no := (0,0);
+	TERM no := (0,0)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
 
 FUZZIFY anotherGhostEdible
-	TERM yes:=(1,1);
-	TERM no := (0,0);
+	TERM no := (0,0)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
 
 FUZZIFY anotherGhostInLair
-	TERM yes:=(1,1);
-	TERM no := (0,0);
+	TERM no := (0,0)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
 FUZZIFY intercept
-	TERM yes:=(1,1);
-	TERM no := (0,0);
+	TERM no := (0,0)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
 END_FUZZIFY
 
 FUZZIFY pacmanPosConfidence

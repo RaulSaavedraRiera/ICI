@@ -70,6 +70,12 @@ public class GhostsInput extends FuzzyInput {
 		
 		if (mem == null) return;
 		
+		//coger posicion inicial de pacman
+		if (mem.getPacmanLastPosition() == -1) 
+		{
+			mem.setPacmanLastPosition(game.getCurrentMaze().initialPacManNodeIndex);
+		}
+		
 		for (GHOST g : GHOST.values()) {
 			int pos = game.getPacmanCurrentNodeIndex();
 			if (pos != -1) {
@@ -107,7 +113,7 @@ public class GhostsInput extends FuzzyInput {
 					mem.setPPActive(pp, true);
 				
 				//pp mas cercana a pacman
-				else if (mem.isPPActive(pp)) 
+				if (mem.isPPActive(pp)) 
 				{
 					dist = game.getShortestPathDistance(mem.getPacmanLastPosition(), pp, mem.getPacmanLastDirection());
 					if (dist < minDistToPP) 

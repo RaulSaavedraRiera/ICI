@@ -21,8 +21,8 @@ public class GhostsFuzzyMemory {
 		activePP = new HashMap<Integer, Boolean>();
 		mem = new HashMap<String, Double>();
 		
-		pacmanLastPosition = 0;
-		pacmanLastDirection = MOVE.UP;
+		pacmanLastPosition = -1;
+		pacmanLastDirection = MOVE.NEUTRAL;
 		pacmanPosConfidence = 0;
 	}
 
