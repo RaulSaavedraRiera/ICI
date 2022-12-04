@@ -11,6 +11,8 @@ public class GhostsFuzzyMemory {
 	private MOVE pacmanLastDirection;
 
 	private int pacmanPosConfidence;
+
+	private int pacmanTimeSinceSeen;
 	
 	private HashMap<Integer, Boolean> activePP;
 
@@ -26,35 +28,30 @@ public class GhostsFuzzyMemory {
 		pacmanLastPosition = -1;
 		pacmanLastDirection = MOVE.NEUTRAL;
 		pacmanPosConfidence = 0;
+		pacmanTimeSinceSeen = 0;
 		
 		ghostAsignedPP = new int[4];
 	}
 
 	public void getInput(GhostsInput input) {
 
-		double conf = pacmanPosConfidence;
 		if (input.isPacmanVisible())
-			conf = 100;
-		else
-			conf = Double.max(0, conf - 5);
-		
-		mem.put("pacmanPosConfidence", conf);
-		//mem.put("pacmanPos", (double) pacmanLastPosition);
+		{
+			pacmanPosConfidence = 100;
+			pacmanTimeSinceSeen = 0;
+		}
+		else 
+		{
+			pacmanPosConfidence = Integer.max(0, pacmanPosConfidence - 2);
+			pacmanTimeSinceSeen++;
+		}
+			
+		mem.put("pacmanPosConfidence", (double) pacmanPosConfidence);
 
 		for (GHOST g : GHOST.values()) {
 
 			
 		}
-		
-		for (int ppNode : activePP.keySet()) {
-			double active = 0;
-			
-			if (activePP.get(ppNode))
-				active = 1;
-			
-			//mem.put("PP" + ppNode, active);
-		}
-
 	}
 
 	public HashMap<String, Double> getFuzzyValues() {
@@ -100,5 +97,13 @@ public class GhostsFuzzyMemory {
 	public void setGhostAsignedPP(GHOST ghost, int PPNode) 
 	{
 		ghostAsignedPP[ghost.ordinal()] = PPNode;
+	}
+	
+	public int getPacmanTimeSinceSeen() {
+		return pacmanTimeSinceSeen;
+	}
+	
+	public int getPacmanPosConfidence() {
+		return pacmanPosConfidence;
 	}
 }

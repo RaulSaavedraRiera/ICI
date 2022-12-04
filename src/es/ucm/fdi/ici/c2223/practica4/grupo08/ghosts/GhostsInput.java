@@ -21,11 +21,13 @@ public class GhostsInput extends FuzzyInput {
 	private int[] distanceToPacmanLastPosition;
 
 	private GhostsFuzzyMemory mem;
+	private MsPacmanPredictor pacmanPredictor;
 
-	public GhostsInput(Game game, GhostsFuzzyMemory ghostsMem) {
+	public GhostsInput(Game game, GhostsFuzzyMemory ghostsMem, MsPacmanPredictor pacmanPredictor) {
 		super(game);
 		// TODO Auto-generated constructor stub
 		mem = ghostsMem;
+		this.pacmanPredictor = pacmanPredictor;
 	}
 
 	public boolean isPacmanVisible() {
@@ -88,6 +90,7 @@ public class GhostsInput extends FuzzyInput {
 			int pos = game.getPacmanCurrentNodeIndex();
 			if (pos != -1) {
 				pacmanVisible = true;
+				pacmanPredictor.reset();
 
 				mem.setPacmanLastPosition(pos);
 			}
@@ -139,6 +142,9 @@ public class GhostsInput extends FuzzyInput {
 			pacmanDistToPP = minDistToPP;
 			pacmanNearestPP = nearestPP;
 		}
+		
+		if (mem.getPacmanPosConfidence() != 0)
+			pacmanPredictor.calculate();
 	}
 	
 	double parseBoolToDouble(boolean bool) 
