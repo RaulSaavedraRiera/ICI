@@ -31,8 +31,9 @@ public class MsPacmanPredictor {
 		if (msPacmanPosiblePos.size() == 0) {
 			int pacmanLastPos = ghostMem.getPacmanLastPosition();
 			for (int pos : game.getNeighbouringNodes(pacmanLastPos, ghostMem.getPacmanLastDirection())) {
+				MOVE moveDone = game.getMoveToMakeToReachDirectNeighbour(pacmanLastPos, pos);
 				msPacmanPosiblePos.add(pos);
-				msPacmanPosibleDirs.add(game.getMoveToMakeToReachDirectNeighbour(pacmanLastPos, pos));
+				msPacmanPosibleDirs.add(moveDone);
 
 				GameView.addPoints(game, Color.GREEN, pos);
 			}
@@ -48,8 +49,9 @@ public class MsPacmanPredictor {
 			int cont = 0;
 			for (int p : posiblePos) {
 				for (int pos : game.getNeighbouringNodes(p, posibleDirs.get(cont))) {
+					MOVE moveDone = game.getMoveToMakeToReachDirectNeighbour(p, pos);
 					msPacmanPosiblePos.add(pos);
-					msPacmanPosibleDirs.add(game.getMoveToMakeToReachDirectNeighbour(p, pos));
+					msPacmanPosibleDirs.add(moveDone);
 
 					GameView.addPoints(game, Color.GREEN, pos);
 				}
@@ -73,7 +75,7 @@ public class MsPacmanPredictor {
 		int mostProbablePos = -1;
 
 		int maxPoints = -Integer.MAX_VALUE;
-		
+
 		int cont = 0;
 		for (int nextPos : msPacmanPosiblePos) {
 			int points = 0;
@@ -103,9 +105,8 @@ public class MsPacmanPredictor {
 
 				points -= distanceToEdibleGhost;
 			}
-			
-			if (points > maxPoints) 
-			{
+
+			if (points > maxPoints) {
 				mostProbablePos = nextPos;
 				maxPoints = points;
 			}
@@ -113,11 +114,10 @@ public class MsPacmanPredictor {
 			cont++;
 		}
 
-		if (mostProbablePos != -1) 
-		{
+		if (mostProbablePos != -1) {
 			GameView.addPoints(game, Color.RED, mostProbablePos);
 		}
-			
+
 		return mostProbablePos;
 	}
 

@@ -91,6 +91,7 @@ public class GhostsInput extends FuzzyInput {
 				pacmanPredictor.reset();
 
 				mem.setPacmanLastPosition(pacmanPos);
+				mem.setPacmanLastDirection(game.getPacmanLastMoveMade());
 			}
 
 			int pos = game.getGhostCurrentNodeIndex(g);
