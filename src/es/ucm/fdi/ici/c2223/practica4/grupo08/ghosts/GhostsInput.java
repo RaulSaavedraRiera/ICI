@@ -74,6 +74,14 @@ public class GhostsInput extends FuzzyInput {
 		if (mem.getPacmanLastPosition() == -1) 
 		{
 			mem.setPacmanLastPosition(game.getCurrentMaze().initialPacManNodeIndex);
+			
+			//inicializamos las PP asignadas a cada fantasma
+			int cont = 0;
+			for (int pp : game.getCurrentMaze().powerPillIndices) 
+			{
+				mem.setGhostAsignedPP(GHOST.values()[cont], pp);
+				cont++;
+			}
 		}
 		
 		for (GHOST g : GHOST.values()) {

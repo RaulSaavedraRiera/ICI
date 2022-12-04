@@ -23,6 +23,6 @@ public class ExecutorTest {
 		PacmanController pacMan = new PacManRandom();
 		GhostController ghosts = new Ghosts();
 
-		System.out.println(executor.runGame(pacMan, ghosts, 1));
+		System.out.println(executor.runGame(pacMan, ghosts, 20));
 	}
 }

@@ -10,6 +10,7 @@ import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.MaxActionSelector;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.ChaseAction;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.RunAwayAction;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.SearchForPacmanAction;
 import es.ucm.fdi.ici.fuzzy.ActionSelector;
 import es.ucm.fdi.ici.fuzzy.FuzzyEngine;
 import es.ucm.fdi.ici.fuzzy.observers.ConsoleFuzzyEngineObserver;
@@ -34,10 +35,13 @@ public class Ghosts extends GhostController {
 
 		setTeam("Team 08");
 
+		fuzzyMemory = new GhostsFuzzyMemory();
+
 		Action[] actions = 
 			{ 
 				new ChaseAction(GHOST.BLINKY, fuzzyMemory), new ChaseAction(GHOST.PINKY, fuzzyMemory), new ChaseAction(GHOST.INKY, fuzzyMemory), new ChaseAction(GHOST.SUE, fuzzyMemory),
-				new RunAwayAction(GHOST.BLINKY, fuzzyMemory), new RunAwayAction(GHOST.PINKY, fuzzyMemory), new RunAwayAction(GHOST.INKY, fuzzyMemory), new RunAwayAction(GHOST.SUE, fuzzyMemory)
+				new RunAwayAction(GHOST.BLINKY, fuzzyMemory), new RunAwayAction(GHOST.PINKY, fuzzyMemory), new RunAwayAction(GHOST.INKY, fuzzyMemory), new RunAwayAction(GHOST.SUE, fuzzyMemory),
+				new SearchForPacmanAction(GHOST.BLINKY, fuzzyMemory), new SearchForPacmanAction(GHOST.PINKY, fuzzyMemory), new SearchForPacmanAction(GHOST.INKY, fuzzyMemory), new SearchForPacmanAction(GHOST.SUE, fuzzyMemory)
 			};
 
 		ActionSelector actionSelector = new MaxActionSelector(actions);
@@ -61,7 +65,6 @@ public class Ghosts extends GhostController {
 		fuzzyEngines[GHOST.SUE.ordinal()] = new FuzzyEngine("Sue", RULES_PATH + "SUE.fcl", "FuzzySue", actionSelector);
 		fuzzyEngines[GHOST.SUE.ordinal()].addObserver(SUEobserver);
 		
-		fuzzyMemory = new GhostsFuzzyMemory();
 	}
 
 	@Override

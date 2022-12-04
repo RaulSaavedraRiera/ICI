@@ -20,6 +20,7 @@ END_VAR
 VAR_OUTPUT
     BLINKYRunaway : REAL;
     BLINKYChase : REAL;
+    BLINKYSearchPacman : REAL;
 END_VAR
 
 FUZZIFY distanceToPacman
@@ -103,6 +104,13 @@ DEFUZZIFY BLINKYChase
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
+DEFUZZIFY BLINKYSearchPacman
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
 
 RULEBLOCK BLINKYRules
     AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
@@ -132,6 +140,11 @@ RULEBLOCK BLINKYRules
     RULE 16 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS high THEN BLINKYRunaway IS calm;
     RULE 17 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS medium THEN BLINKYRunaway IS calm;
     RULE 18 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS low THEN BLINKYRunaway IS calm;
+    
+    //search for mspacman when confidence is 0
+    RULE 19 : IF pacmanPosConfidence IS zero THEN BLINKYSearchPacman IS emergency;
+    RULE 20 : IF pacmanPosConfidence IS low THEN BLINKYSearchPacman IS nervious;
+    
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
