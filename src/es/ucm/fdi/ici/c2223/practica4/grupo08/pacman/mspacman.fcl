@@ -543,7 +543,8 @@ RULEBLOCK MsPacManRules
 	 RULE 118: IF SUElairTime IS lockedLong THEN RunawayLAIR IS calm;
 //	
 
-//reglas entorno, se buscara priorizar a que no haya ghosts cerca
+//reglas entorno
+ //cuando no hay ghosts cerca
 	 RULE 119: IF NOGHOSTSnear IS true AND LAIRdistance IS far THEN RunAwayLAIR IS calm;
 	 RULE 120: IF NOGHOSTSnear IS true AND LAIRdistance IS medium THEN RunAwayLAIR IS nervious;
 	 RULE 121: IF NOGHOSTSnear IS true AND LAIRdistance IS near THEN RunAwayLAIR IS emergency;
@@ -562,6 +563,12 @@ RULEBLOCK MsPacManRules
 	 RULE 131: IF NOGHOSTSnear IS true AND PP1distance IS near THEN RunAwayCORNER IS emergency;
 	 RULE 132: IF NOGHOSTSnear IS true AND PP2distance IS near THEN RunAwayCORNER IS emergency;
 	 RULE 133: IF NOGHOSTSnear IS true AND PP3distance IS near THEN RunAwayCORNER IS emergency;
+	 
+	 RULE 134: IF NOGHOSTSnear IS true AND PILLSnear IS high THEN ChasePILL IS emergency;
+	 RULE 135: IF NOGHOSTSnear IS true AND PILLSnear IS medium THEN ChasePILL IS nervious;
+	 RULE 136: IF NOGHOSTSnear IS true AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 137: IF NOGHOSTSnear IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 138: IF NOGHOSTSnear IS true AND PILLSnear IS few THEN ChaseGHOST IS nervious;
 	 
 	
 
