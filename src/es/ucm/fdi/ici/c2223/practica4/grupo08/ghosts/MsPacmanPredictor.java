@@ -103,13 +103,13 @@ public class MsPacmanPredictor {
 				points += distanceToNotEdibleGhost;
 			}
 
-			// cada nodo de distancia al fantasma comestible mas cercano quita 2 puntos
+			// cada nodo de distancia al fantasma comestible mas cercano quita 3 puntos
 			GHOST nearestEdibleGhost = getNearestEdibleGhost(nextPos, lastMove);
 			if (nearestEdibleGhost != null) {
 				int distanceToEdibleGhost = game.getShortestPathDistance(nextPos,
 						ghostMem.getGhostPosition(nearestEdibleGhost), lastMove);
 
-				points -= distanceToEdibleGhost;
+				points -= distanceToEdibleGhost * 3;
 			}
 
 			if (points > maxPoints) {

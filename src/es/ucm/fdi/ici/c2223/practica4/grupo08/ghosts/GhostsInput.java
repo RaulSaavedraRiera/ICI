@@ -9,7 +9,8 @@ import pacman.game.Game;
 
 public class GhostsInput extends FuzzyInput {
 
-	boolean pacmanVisible;
+	private boolean pacmanVisible;
+	private boolean pacmanInCorner;
 	private boolean[] edible;
 	private boolean[] anotherGhostEdible;
 	private boolean[] anotherGhostNotEdible;
@@ -48,7 +49,8 @@ public class GhostsInput extends FuzzyInput {
 		HashMap<String, Double> vars = new HashMap<String, Double>();
 
 		vars.put("pacmanDistanceToPPill", (double) pacmanDistToPP);
-
+		vars.put("pacmanInCorner", parseBoolToDouble(pacmanInCorner));
+		
 		return vars;
 	}
 
@@ -76,6 +78,7 @@ public class GhostsInput extends FuzzyInput {
 	public void parseInput() {
 		// TODO Auto-generated method stub
 		pacmanVisible = false;
+		pacmanInCorner = false;
 
 		distanceToPacmanLastPosition = new int[4];
 		distanceToPacmanWithSpeed = new double[4];
@@ -152,6 +155,9 @@ public class GhostsInput extends FuzzyInput {
 			// inicializar a true la existencia de las PP
 			if (!mem.PPEntryExists(pp))
 				mem.setPPActive(pp, true);
+			
+			if (mem.getPacmanPosConfidence() > 0 && game.getShortestPathDistance(mem.getPacmanLastPosition(), pp) < 10) 
+				pacmanInCorner = true;
 
 			// pp mas cercana a pacman
 			if (mem.isPPActive(pp)) {
@@ -183,7 +189,6 @@ public class GhostsInput extends FuzzyInput {
 			pacmanPredictor.calculate();
 			mostProbablePacmanPos = pacmanPredictor.getMostProbablePos();
 			mostProbablePacmanPosPoints = pacmanPredictor.getMostProbablePosPoints();
-			System.out.println("Points: " + mostProbablePacmanPosPoints);
 			
 			//marcar PP mas cercana a pacman como comida si se comio una
 			if (game.wasPowerPillEaten() && pacmanNearestPP != -1) 

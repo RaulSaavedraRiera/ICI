@@ -72,18 +72,18 @@ public class Ghosts extends GhostController {
 
 		fuzzyEngines[GHOST.BLINKY.ordinal()] = new FuzzyEngine("Blinky", RULES_PATH + "BLINKY.fcl", "FuzzyBlinky",
 				actionSelector);
-		//fuzzyEngines[GHOST.BLINKY.ordinal()].addObserver(BLINKYobserver);
+		fuzzyEngines[GHOST.BLINKY.ordinal()].addObserver(BLINKYobserver);
 
 		fuzzyEngines[GHOST.PINKY.ordinal()] = new FuzzyEngine("Pinky", RULES_PATH + "PINKY.fcl", "FuzzyPinky",
 				actionSelector);
-		//fuzzyEngines[GHOST.PINKY.ordinal()].addObserver(PINKYobserver);
+		fuzzyEngines[GHOST.PINKY.ordinal()].addObserver(PINKYobserver);
 
 		fuzzyEngines[GHOST.INKY.ordinal()] = new FuzzyEngine("Inky", RULES_PATH + "INKY.fcl", "FuzzyInky",
 				actionSelector);
-		//fuzzyEngines[GHOST.INKY.ordinal()].addObserver(INKYobserver);
+		fuzzyEngines[GHOST.INKY.ordinal()].addObserver(INKYobserver);
 
 		fuzzyEngines[GHOST.SUE.ordinal()] = new FuzzyEngine("Sue", RULES_PATH + "SUE.fcl", "FuzzySue", actionSelector);
-		//fuzzyEngines[GHOST.SUE.ordinal()].addObserver(SUEobserver);
+		fuzzyEngines[GHOST.SUE.ordinal()].addObserver(SUEobserver);
 	}
 
 	@Override

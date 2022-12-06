@@ -175,93 +175,93 @@ RULEBLOCK PINKYRules
 	RULE 8 : IF edible IS no AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
 	RULE 9 : IF edible IS no AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
 
-//	//near PP runAway (ghost far from pacman)
-//	RULE 10 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN PINKYRunaway IS emergency;
-//	RULE 11 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN PINKYRunaway IS calm;
-//	RULE 12 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
-//
-//	RULE 13 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN PINKYRunaway IS emergency;
-//	RULE 14 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN PINKYRunaway IS nervious;
-//	RULE 15 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
-//
-//	RULE 16 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS high THEN PINKYRunaway IS calm;
-//	RULE 17 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS medium THEN PINKYRunaway IS calm;
-//	RULE 18 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
-//    
-//	//search for mspacman when confidence is 0
-//	RULE 19 : IF edible IS no AND pacmanPosConfidence IS zero THEN PINKYSearchPacman IS emergency;
-//	RULE 20 : IF edible IS no AND pacmanPosConfidence IS low THEN PINKYSearchPacman IS nervious;
-//	
-//	//protect another edible ghost
-//	RULE 23 : IF edible IS no AND anotherGhostEdible IS yes THEN PINKYProtectsEdible IS emergency;
-//
-//	//run away to ghost or run away to lair
-//	RULE 24 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS no THEN PINKYRunsAwayToGhost IS emergency;
-//	RULE 25 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS far THEN PINKYRunsAwayToGhost IS emergency;
-//	RULE 26 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS medium THEN PINKYRunsAwayToGhost IS nervious;
-//	RULE 27 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS near THEN PINKYRunsAwayToGhost IS calm;
-//
-//	RULE 28 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS no THEN PINKYRunsToLair IS emergency;
-//	RULE 29 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS near THEN PINKYRunsToLair IS emergency;
-//	RULE 30 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS medium THEN PINKYRunsToLair IS nervious;
-//	RULE 31 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS far THEN PINKYRunsToLair IS calm;
-//
-//	//goes to corner to die
-//	RULE 32 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN PINKYGoesToPP IS emergency;
-//	RULE 33 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN PINKYGoesToPP IS nervious;
-//	RULE 34 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN PINKYGoesToPP IS calm;
-//
-//	RULE 35 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN PINKYGoesToPP IS nervious;
-//	RULE 36 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN PINKYGoesToPP IS nervious;
-//	RULE 37 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN PINKYGoesToPP IS calm;
-//
-//	RULE 38 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN PINKYGoesToPP IS nervious;
-//	RULE 39 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN PINKYGoesToPP IS calm;
-//	RULE 40 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN PINKYGoesToPP IS calm;
-//
-//	//turns non edible before pacman reaches
-//	RULE 41 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS high THEN PINKYChase IS emergency;
-//	RULE 42 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS high THEN PINKYChase IS emergency;
-//	RULE 43 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS high THEN PINKYChase IS calm;
-//
-//	RULE 44 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS medium THEN PINKYChase IS emergency;
-//	RULE 45 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS medium THEN PINKYChase IS nervious;
-//	RULE 46 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS medium THEN PINKYChase IS calm;
-//
-//	RULE 47 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS low THEN PINKYChase IS nervious;
-//	RULE 48 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
-//	RULE 49 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
-//
-//	//trap in the corner
-//	RULE 50 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN PINKYTrapsInCorner IS emergency;
-//	RULE 51 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN PINKYTrapsInCorner IS emergency;
-//	RULE 52 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN PINKYTrapsInCorner IS emergency;
-//
-//	RULE 53 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN PINKYTrapsInCorner IS nervious;
-//	RULE 54 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN PINKYTrapsInCorner IS emergency;
-//	RULE 55 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN PINKYTrapsInCorner IS emergency;
-//
-//	RULE 56 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN PINKYTrapsInCorner IS calm;
-//	RULE 57 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN PINKYTrapsInCorner IS calm;
-//	RULE 58 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN PINKYTrapsInCorner IS nervious;
-//
-//	//near PP chase (ghost near pacman)
-//	RULE 59 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN PINKYChase IS emergency;
-//	RULE 60 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN PINKYChase IS nervious;
-//	RULE 61 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
-//
-//	RULE 62 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN PINKYChase IS emergency;
-//	RULE 63 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN PINKYChase IS nervious;
-//	RULE 64 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
-//
-//	//near PP runAway (ghost medium distance to pacman)
-//	RULE 65 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN PINKYRunaway IS emergency;
-//	RULE 66 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN PINKYRunaway IS calm;
-//	RULE 67 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
-//	
-//	RULE 68 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN PINKYRunaway IS emergency;
-//	RULE 69 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN PINKYRunaway IS nervious;
-//	RULE 70 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
+	//near PP runAway (ghost far from pacman)
+	RULE 10 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN PINKYRunaway IS emergency;
+	RULE 11 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN PINKYRunaway IS calm;
+	RULE 12 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
+
+	RULE 13 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN PINKYRunaway IS emergency;
+	RULE 14 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN PINKYRunaway IS nervious;
+	RULE 15 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
+
+	RULE 16 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS high THEN PINKYRunaway IS calm;
+	RULE 17 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS medium THEN PINKYRunaway IS calm;
+	RULE 18 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
+    
+	//search for mspacman when confidence is 0
+	RULE 19 : IF edible IS no AND pacmanPosConfidence IS zero THEN PINKYSearchPacman IS emergency;
+	RULE 20 : IF edible IS no AND pacmanPosConfidence IS low THEN PINKYSearchPacman IS nervious;
+	
+	//protect another edible ghost
+	RULE 23 : IF edible IS no AND anotherGhostEdible IS yes THEN PINKYProtectsEdible IS emergency;
+
+	//run away to ghost or run away to lair
+	RULE 24 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS no THEN PINKYRunsAwayToGhost IS emergency;
+	RULE 25 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS far THEN PINKYRunsAwayToGhost IS emergency;
+	RULE 26 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS medium THEN PINKYRunsAwayToGhost IS nervious;
+	RULE 27 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS near THEN PINKYRunsAwayToGhost IS calm;
+
+	RULE 28 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS no THEN PINKYRunsToLair IS emergency;
+	RULE 29 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS near THEN PINKYRunsToLair IS emergency;
+	RULE 30 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS medium THEN PINKYRunsToLair IS nervious;
+	RULE 31 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS far THEN PINKYRunsToLair IS calm;
+
+	//goes to corner to die
+	RULE 32 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN PINKYGoesToPP IS emergency;
+	RULE 33 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN PINKYGoesToPP IS nervious;
+	RULE 34 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN PINKYGoesToPP IS calm;
+
+	RULE 35 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN PINKYGoesToPP IS nervious;
+	RULE 36 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN PINKYGoesToPP IS nervious;
+	RULE 37 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN PINKYGoesToPP IS calm;
+
+	RULE 38 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN PINKYGoesToPP IS nervious;
+	RULE 39 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN PINKYGoesToPP IS calm;
+	RULE 40 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN PINKYGoesToPP IS calm;
+
+	//turns non edible before pacman reaches
+	RULE 41 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS high THEN PINKYChase IS emergency;
+	RULE 42 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS high THEN PINKYChase IS emergency;
+	RULE 43 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS high THEN PINKYChase IS calm;
+
+	RULE 44 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS medium THEN PINKYChase IS emergency;
+	RULE 45 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS medium THEN PINKYChase IS nervious;
+	RULE 46 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS medium THEN PINKYChase IS calm;
+
+	RULE 47 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS low THEN PINKYChase IS nervious;
+	RULE 48 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
+	RULE 49 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
+
+	//trap in the corner
+	RULE 50 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN PINKYTrapsInCorner IS emergency;
+	RULE 51 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN PINKYTrapsInCorner IS emergency;
+	RULE 52 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN PINKYTrapsInCorner IS emergency;
+
+	RULE 53 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN PINKYTrapsInCorner IS nervious;
+	RULE 54 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN PINKYTrapsInCorner IS emergency;
+	RULE 55 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN PINKYTrapsInCorner IS emergency;
+
+	RULE 56 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN PINKYTrapsInCorner IS calm;
+	RULE 57 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN PINKYTrapsInCorner IS calm;
+	RULE 58 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN PINKYTrapsInCorner IS nervious;
+
+	//near PP chase (ghost near pacman)
+	RULE 59 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN PINKYChase IS emergency;
+	RULE 60 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN PINKYChase IS nervious;
+	RULE 61 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
+
+	RULE 62 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN PINKYChase IS emergency;
+	RULE 63 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN PINKYChase IS nervious;
+	RULE 64 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN PINKYChase IS calm;
+
+	//near PP runAway (ghost medium distance to pacman)
+	RULE 65 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN PINKYRunaway IS emergency;
+	RULE 66 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN PINKYRunaway IS calm;
+	RULE 67 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
+	
+	RULE 68 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN PINKYRunaway IS emergency;
+	RULE 69 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN PINKYRunaway IS nervious;
+	RULE 70 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN PINKYRunaway IS calm;
 
 END_RULEBLOCK
 

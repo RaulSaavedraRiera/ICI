@@ -232,18 +232,18 @@ RULEBLOCK SUERules
 	RULE 48 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS low THEN SUEChase IS calm;
 	RULE 49 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS low THEN SUEChase IS calm;
 
-//	//trap in the corner
-//	RULE 50 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
-//	RULE 51 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
-//	RULE 52 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
-//
-//	RULE 53 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS nervious;
-//	RULE 54 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS emergency;
-//	RULE 55 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS emergency;
-//
-//	RULE 56 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS calm;
-//	RULE 57 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS calm;
-//	RULE 58 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS nervious;
+	//trap in the corner
+	RULE 50 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
+	RULE 51 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
+	RULE 52 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
+
+	RULE 53 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS nervious;
+	RULE 54 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS emergency;
+	RULE 55 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS emergency;
+
+	RULE 56 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS calm;
+	RULE 57 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS calm;
+	RULE 58 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS nervious;
 
 	//near PP chase (ghost near pacman)
 	RULE 59 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
