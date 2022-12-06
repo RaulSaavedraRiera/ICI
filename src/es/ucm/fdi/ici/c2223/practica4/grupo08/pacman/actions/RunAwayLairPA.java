@@ -4,10 +4,8 @@ import java.awt.Color;
 import java.util.Random;
 
 import es.ucm.fdi.ici.Action;
-import es.ucm.fdi.ici.rules.RulesAction;
-import jess.Fact;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
 import pacman.game.Constants.DM;
-import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 import pacman.game.GameView;
@@ -16,9 +14,10 @@ public class RunAwayLairPA implements Action{
 	
 	int jailIndex = -1;
 	Random rnd = new Random();
+	MsPacManFuzzyMemory memory;
 	
-		public RunAwayLairPA() {
-			
+		public RunAwayLairPA(MsPacManFuzzyMemory mem) {
+			memory = mem;
 		}
 
 		@Override
@@ -31,7 +30,7 @@ public class RunAwayLairPA implements Action{
 		
 		@Override
 		public String getActionId() {
-			return "PacmanRunAwayLair";
+			return "RunawayLAIR";
 			
 		}
 

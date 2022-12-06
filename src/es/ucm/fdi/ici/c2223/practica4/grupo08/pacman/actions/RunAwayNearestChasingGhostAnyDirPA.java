@@ -33,7 +33,7 @@ public class RunAwayNearestChasingGhostAnyDirPA implements Action {
 
 		@Override
 		public String getActionId() {
-			return "PacmanRunAwayNearestChasingGhostAnyDir";
+			return "Runaway";
 			
 		}
 		

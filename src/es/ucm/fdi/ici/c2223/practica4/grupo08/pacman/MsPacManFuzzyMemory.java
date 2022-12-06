@@ -67,7 +67,7 @@ public class MsPacManFuzzyMemory {
 			
 			
 			//si no han sido comidos se actualiza a los nuevos valores fijos de los fantasmas
-			if(input.wasEaten(g)) {
+			if(!input.wasEaten(g)) {
 				
 				if(lairTimeghosts > 0)
 					lairTimeghosts--;

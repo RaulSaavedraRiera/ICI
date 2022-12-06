@@ -7,9 +7,14 @@ import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.MaxActionSelector;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManInput;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.ChaseGhostPA;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.ChasePillPA;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.ChasePowerPillPA;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.DefaultRandomPA;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.RunAwayCornerPA;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.RunAwayLairPA;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.RunAwayNearestChasingGhostAnyDirPA;
 import es.ucm.fdi.ici.fuzzy.FuzzyEngine;
-import es.ucm.fdi.ici.fuzzy.observers.ConsoleFuzzyEngineObserver;
 import pacman.controllers.PacmanController;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
@@ -32,7 +37,13 @@ public class MsPacMan extends PacmanController {
 
 		Action[] actions = 
 			{ 
-					new DefaultRandomPA(fuzzyMemory)
+					new RunAwayCornerPA(fuzzyMemory),
+					new RunAwayLairPA(fuzzyMemory),
+					new ChasePillPA(fuzzyMemory),
+					new ChasePowerPillPA(fuzzyMemory),
+					new ChaseGhostPA(fuzzyMemory),
+					new DefaultRandomPA(fuzzyMemory),
+					new RunAwayNearestChasingGhostAnyDirPA(fuzzyMemory)
 				};
 		
 		//ConsoleFuzzyEngineObserver observer = new ConsoleFuzzyEngineObserver("MsPacMan","MsPacManRules");
