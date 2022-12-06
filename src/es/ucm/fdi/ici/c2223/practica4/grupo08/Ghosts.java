@@ -7,6 +7,7 @@ import java.util.HashMap;
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.GhostsFuzzyMemory;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.GhostsInput;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.JunctionManager;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.MaxActionSelector;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.MsPacmanPredictor;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.ChaseAction;
@@ -35,6 +36,7 @@ public class Ghosts extends GhostController {
 
 	GhostsFuzzyMemory fuzzyMemory;
 	MsPacmanPredictor pacmanPredictor;
+	JunctionManager junctManager;
 
 	public Ghosts() {
 		super();
@@ -43,9 +45,10 @@ public class Ghosts extends GhostController {
 		setTeam("Team 08");
 
 		fuzzyMemory = new GhostsFuzzyMemory();
+		junctManager = new JunctionManager();
 
-		Action[] actions = { new ChaseAction(GHOST.BLINKY, fuzzyMemory), new ChaseAction(GHOST.PINKY, fuzzyMemory),
-				new ChaseAction(GHOST.INKY, fuzzyMemory), new ChaseAction(GHOST.SUE, fuzzyMemory),
+		Action[] actions = { new ChaseAction(GHOST.BLINKY, fuzzyMemory, junctManager), new ChaseAction(GHOST.PINKY, fuzzyMemory, junctManager),
+				new ChaseAction(GHOST.INKY, fuzzyMemory, junctManager), new ChaseAction(GHOST.SUE, fuzzyMemory, junctManager),
 				new RunAwayAction(GHOST.BLINKY, fuzzyMemory), new RunAwayAction(GHOST.PINKY, fuzzyMemory),
 				new RunAwayAction(GHOST.INKY, fuzzyMemory), new RunAwayAction(GHOST.SUE, fuzzyMemory),
 				new SearchForPacmanAction(GHOST.BLINKY, fuzzyMemory),
@@ -90,8 +93,10 @@ public class Ghosts extends GhostController {
 	public EnumMap<GHOST, MOVE> getMove(Game game, long timeDue) {
 		if (pacmanPredictor == null)
 			pacmanPredictor = new MsPacmanPredictor(game, fuzzyMemory);
+		else
+			pacmanPredictor.setGame(game);
 
-		GhostsInput input = new GhostsInput(game, fuzzyMemory, pacmanPredictor);
+		GhostsInput input = new GhostsInput(game, fuzzyMemory, pacmanPredictor, junctManager);
 		input.parseInput();
 		fuzzyMemory.getInput(input);
 
@@ -106,6 +111,15 @@ public class Ghosts extends GhostController {
 		}
 
 		return moves;
+	}
+	
+	public void preCompute(String opponent) {
+
+		junctManager.reset();
+		fuzzyMemory.reset();
+		
+		if (pacmanPredictor != null)
+			pacmanPredictor.reset();
 	}
 
 }

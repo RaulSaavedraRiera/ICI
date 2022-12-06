@@ -17,6 +17,11 @@ public class MsPacmanPredictor {
 	int mostProbablePosPoints;
 
 	Game game;
+
+	public void setGame(Game game) {
+		this.game = game;
+	}
+
 	GhostsFuzzyMemory ghostMem;
 
 	public MsPacmanPredictor(Game game, GhostsFuzzyMemory mem) {

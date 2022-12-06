@@ -25,17 +25,16 @@ public class GhostsInput extends FuzzyInput {
 	private int[] distanceToNearestPP;
 	private double[] distanceToPacmanWithSpeed;
 
-	private int mostProbablePacmanPos;
-	private int mostProbablePacmanPosPoints;
-
 	private GhostsFuzzyMemory mem;
 	private MsPacmanPredictor pacmanPredictor;
+	private JunctionManager junctManager;
 
-	public GhostsInput(Game game, GhostsFuzzyMemory ghostsMem, MsPacmanPredictor pacmanPredictor) {
+	public GhostsInput(Game game, GhostsFuzzyMemory ghostsMem, MsPacmanPredictor pacmanPredictor, JunctionManager junctMan) {
 		super(game);
 		// TODO Auto-generated constructor stub
 		mem = ghostsMem;
 		this.pacmanPredictor = pacmanPredictor;
+		this.junctManager = junctMan;
 	}
 
 	public boolean isPacmanVisible() {
@@ -94,6 +93,19 @@ public class GhostsInput extends FuzzyInput {
 
 		if (mem == null)
 			return;
+		
+		//reset cuando pasa de nivel
+		if (game.getCurrentLevel() != mem.getActualLevel()) 
+		{
+			mem.reset();
+			pacmanPredictor.reset();
+			junctManager.reset();
+			
+			mem.setActualLevel(game.getCurrentLevel());
+		}
+		
+		if (game.wasPacManEaten())
+			pacmanPredictor.reset();
 
 		// coger posicion inicial de pacman
 		if (mem.getPacmanLastPosition() == -1) {
@@ -187,8 +199,8 @@ public class GhostsInput extends FuzzyInput {
 			
 			//predictor
 			pacmanPredictor.calculate();
-			mostProbablePacmanPos = pacmanPredictor.getMostProbablePos();
-			mostProbablePacmanPosPoints = pacmanPredictor.getMostProbablePosPoints();
+			mem.setMostProbableActualPacmanPos(pacmanPredictor.getMostProbablePos());
+			mem.setPredictorPosPoints(pacmanPredictor.getMostProbablePosPoints());
 			
 			//marcar PP mas cercana a pacman como comida si se comio una
 			if (game.wasPowerPillEaten() && pacmanNearestPP != -1) 
