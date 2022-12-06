@@ -1,6 +1,7 @@
 package es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions;
 
 import java.awt.Color;
+import java.util.Random;
 
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
@@ -13,6 +14,8 @@ import pacman.game.GameView;
 public class ChaseGhostPA implements Action{
 
 		MsPacManFuzzyMemory memory;
+		private Random rnd = new Random();
+		final int MAX_CHECK_PILLS = 500;
 	
 		public ChaseGhostPA(MsPacManFuzzyMemory mem) {
 			memory = mem;
@@ -22,6 +25,13 @@ public class ChaseGhostPA implements Action{
 		public MOVE execute(Game game) {
 	       
 			GHOST nearestGhost = getNearestAgressiveGhost(game);
+			
+			if(nearestGhost == null)
+			{
+				return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
+						getRandomPill(game), game.getPacmanLastMoveMade(), Constants.DM.PATH);
+			}
+				
 			
 			GameView.addLines(game, Color.GREEN, game.getPacmanCurrentNodeIndex(), (int)memory.lastPosGhost[nearestGhost.ordinal()]);
 			return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
@@ -57,6 +67,17 @@ public class ChaseGhostPA implements Action{
 			}
 			
 			return ret;
+		}
+		
+		private int getRandomPill(Game game) {
+			int i;
+			int j = 0;
+			do{
+				i = game.getCurrentMaze().pillIndices[rnd.nextInt(game.getCurrentMaze().pillIndices.length)];
+				j++;
+			}while(!memory.pills.get(i) && j <= MAX_CHECK_PILLS);
+			
+			return i;
 		}
 
 		
