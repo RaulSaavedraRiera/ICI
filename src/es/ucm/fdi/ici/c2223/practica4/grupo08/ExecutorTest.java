@@ -10,9 +10,9 @@ public class ExecutorTest {
 	public static void main(String[] args) {
 		Executor executor = new Executor.Builder()
 				.setTickLimit(4000)
-				.setGhostPO(true)
+				.setGhostPO(false)
 				.setPacmanPO(true)
-				.setPacmanPOvisual(false) // visualizaci�n
+				.setPacmanPOvisual(true) // visualizaci�n
 				.setGhostsPOvisual(false) // visualizaci�n
 				.setPOType(POType.LOS)
 				.setSightLimit(200)
@@ -20,8 +20,8 @@ public class ExecutorTest {
 				.setScaleFactor(2.0)
 				.build();
 		PacmanController pacMan = new MsPacMan();
-		GhostController ghosts = new Ghosts();
+		GhostController ghosts = new Ghosts1();
 
-		System.out.println(executor.runGame(pacMan, ghosts, 1));
+		System.out.println(executor.runGame(pacMan, ghosts, 20));
 	}
 }

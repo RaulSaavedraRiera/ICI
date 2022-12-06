@@ -1,6 +1,7 @@
 package es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions;
 
 import java.awt.Color;
+import java.util.Random;
 
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
@@ -13,6 +14,7 @@ import pacman.game.GameView;
 public class ChaseEdiblePA implements Action {
 	
 	MsPacManFuzzyMemory memory;
+	private Random rnd = new Random();
 	
 		public ChaseEdiblePA(MsPacManFuzzyMemory mem) {
 			memory = mem;
@@ -23,6 +25,9 @@ public class ChaseEdiblePA implements Action {
 			
 			GHOST nearestGhost = getNearestEdibleGhost(game);
 			
+			if (nearestGhost == null)
+				return MOVE.values()[rnd.nextInt(MOVE.values().length)];
+			
 			GameView.addLines(game, Color.BLUE, game.getPacmanCurrentNodeIndex(), (int)memory.lastPosGhost[nearestGhost.ordinal()]);
 			return game.getApproximateNextMoveTowardsTarget(game.getPacmanCurrentNodeIndex(),
 					(int)memory.lastPosGhost[nearestGhost.ordinal()],
@@ -32,7 +37,7 @@ public class ChaseEdiblePA implements Action {
 
 		@Override
 		public String getActionId() {
-			return "PacmanChaseEdible";
+			return "GoToEdible";
 			
 		}
 		
@@ -43,11 +48,11 @@ public class ChaseEdiblePA implements Action {
 
 			for (GHOST ghostType : GHOST.values()) {
 				
-				if (memory.lairTimeGhosts[ghostType.ordinal()] <= 0 && memory.lairTimeGhosts[ghostType.ordinal()] >= 0) {
+				if (memory.lairTimeGhosts[ghostType.ordinal()] <= 0 && memory.edibleTimeGhosts[ghostType.ordinal()] >= 0 && memory.lastPosGhost[ghostType.ordinal()] != -1 && memory.lastPosGhost[ghostType.ordinal()] != memory.LAIR_INDEX) {
 				
-					int dist = game.getShortestPathDistance((int)memory.lastPosGhost[ghostType.ordinal()], game.getPacmanCurrentNodeIndex(), memory.lastDirectionGhosts[ghostType.ordinal()]);
+					int dist = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), (int)memory.lastPosGhost[ghostType.ordinal()], game.getPacmanLastMoveMade());
 					
-					if (memory.lairTimeGhosts[ghostType.ordinal()] <= 0 && dist < closestGhostDist) {
+					if (dist < closestGhostDist || memory.confidence[ghostType.ordinal()] > memory.confidence[ret.ordinal()] + 15) {
 						closestGhostDist = dist;
 						ret = ghostType;
 					}			

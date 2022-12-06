@@ -24,12 +24,14 @@ public class MsPacManFuzzyMemory {
 	public HashMap<Integer,Boolean> powerPills;
 	
 	//confianza, probablemente con esto vale en vez de ultima vez visto
-	double[] confidence = {100,100,100,100};
+	public double[] confidence = {100,100,100,100};
 	//variables sobre los fantasmas que debemos almacenar en el tiempo
 	public double[] lairTimeGhosts;	
 	public double[] edibleTimeGhosts;	
 	public double[] lastPosGhost;	
 	public MOVE[] lastDirectionGhosts;
+	
+	public MOVE lastPacmanDirection;
 	
 	public int currentMaze = -1;
 	
@@ -74,12 +76,17 @@ public class MsPacManFuzzyMemory {
 				if(edibleGhostTime > 0)
 					edibleGhostTime--;
 			}
+			else {
+				edibleGhostTime = 0;
+			}
 			
 			
 			//si esta en celda sabemos que de ahi no se va a mover hasta que acabe el tiempo
 			if(input.isVisible(g) || lairTimeGhosts[g.ordinal()] > 0)
 			{
 				conf = 100;
+				if (lairTimeGhosts[g.ordinal()] > 0)
+					edibleGhostTime = 0;
 
 			}
 			else
@@ -97,6 +104,8 @@ public class MsPacManFuzzyMemory {
 			confidence[g.ordinal()] = conf;
 			lairTimeGhosts[g.ordinal()] = lairTimeghosts;
 			edibleTimeGhosts[g.ordinal()] = edibleGhostTime;
+			
+			// mem.put("PACMANdirection", (double)lastPacmanDirection.ordinal());
 		
 		}
 

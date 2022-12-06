@@ -155,6 +155,14 @@ FUZZIFY SUEdirection
 	TERM left := (3, 1);
 END_FUZZIFY
 
+
+FUZZIFY PACMANdirection			
+	TERM up := (0, 1); 
+	TERM right := (1, 1);
+	TERM down := (2, 1);
+	TERM left := (3, 1);
+END_FUZZIFY
+
 FUZZIFY BLINKYedibleTime		
 	TERM chasing := (0, 1); 
 	TERM closeChasing := (0, 0)(1, 1)(7, 0);
@@ -376,6 +384,14 @@ END_DEFUZZIFY
 DEFUZZIFY GoToPPill			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
+	TERM emergency := (10,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+DEFUZZIFY GoToEdible
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
 	TERM emergency := (15,0) (25,1) (30,1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
@@ -443,292 +459,336 @@ RULEBLOCK MsPacManRules
 	//THEN PacmanChasePowerPill IS emergency;
 	//(x OR x) AND y == (x ||x) && y 
 
-	// Hace falta PACMANdirection, GXedible (true/false), GoToEdibleGroup (Va a grupo Comestible)
+	// IMPORTANTE
+	// Hace falta PACMANdirection
 
 	//RULE 1: IF PILLSnear IS few OR PILLSnear IS medium OR PILLSnear IS high THEN ChasePILL IS emergency;
 	
-	 RULE 1 : IF BLINKYdistance IS near AND BLINKYconfidence IS high THEN Runaway IS emergency;
-	 RULE 2 : IF PINKYdistance IS near AND PINKYconfidence IS high THEN Runaway IS emergency;
-	 RULE 3 : IF INKYdistance IS near AND INKYconfidence IS high THEN Runaway IS emergency;
-	 RULE 4 : IF SUEdistance IS near AND SUEconfidence IS high THEN Runaway IS emergency;
+	 RULE 1 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 2 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 3 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 4 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+	 RULE 5 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 6 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 7 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 8 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+	 RULE 9 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 10 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 11 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 12 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+	 RULE 13 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 14 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 15 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 16 : IF BLINKYdistance IS near AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
+	 
+	 RULE 17 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 18 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 19 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 20 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+	 RULE 21 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 22 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 23 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 24 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+	 RULE 25 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 26 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 27 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 28 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+	 RULE 29 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 30 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 31 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 32 : IF INKYdistance IS near AND INKYconfidence IS high AND INKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
+	 
+	 RULE 33 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 34 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 35 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 36 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+	 RULE 37 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 38 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 39 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 40 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+	 RULE 41 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 42 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 43 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 44 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+	 RULE 45 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 46 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 47 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 48 : IF PINKYdistance IS near AND PINKYconfidence IS high AND PINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
+	 
+	 RULE 49 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 50 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 51 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 52 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+	 RULE 53 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 54 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 55 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 56 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+	 RULE 57 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 58 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 59 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 60 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+	 RULE 61 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 62 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 63 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 64 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
 
-//	 RULE 5 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 6 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 7 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 8 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 9 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 10 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 11 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 12 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 13 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 14 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 15 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 16 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 17 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 18 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 19 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 20 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+
+//	 RULE 65 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+//	 RULE 66 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+//	 RULE 67 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+//	 RULE 68 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+//	 RULE 69 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+//	 RULE 70 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+//	 RULE 71 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+//	 RULE 72 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+//	 RULE 73 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+//	 RULE 74 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+//	 RULE 75 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+//	 RULE 76 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+//	 RULE 77 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+//	 RULE 78 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+//	 RULE 79 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+//	 RULE 80 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
 ////
-//	 RULE 21 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 22 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 23 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 24 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 25 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 26 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 27 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 28 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 29 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 30 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 31 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 32 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 33 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 34 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 35 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 36 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
-////
-//	 RULE 37 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 38 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS nervious;
-//	 RULE 39 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 40 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
-//	 RULE 41 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS nervious;
-//	 RULE 42 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 43 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 44 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
-//	 RULE 45 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 46 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS nervious;
-//	 RULE 47 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 48 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
-//	 RULE 49 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 50 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 51 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 52 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
-//	 RULE 53 : IF BLINKYdistance IS far AND BLINKYconfidence IS high THEN Runaway IS calm;
-//	 RULE 54 : IF BLINKYconfidence IS low THEN Runaway IS nervious;
+//	 RULE 81 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+//	 RULE 82 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+//	 RULE 83 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+//	 RULE 84 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+//	 RULE 85 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+//	 RULE 86 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+//	 RULE 87 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+//	 RULE 88 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+//	 RULE 89 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+//	 RULE 80 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+//	 RULE 91 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+//	 RULE 92 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+//	 RULE 93 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+//	 RULE 94 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+//	 RULE 95 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+//	 RULE 96 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+///
+//	 RULE 97 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS nervious;
+//	 RULE 98 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS nervious;
+//	 RULE 99 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS nervious;
+//	 RULE 100 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+//	 RULE 101 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS nervious;
+//	 RULE 102 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS nervious;
+//	 RULE 103 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS nervious;
+//	 RULE 104 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+//	 RULE 105 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS nervious;
+//	 RULE 106 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS nervious;
+//	 RULE 107 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS nervious;
+//	 RULE 108 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
+//	 RULE 109 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS nervious;
+//	 RULE 110 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS nervious;
+//	 RULE 111 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS nervious;
+//	 RULE 112 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+//	 RULE 113 : IF BLINKYdistance IS far AND BLINKYconfidence IS high THEN Runaway IS calm;
+//	 RULE 114 : IF BLINKYconfidence IS low THEN Runaway IS nervious;
 //
 //
-	 RULE 55: IF PPILLSinmap IS true AND G4DISTANCE_near IS true AND G4CONFIDENCE_high IS true THEN Runaway IS emergency;
-	 RULE 56: IF PPILLSinmap IS true AND G3DISTANCE_near IS true AND G3CONFIDENCE_high IS true THEN GoToPPill IS emergency;
-	 RULE 57: IF PPILLSinmap IS true AND G2DISTANCE_near IS true AND G2CONFIDENCE_high IS true THEN GoToPPill IS emergency;
-	 RULE 58: IF PPILLSinmap IS true AND G1DISTANCE_near IS true AND G1CONFIDENCE_high IS true THEN GoToPPill IS nervious;
+	 RULE 115: IF PPILLSinmap IS true AND G4DISTANCE_near IS true AND G4CONFIDENCE_high IS true THEN Runaway IS emergency;
+	 RULE 116: IF PPILLSinmap IS true AND G3DISTANCE_near IS true AND G3CONFIDENCE_high IS true THEN GoToPPill IS emergency;
+	 RULE 117: IF PPILLSinmap IS true AND G2DISTANCE_near IS true AND G2CONFIDENCE_high IS true THEN GoToPPill IS emergency;
+	 RULE 118: IF PPILLSinmap IS true AND G1DISTANCE_near IS true AND G1CONFIDENCE_high IS true THEN GoToPPill IS nervious;
 //	
-	 RULE 59: IF PPILLSinmap IS true AND G4DISTANCE_medium IS true AND G4CONFIDENCE_high IS true THEN GoToPPill IS emergency;
-	 RULE 60: IF PPILLSinmap IS true AND G3DISTANCE_medium IS true AND G3CONFIDENCE_high IS true THEN GoToPPill IS emergency;
-	 RULE 61: IF PPILLSinmap IS true AND G2DISTANCE_medium IS true AND G2CONFIDENCE_high IS true THEN GoToPPill IS emergency;
-	 RULE 62: IF PPILLSinmap IS true AND G1DISTANCE_medium IS true AND G1CONFIDENCE_high IS true THEN GoToPPill IS nervious;
+	 RULE 119: IF PPILLSinmap IS true AND G4DISTANCE_medium IS true AND G4CONFIDENCE_high IS true THEN GoToPPill IS emergency;
+	 RULE 120: IF PPILLSinmap IS true AND G3DISTANCE_medium IS true AND G3CONFIDENCE_high IS true THEN GoToPPill IS emergency;
+	 RULE 121: IF PPILLSinmap IS true AND G2DISTANCE_medium IS true AND G2CONFIDENCE_high IS true THEN GoToPPill IS emergency;
+	 RULE 122: IF PPILLSinmap IS true AND G1DISTANCE_medium IS true AND G1CONFIDENCE_high IS true THEN GoToPPill IS nervious;
 //	
-	 RULE 63: IF PPILLSinmap IS true AND G4DISTANCE_far IS true AND G4CONFIDENCE_high IS true THEN GoToPPill IS calm;
-	 RULE 64: IF PPILLSinmap IS true AND G3DISTANCE_far IS true AND G3CONFIDENCE_high IS true THEN GoToPPill IS calm;
+	 RULE 123: IF PPILLSinmap IS true AND G4DISTANCE_far IS true AND G4CONFIDENCE_high IS true THEN GoToPPill IS calm;
+	 RULE 124: IF PPILLSinmap IS true AND G3DISTANCE_far IS true AND G3CONFIDENCE_high IS true THEN GoToPPill IS calm;
 //
-	 RULE 65: IF PPILLSinmap IS true AND G4DISTANCE_near IS true AND G4CONFIDENCE_medium IS true THEN Runaway IS emergency;
-	 RULE 66: IF PPILLSinmap IS true AND G3DISTANCE_near IS true AND G3CONFIDENCE_medium IS true THEN Runaway IS emergency;
-	 RULE 67: IF PPILLSinmap IS true AND G2DISTANCE_near IS true AND G2CONFIDENCE_medium IS true THEN Runaway IS nervious;
-	 RULE 68: IF PPILLSinmap IS true AND G1DISTANCE_near IS true AND G1CONFIDENCE_medium IS true THEN Runaway IS nervious;
+	 RULE 125: IF PPILLSinmap IS true AND G4DISTANCE_near IS true AND G4CONFIDENCE_medium IS true THEN GoToPPill IS emergency;
+	 RULE 126: IF PPILLSinmap IS true AND G3DISTANCE_near IS true AND G3CONFIDENCE_medium IS true THEN GoToPPill IS emergency;
+	 RULE 127: IF PPILLSinmap IS true AND G2DISTANCE_near IS true AND G2CONFIDENCE_medium IS true THEN GoToPPill IS nervious;
+	 RULE 128: IF PPILLSinmap IS true AND G1DISTANCE_near IS true AND G1CONFIDENCE_medium IS true THEN GoToPPill IS nervious;
 //
-	 RULE 69: IF PPILLSinmap IS true AND G4DISTANCE_medium IS true AND G4CONFIDENCE_medium IS true THEN GoToPPill IS emergency;
-	 RULE 70: IF PPILLSinmap IS true AND G3DISTANCE_medium IS true AND G3CONFIDENCE_medium IS true THEN GoToPPill IS nervious;
-	 RULE 71: IF PPILLSinmap IS true AND G2DISTANCE_medium IS true AND G2CONFIDENCE_medium IS true THEN GoToPPill IS nervious;
-	 RULE 72: IF PPILLSinmap IS true AND G1DISTANCE_medium IS true AND G1CONFIDENCE_medium IS true THEN GoToPPill IS calm;
+	 RULE 129: IF PPILLSinmap IS true AND G4DISTANCE_medium IS true AND G4CONFIDENCE_medium IS true THEN GoToPPill IS emergency;
+	 RULE 120: IF PPILLSinmap IS true AND G3DISTANCE_medium IS true AND G3CONFIDENCE_medium IS true THEN GoToPPill IS nervious;
+	 RULE 121: IF PPILLSinmap IS true AND G2DISTANCE_medium IS true AND G2CONFIDENCE_medium IS true THEN GoToPPill IS nervious;
+	 RULE 122: IF PPILLSinmap IS true AND G1DISTANCE_medium IS true AND G1CONFIDENCE_medium IS true THEN GoToPPill IS calm;
 //	
-	 RULE 73: IF PPILLSinmap IS true AND G4DISTANCE_far IS true AND G4CONFIDENCE_medium IS true THEN GoToPPill IS calm;
-	 RULE 74: IF PPILLSinmap IS true AND G3DISTANCE_far IS true AND G3CONFIDENCE_medium IS true THEN GoToPPill IS nervious;
+	 RULE 123: IF PPILLSinmap IS true AND G4DISTANCE_far IS true AND G4CONFIDENCE_medium IS true THEN GoToPPill IS calm;
+	 RULE 124: IF PPILLSinmap IS true AND G3DISTANCE_far IS true AND G3CONFIDENCE_medium IS true THEN GoToPPill IS nervious;
 //
-	 RULE 75: IF PPILLSinmap IS true AND G4CONFIDENCE_low IS true THEN Runaway IS nervious;
-	 RULE 76: IF PPILLSinmap IS true AND G3CONFIDENCE_low IS true THEN Runaway IS nervious;
-	 RULE 77: IF PPILLSinmap IS true AND G2CONFIDENCE_low IS true THEN Runaway IS nervious;
-	 RULE 78: IF PPILLSinmap IS true AND G1CONFIDENCE_low IS true THEN Runaway IS nervious;
+	 RULE 125: IF PPILLSinmap IS true AND G4CONFIDENCE_low IS true THEN Runaway IS nervious;
+	 RULE 126: IF PPILLSinmap IS true AND G3CONFIDENCE_low IS true THEN Runaway IS nervious;
+	 RULE 127: IF PPILLSinmap IS true AND G2CONFIDENCE_low IS true THEN Runaway IS nervious;
+	 RULE 128: IF PPILLSinmap IS true AND G1CONFIDENCE_low IS true THEN Runaway IS nervious;
 //
+	RULE 129: IF (BLINKYdistance IS near OR BLINKYdistance IS medium) AND (BLINKYconfidence IS high OR BLINKYconfidence IS medium) AND (BLINKYedibleTime IS edible OR BLINKYedibleTime IS edibleSecure) AND BLINKYlairTime IS out THEN GoToEdible IS emergency;
+	RULE 120: IF BLINKYdistance IS far AND BLINKYconfidence IS low AND BLINKYedibleTime IS edible AND BLINKYlairTime IS out THEN GoToEdible IS nervious;
+	RULE 131: IF (INKYdistance IS near OR INKYdistance IS medium) AND (INKYconfidence IS high OR INKYconfidence IS medium) AND (INKYedibleTime IS edible OR INKYedibleTime IS edibleSecure) AND INKYlairTime IS out THEN GoToEdible IS emergency;
+	RULE 132: IF INKYdistance IS far AND INKYconfidence IS low AND INKYedibleTime IS edible AND INKYlairTime IS out THEN GoToEdible IS nervious;
+	RULE 133: IF (PINKYdistance IS near OR PINKYdistance IS medium) AND (PINKYconfidence IS high OR PINKYconfidence IS medium) AND (PINKYedibleTime IS edible OR PINKYedibleTime IS edibleSecure) AND PINKYlairTime IS out THEN GoToEdible IS emergency;
+	RULE 134: IF PINKYdistance IS far AND PINKYconfidence IS low AND PINKYedibleTime IS edible AND PINKYlairTime IS out THEN GoToEdible IS nervious;
+	RULE 135: IF (SUEdistance IS near OR SUEdistance IS medium) AND (SUEconfidence IS high OR SUEconfidence IS medium) AND (SUEedibleTime IS edible OR SUEedibleTime IS edibleSecure) AND SUElairTime IS out THEN GoToEdible IS emergency;
+	RULE 136: IF SUEdistance IS far AND SUEconfidence IS low AND SUEedibleTime IS edible AND SUElairTime IS out THEN GoToEdible IS nervious;
+
+	RULE 137: IF BLINKYconfidence IS low AND INKYconfidence IS low AND PINKYconfidence IS low AND SUEconfidence IS low THEN GoToEdible IS calm;
+
 //
-//	 RULE 79: IF G4DISTANCE_near IS true AND G4EDIBLE IS true AND G4CONFIDENCE_high IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 80: IF G3DISTANCE_near IS true AND G3EDIBLE IS true AND G3CONFIDENCE_high IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 81: IF G2DISTANCE_near IS true AND G2EDIBLE IS true AND G2CONFIDENCE_high IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 82: IF G1DISTANCE_near IS true AND G1EDIBLE IS true AND G1CONFIDENCE_high IS true THEN GoToEdibleGroup IS nervious;
-////
-//	 RULE 83: IF G4DISTANCE_medium IS true AND G4EDIBLE IS true AND G4CONFIDENCE_high IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 84: IF G3DISTANCE_medium IS true AND G3EDIBLE IS true AND G3CONFIDENCE_high IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 85: IF G2DISTANCE_medium IS true AND G2EDIBLE IS true AND G2CONFIDENCE_high IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 86: IF G1DISTANCE_medium IS true AND G1EDIBLE IS true AND G1CONFIDENCE_high IS true THEN GoToEdibleGroup IS nervious;
-////	
-//	 RULE 87: IF G4DISTANCE_far IS true AND G4EDIBLE IS true AND G4CONFIDENCE_high IS true THEN GoToEdibleGroup IS calm;
-//	 RULE 88: IF G3DISTANCE_far IS true AND G4EDIBLE IS true AND G4CONFIDENCE_high IS true THEN GoToEdibleGroup IS calm;
-////
-//	 RULE 89: IF G4DISTANCE_near IS true AND G4EDIBLE IS true AND G4CONFIDENCE_medium IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 90: IF G3DISTANCE_near IS true AND G3EDIBLE IS true AND G3CONFIDENCE_medium IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 91: IF G2DISTANCE_near IS true AND G2EDIBLE IS true AND G2CONFIDENCE_medium IS true THEN GoToEdibleGroup IS nervious;
-//	 RULE 92: IF G1DISTANCE_near IS true AND G1EDIBLE IS true AND G1CONFIDENCE_medium IS true THEN GoToEdibleGroup IS nervious;
-////
-//	 RULE 93: IF G4DISTANCE_near IS true AND G4EDIBLE IS true AND G4CONFIDENCE_medium IS true THEN GoToEdibleGroup IS emergency;
-//	 RULE 94: IF G3DISTANCE_medium IS true AND G3EDIBLE IS true AND G3CONFIDENCE_medium IS true THEN GoToEdibleGroup IS nervious;
-//	 RULE 95: IF G2DISTANCE_medium IS true AND G2EDIBLE IS true AND G2CONFIDENCE_medium IS true THEN GoToEdibleGroup IS nervious;
-//	 RULE 96: IF G1DISTANCE_medium IS true AND G1EDIBLE IS true AND G1CONFIDENCE_medium IS true THEN GoToEdibleGroup IS calm;
-////	
-//	 RULE 97: IF G4DISTANCE_near IS true AND G4EDIBLE IS true AND G4CONFIDENCE_medium IS true THEN GoToEdibleGroup IS calm;
-//	 RULE 98: IF G3DISTANCE_far IS true AND G3EDIBLE IS true AND G3CONFIDENCE_medium IS true THEN GoToEdibleGroup IS nervious;
-////
-//	 RULE 99: IF G4CONFIDENCE_low IS true AND G4EDIBLE IS true THEN GoToEdibleGroup IS nervious;
-//	 RULE 100: IF G3CONFIDENCE_low IS true AND G3EDIBLE IS true THEN GoToEdibleGroup IS nervious;
-//	 RULE 101: IF G2CONFIDENCE_low IS true AND G2EDIBLE IS true THEN GoToEdibleGroup IS nervious;
-//	 RULE 102: IF G1CONFIDENCE_low IS true AND G1EDIBLE IS true THEN GoToEdibleGroup IS nervious;
-////
+	 RULE 138: IF BLINKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
+	 RULE 139: IF INKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
+	 RULE 140: IF PINKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
+	 RULE 141: IF SUElairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
 //
-	 RULE 103: IF BLINKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
-	 RULE 104: IF INKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
-	 RULE 105: IF PINKYlairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
-	 RULE 106: IF SUElairTime IS closeOut AND LAIRdistance IS near THEN RunawayLAIR IS emergency;
-//
-	 RULE 107: IF BLINKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
-	 RULE 108: IF BLINKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
-	 RULE 109: IF INKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
-	 RULE 110: IF INKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
-	 RULE 111: IF PINKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
-	 RULE 112: IF PINKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
-	 RULE 113: IF SUElairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
-	 RULE 114: IF SUElairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
+	 RULE 142: IF BLINKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
+	 RULE 143: IF BLINKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
+	 RULE 144: IF INKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
+	 RULE 145: IF INKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
+	 RULE 146: IF PINKYlairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
+	 RULE 147: IF PINKYlairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
+	 RULE 148: IF SUElairTime IS locked AND LAIRdistance IS near THEN RunawayLAIR IS nervious;
+	 RULE 149: IF SUElairTime IS closeOut AND LAIRdistance IS medium THEN RunawayLAIR IS nervious;
 //	
-	 RULE 115: IF BLINKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
-	 RULE 116: IF INKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
-	 RULE 117: IF PINKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
-	 RULE 118: IF SUElairTime IS lockedLong THEN RunawayLAIR IS calm;
+	 RULE 150: IF BLINKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
+	 RULE 151: IF INKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
+	 RULE 152: IF PINKYlairTime IS lockedLong THEN RunawayLAIR IS calm;
+	 RULE 153: IF SUElairTime IS lockedLong THEN RunawayLAIR IS calm;
 //	
 
 //reglas entorno
  //cuando no hay ghosts cerca ni media distancia
 	 
-	 RULE 119: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS far THEN RunawayCORNER IS calm;
-	 RULE 120: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS far THEN RunawayCORNER IS calm;
-	 RULE 121: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS far THEN RunawayCORNER IS calm;
-	 RULE 122: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS far THEN RunawayCORNER IS calm;
+	 RULE 154: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS far THEN RunawayCORNER IS calm;
+	 RULE 155: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS far THEN RunawayCORNER IS calm;
+	 RULE 156: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS far THEN RunawayCORNER IS calm;
+	 RULE 157: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS far THEN RunawayCORNER IS calm;
 	    
-	 RULE 123: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS medium THEN RunawayCORNER IS nervious;
-	 RULE 124: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS medium THEN RunawayCORNER IS nervious;
-	 RULE 125: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS medium THEN RunawayCORNER IS nervious;
-	 RULE 126: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS medium THEN RunawayCORNER IS nervious;
+	 RULE 158: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS medium THEN RunawayCORNER IS nervious;
+	 RULE 159: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS medium THEN RunawayCORNER IS nervious;
+	 RULE 160: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS medium THEN RunawayCORNER IS nervious;
+	 RULE 161: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS medium THEN RunawayCORNER IS nervious;
 	 
-	 RULE 127: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS near THEN RunawayCORNER IS emergency;
-	 RULE 128: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS near THEN RunawayCORNER IS emergency;
-	 RULE 129: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS near THEN RunawayCORNER IS emergency;
-	 RULE 130: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS near THEN RunawayCORNER IS emergency;
+	 RULE 162: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS near THEN RunawayCORNER IS emergency;
+	 RULE 163: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS near THEN RunawayCORNER IS emergency;
+	 RULE 164: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS near THEN RunawayCORNER IS emergency;
+	 RULE 165: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS near THEN RunawayCORNER IS emergency;
 	 
-	 RULE 131: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS high THEN ChasePILL IS emergency;
-	 RULE 132: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS medium THEN ChasePILL IS nervious;
-	 RULE 133: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS few THEN ChasePILL IS calm;
-	 RULE 134: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
-	 RULE 135: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS few THEN ChaseGHOST IS nervious;
+	 RULE 166: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS high THEN ChasePILL IS emergency;
+	 RULE 167: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS medium THEN ChasePILL IS nervious;
+	 RULE 168: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 169: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 170: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS few THEN ChaseGHOST IS nervious;
 	 
 //cuando no hay ghost cerca
 	//cuando solo haya 1 o 2 fantasmas a media distancia
 	 
-	 RULE 136: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS far THEN RunawayCORNER IS calm;
-	 RULE 137: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS far THEN RunawayCORNER IS calm;
-	 RULE 138: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS far THEN RunawayCORNER IS calm;
-	 RULE 139: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS far THEN RunawayCORNER IS calm;
+	 RULE 171: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS far THEN RunawayCORNER IS calm;
+	 RULE 172: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS far THEN RunawayCORNER IS calm;
+	 RULE 173: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS far THEN RunawayCORNER IS calm;
+	 RULE 174: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS far THEN RunawayCORNER IS calm;
 	    
-	 RULE 140: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS medium THEN RunawayCORNER IS nervious;
-	 RULE 141: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS medium THEN RunawayCORNER IS nervious;
-	 RULE 142: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS medium THEN RunawayCORNER IS nervious;
-	 RULE 143: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS medium THEN RunawayCORNER IS nervious;
+	 RULE 175: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS medium THEN RunawayCORNER IS nervious;
+	 RULE 176: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS medium THEN RunawayCORNER IS nervious;
+	 RULE 177: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS medium THEN RunawayCORNER IS nervious;
+	 RULE 178: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS medium THEN RunawayCORNER IS nervious;
 	 
-	 RULE 144: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS near THEN RunawayCORNER IS emergency;
-	 RULE 145: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS near THEN RunawayCORNER IS emergency;
-	 RULE 146: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS near THEN RunawayCORNER IS emergency;
-	 RULE 147: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS near THEN RunawayCORNER IS emergency;
+	 RULE 179: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS near THEN RunawayCORNER IS emergency;
+	 RULE 180: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS near THEN RunawayCORNER IS emergency;
+	 RULE 181: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS near THEN RunawayCORNER IS emergency;
+	 RULE 182: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS near THEN RunawayCORNER IS emergency;
 	 
-	 RULE 148: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS high THEN ChasePILL IS emergency;
-	 RULE 149: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS medium THEN ChasePILL IS nervious;
-	 RULE 150: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
-	 RULE 151: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
-	 RULE 152: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS few THEN ChaseGHOST IS calm;
+	 RULE 183: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS high THEN ChasePILL IS emergency;
+	 RULE 184: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS medium THEN ChasePILL IS nervious;
+	 RULE 185: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 186: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 187: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS few THEN ChaseGHOST IS calm;
 	 
 	 //cuando solo haya 3 o 4 fantasmas a media distancia
 	 
-	 RULE 153: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS far THEN RunawayCORNER IS calm;
-	 RULE 154: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS far THEN RunawayCORNER IS calm;
-	 RULE 155: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS far THEN RunawayCORNER IS calm;
-	 RULE 156: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS far THEN RunawayCORNER IS calm;
+	 RULE 188: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS far THEN RunawayCORNER IS calm;
+	 RULE 189: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS far THEN RunawayCORNER IS calm;
+	 RULE 190: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS far THEN RunawayCORNER IS calm;
+	 RULE 191: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS far THEN RunawayCORNER IS calm;
 	    
-	 RULE 157: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 158: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 159: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 160: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 192: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 193: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 194: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 195: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS medium THEN RunawayCORNER IS calm;
+
+	 RULE 196: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS near THEN RunawayCORNER IS nervious;
+	 RULE 197: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS near THEN RunawayCORNER IS nervious;
+	 RULE 198: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS near THEN RunawayCORNER IS nervious;
+	 RULE 199: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS near THEN RunawayCORNER IS nervious;
 	 
-	 RULE 161: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS near THEN RunawayCORNER IS nervious;
-	 RULE 162: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS near THEN RunawayCORNER IS nervious;
-	 RULE 163: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS near THEN RunawayCORNER IS nervious;
-	 RULE 164: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS near THEN RunawayCORNER IS nervious;
-	 
-	 RULE 165: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS high THEN ChasePILL IS emergency;
-	 RULE 166: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS medium THEN ChasePILL IS nervious;
-	 RULE 167: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
-	 RULE 168: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
-	 RULE 169: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS few THEN ChaseGHOST IS calm;
+	 RULE 200: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS high THEN ChasePILL IS emergency;
+	 RULE 201: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS medium THEN ChasePILL IS nervious;
+	 RULE 202: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 203: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 204: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS few THEN ChaseGHOST IS calm;
 	 
 //cuando hay ghost cerca
 	//cuando hay 1
 	 
-	 RULE 170: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS far THEN RunawayCORNER IS calm;
-	 RULE 171: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS far THEN RunawayCORNER IS calm;
-	 RULE 172: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS far THEN RunawayCORNER IS calm;
-	 RULE 173: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS far THEN RunawayCORNER IS calm;
+	 RULE 205: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS far THEN RunawayCORNER IS calm;
+	 RULE 206: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS far THEN RunawayCORNER IS calm;
+	 RULE 207: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS far THEN RunawayCORNER IS calm;
+	 RULE 208: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS far THEN RunawayCORNER IS calm;
 	    
-	 RULE 174: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 175: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 176: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 177: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 209: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 210: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 211: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 212: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS medium THEN RunawayCORNER IS calm;
 	 
-	 RULE 178: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS near THEN RunawayCORNER IS nervious;
-	 RULE 179: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS near THEN RunawayCORNER IS nervious;
-	 RULE 180: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS near THEN RunawayCORNER IS nervious;
-	 RULE 181: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS near THEN RunawayCORNER IS nervious;
+	 RULE 213: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS near THEN RunawayCORNER IS nervious;
+	 RULE 214: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS near THEN RunawayCORNER IS nervious;
+	 RULE 215: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS near THEN RunawayCORNER IS nervious;
+	 RULE 216: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS near THEN RunawayCORNER IS nervious;
 	 
-	 RULE 182: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS high THEN ChasePILL IS nervious;
-	 RULE 183: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS medium THEN ChasePILL IS calm;
-	 RULE 184: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS few THEN ChasePILL IS calm;
-	 RULE 185: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
-	 RULE 186: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS few THEN ChaseGHOST IS calm;
+	 RULE 217: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS high THEN ChasePILL IS nervious;
+	 RULE 218: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS medium THEN ChasePILL IS calm;
+	 RULE 219: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 220: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 221: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS few THEN ChaseGHOST IS calm;
 	
 	//cuando hay 2
 	
-	 RULE 187: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS far THEN RunawayCORNER IS calm;
-	 RULE 188: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS far THEN RunawayCORNER IS calm;
-	 RULE 189: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS far THEN RunawayCORNER IS calm;
-	 RULE 190: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS far THEN RunawayCORNER IS calm;
+	 RULE 222: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS far THEN RunawayCORNER IS calm;
+	 RULE 223: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS far THEN RunawayCORNER IS calm;
+	 RULE 224: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS far THEN RunawayCORNER IS calm;
+	 RULE 225: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS far THEN RunawayCORNER IS calm;
 	    
-	 RULE 191: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 192: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 193: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 194: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 226: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 227: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 228: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 229: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS medium THEN RunawayCORNER IS calm;
 	 
-	 RULE 195: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS near THEN RunawayCORNER IS calm;
-	 RULE 196: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS near THEN RunawayCORNER IS calm;
-	 RULE 197: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS near THEN RunawayCORNER IS calm;
-	 RULE 198: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS near THEN RunawayCORNER IS calm;
+	 RULE 230: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS near THEN RunawayCORNER IS calm;
+	 RULE 231: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS near THEN RunawayCORNER IS calm;
+	 RULE 232: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS near THEN RunawayCORNER IS calm;
+	 RULE 233: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS near THEN RunawayCORNER IS calm;
 	 
-	 RULE 199: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS high THEN ChasePILL IS nervious;
-	 RULE 200: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS medium THEN ChasePILL IS calm;
-	 RULE 201: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS few THEN ChasePILL IS calm;
-	 RULE 202: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
-	 RULE 203: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS few THEN ChaseGHOST IS calm;
+	 RULE 234: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS high THEN ChasePILL IS nervious;
+	 RULE 235: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS medium THEN ChasePILL IS calm;
+	 RULE 236: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 237: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 238: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS few THEN ChaseGHOST IS calm;
 	
 	
 	//cuando hay 3 o 4
-	 RULE 204: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS far THEN RunawayCORNER IS calm;
-	 RULE 205: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS far THEN RunawayCORNER IS calm;
-	 RULE 206: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS far THEN RunawayCORNER IS calm;
-	 RULE 207: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS far THEN RunawayCORNER IS calm;
+	 RULE 239: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS far THEN RunawayCORNER IS calm;
+	 RULE 240: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS far THEN RunawayCORNER IS calm;
+	 RULE 241: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS far THEN RunawayCORNER IS calm;
+	 RULE 242: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS far THEN RunawayCORNER IS calm;
 	    
-	 RULE 208: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 209: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 210: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS medium THEN RunawayCORNER IS calm;
-	 RULE 211: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 243: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 244: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 245: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS medium THEN RunawayCORNER IS calm;
+	 RULE 246: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS medium THEN RunawayCORNER IS calm;
 	 
-	 RULE 212: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS near THEN RunawayCORNER IS calm;
-	 RULE 213: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS near THEN RunawayCORNER IS calm;
-	 RULE 214: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS near THEN RunawayCORNER IS calm;
-	 RULE 215: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS near THEN RunawayCORNER IS calm;
+	 RULE 247: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS near THEN RunawayCORNER IS calm;
+	 RULE 248: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS near THEN RunawayCORNER IS calm;
+	 RULE 249: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS near THEN RunawayCORNER IS calm;
+	 RULE 250: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS near THEN RunawayCORNER IS calm;
 	 
-	 RULE 216: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS high THEN ChasePILL IS calm;
-	 RULE 217: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS medium THEN ChasePILL IS calm;
-	 RULE 218: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
-	 RULE 219: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 251: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS high THEN ChasePILL IS calm;
+	 RULE 252: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS medium THEN ChasePILL IS calm;
+	 RULE 253: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 254: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
 	
 END_RULEBLOCK
 

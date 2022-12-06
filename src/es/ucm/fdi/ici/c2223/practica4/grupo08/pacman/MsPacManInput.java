@@ -32,7 +32,6 @@ public class MsPacManInput extends FuzzyInput {
 	private double[] distancePP;
 	
 	
-	
 	public MsPacManInput(Game game,  MsPacManFuzzyMemory pacMem) {
 		super(game);
 		
@@ -57,6 +56,7 @@ public class MsPacManInput extends FuzzyInput {
 		mapValues(game);
 		
 		ghostsValues(game);
+		mem.lastPacmanDirection = game.getPacmanLastMoveMade();
 		
 		if(game.wasPillEaten())
 			pillEaten(game);
@@ -205,7 +205,7 @@ public class MsPacManInput extends FuzzyInput {
 				
 		saveNumGhostDistance(vars);
 		
-		
+		// vars.put("PACMANdirection", (double)mem.lastPacmanDirection.ordinal());
 		
 		return vars;
 	}
