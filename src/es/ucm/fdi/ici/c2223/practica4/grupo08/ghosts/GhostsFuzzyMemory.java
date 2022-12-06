@@ -22,6 +22,8 @@ public class GhostsFuzzyMemory {
 	private int[] ghostPositions;
 	private MOVE[] ghostLastMoves;
 	
+	private int[] ghostNearestPP;
+	
 	public GhostsFuzzyMemory() 
 	{
 		activePP = new HashMap<Integer, Boolean>();
@@ -35,6 +37,7 @@ public class GhostsFuzzyMemory {
 		ghostAsignedPP = new int[4];
 		ghostPositions = new int[4];
 		ghostLastMoves = new MOVE[4];
+		ghostNearestPP = new int[4];
 	}
 
 	public void getInput(GhostsInput input) {
@@ -121,6 +124,16 @@ public class GhostsFuzzyMemory {
 	public void setGhostLastMove(GHOST ghost, MOVE lastMove) 
 	{
 		ghostLastMoves[ghost.ordinal()] = lastMove;
+	}
+	
+	public int getGhostNearestPP(GHOST ghost) 
+	{
+		return ghostNearestPP[ghost.ordinal()];
+	}
+	
+	public void setGhostNearestPP(GHOST ghost, int nearestPP) 
+	{
+		ghostNearestPP[ghost.ordinal()] = nearestPP;
 	}
 	
 	public int getPacmanTimeSinceSeen() {
