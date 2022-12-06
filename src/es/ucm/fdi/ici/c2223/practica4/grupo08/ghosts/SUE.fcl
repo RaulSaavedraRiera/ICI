@@ -175,17 +175,18 @@ RULEBLOCK SUERules
 	RULE 8 : IF edible IS no AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN SUEChase IS calm;
 	RULE 9 : IF edible IS no AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN SUEChase IS calm;
 
-	RULE 10 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN SUERunaway IS emergency;
-	RULE 11 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN SUERunaway IS calm;
-	RULE 12 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
+	//near PP runAway (ghost far from pacman)
+	RULE 10 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN SUERunaway IS emergency;
+	RULE 11 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN SUERunaway IS calm;
+	RULE 12 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
 
-	RULE 13 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN SUERunaway IS emergency;
-	RULE 14 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN SUERunaway IS nervious;
-	RULE 15 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
+	RULE 13 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN SUERunaway IS emergency;
+	RULE 14 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN SUERunaway IS nervious;
+	RULE 15 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
 
-	RULE 16 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS high THEN SUERunaway IS calm;
-	RULE 17 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS medium THEN SUERunaway IS calm;
-	RULE 18 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
+	RULE 16 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS high THEN SUERunaway IS calm;
+	RULE 17 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS medium THEN SUERunaway IS calm;
+	RULE 18 : IF distanceToPacman IS far AND pacmanDistanceToPPill IS far AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
     
 	//search for mspacman when confidence is 0
 	RULE 19 : IF edible IS no AND pacmanPosConfidence IS zero THEN SUESearchPacman IS emergency;
@@ -258,6 +259,24 @@ RULEBLOCK SUERules
 	RULE 65 : IF edible IS no AND intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN SUEChase IS calm;
 	RULE 66 : IF edible IS no AND intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN SUEChase IS calm;
 	RULE 67 : IF edible IS no AND intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN SUEChase IS nervious;
+	
+	//near PP chase (ghost near pacman)
+	RULE 68 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	RULE 69 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN SUEChase IS nervious;
+	RULE 70 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+
+	RULE 71 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	RULE 72 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN SUEChase IS nervious;
+	RULE 73 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+
+	//near PP runAway (ghost medium distance to pacman)
+	RULE 74 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN SUERunaway IS emergency;
+	RULE 75 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN SUERunaway IS calm;
+	RULE 76 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
+	
+	RULE 77 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN SUERunaway IS emergency;
+	RULE 78 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN SUERunaway IS nervious;
+	RULE 79 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
 
 END_RULEBLOCK
 
