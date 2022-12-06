@@ -543,58 +543,58 @@ RULEBLOCK MsPacManRules
 	 RULE 64 : IF SUEdistance IS near AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
 
 
-//	 RULE 65 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 66 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 67 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 68 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 69 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 70 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 71 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 72 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 73 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 74 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 75 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 76 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 77 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 78 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 79 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 80 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
-////
-//	 RULE 81 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 82 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 83 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 84 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 85 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 86 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 87 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 88 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 89 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 80 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
-//	 RULE 91 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 92 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 93 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
-//	 RULE 94 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
-//	 RULE 95 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
-//	 RULE 96 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
-///
-//	 RULE 97 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 98 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS nervious;
-//	 RULE 99 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 100 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
-//	 RULE 101 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS nervious;
-//	 RULE 102 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 103 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 104 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
-//	 RULE 105 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 106 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS nervious;
-//	 RULE 107 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 108 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
-//	 RULE 109 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS nervious;
-//	 RULE 110 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS nervious;
-//	 RULE 111 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS nervious;
-//	 RULE 112 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
-//	 RULE 113 : IF BLINKYdistance IS far AND BLINKYconfidence IS high THEN Runaway IS calm;
-//	 RULE 114 : IF BLINKYconfidence IS low THEN Runaway IS nervious;
+	 RULE 65 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 66 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 67 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 68 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 69 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 70 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 71 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 72 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 73 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 74 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+     RULE 75 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 76 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 77 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 78 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 79 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 80 : IF BLINKYdistance IS near AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+//
+	 RULE 81 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 82 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 83 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 84 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 85 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 86 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 87 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 88 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 89 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 80 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 91 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 92 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 93 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 94 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 95 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 96 : IF BLINKYdistance IS medium AND BLINKYconfidence IS high AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+//
+	 RULE 97 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 98 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 99 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 100 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+	 RULE 101 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 102 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 103 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 104 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+	 RULE 105 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 106 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 107 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 108 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
+	 RULE 109 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 110 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 111 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 112 : IF BLINKYdistance IS medium AND BLINKYconfidence IS medium AND BLINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+	 RULE 113 : IF BLINKYdistance IS far AND BLINKYconfidence IS high THEN Runaway IS calm;
+	 RULE 114 : IF BLINKYconfidence IS low THEN Runaway IS nervious;
 //
 //
 	 RULE 115: IF PPILLSinmap IS true AND G4DISTANCE_near IS true AND G4CONFIDENCE_high IS true THEN Runaway IS emergency;
@@ -800,6 +800,173 @@ RULEBLOCK MsPacManRules
 	 RULE 253: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
 	 RULE 254: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
 	
+
+// Repetidas de antes con el resto de fantasmas para que no ocupen arriba
+
+	 RULE 255 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 256 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 257 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 258 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 259 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 260 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 261 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 262 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 263 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 264 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+     RULE 265 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 266 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 267 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 268 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 269 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 270 : IF INKYdistance IS near AND INKYconfidence IS medium AND INKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+//
+	 RULE 271 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 272 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 273 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 274 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 275 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 276 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 277 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 278 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 279 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 280 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 281 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 282 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 283 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 284 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 285 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 286 : IF INKYdistance IS medium AND INKYconfidence IS high AND INKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+//
+	 RULE 287 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS up AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 288 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS up AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 289 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS up AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 290 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+	 RULE 291 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS left AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 292 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS left AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 293 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS left AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 294 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+	 RULE 295 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS right AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 296 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS right AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 297 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS right AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 298 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
+	 RULE 299 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS down AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 300 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS down AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 301 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS down AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 302 : IF INKYdistance IS medium AND INKYconfidence IS medium AND INKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+	 RULE 303 : IF INKYdistance IS far AND INKYconfidence IS high THEN Runaway IS calm;
+	 RULE 304 : IF INKYdistance IS low THEN Runaway IS nervious;
+//
+//
+	 RULE 305 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 306 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 307 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 308 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 309 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 310 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 311 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 312 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 313 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 314 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+     RULE 315 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 316 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 317 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 318 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 319 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 320 : IF PINKYdistance IS near AND PINKYconfidence IS medium AND PINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+//
+	 RULE 321 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 322 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 323 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 324 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 325 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 326 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 327 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 328 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 329 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 330 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 331 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 332 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 333 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 334 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 335 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 336 : IF PINKYdistance IS medium AND PINKYconfidence IS high AND PINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+//
+	 RULE 337 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS up AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 338 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS up AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 339 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS up AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 340 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+	 RULE 341 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS left AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 342 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS left AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 343 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS left AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 344 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+	 RULE 345 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS right AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 346 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS right AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 347 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS right AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 348 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
+	 RULE 349 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS down AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 350 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS down AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 351 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS down AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 352 : IF PINKYdistance IS medium AND PINKYconfidence IS medium AND PINKYdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+	 RULE 353 : IF PINKYdistance IS far AND PINKYconfidence IS high THEN Runaway IS calm;
+	 RULE 354 : IF PINKYdistance IS low THEN Runaway IS nervious;
+//
+//
+	 RULE 355 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 356 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 357 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 358 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 359 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 360 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 361 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 362 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 363 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 364 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+     RULE 365 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 366 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 367 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 368 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 369 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 370 : IF SUEdistance IS near AND SUEconfidence IS medium AND SUEdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+//
+	 RULE 371 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS up AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 372 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS up AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 373 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS up AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 374 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS up AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 375 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS left AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 376 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS left AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 377 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS left AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 378 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS left AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 379 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 380 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS down THEN Runaway IS emergency;
+	 RULE 381 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 382 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS right AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 383 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS down AND PACMANdirection IS left THEN Runaway IS emergency;
+	 RULE 384 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS down AND PACMANdirection IS right THEN Runaway IS emergency;
+	 RULE 385 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS down AND PACMANdirection IS up THEN Runaway IS emergency;
+	 RULE 386 : IF SUEdistance IS medium AND SUEconfidence IS high AND SUEdirection IS down AND PACMANdirection IS down THEN Runaway IS nervious;
+//
+	 RULE 387 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS up AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 388 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS up AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 389 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS up AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 390 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS up AND PACMANdirection IS up THEN Runaway IS calm;
+	 RULE 391 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS left AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 392 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS left AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 393 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS left AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 394 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS left AND PACMANdirection IS left THEN Runaway IS calm;
+	 RULE 395 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS right AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 396 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS right AND PACMANdirection IS down THEN Runaway IS nervious;
+	 RULE 397 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS right AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 398 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS right AND PACMANdirection IS right THEN Runaway IS calm;
+	 RULE 399 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS down AND PACMANdirection IS left THEN Runaway IS nervious;
+	 RULE 400 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS down AND PACMANdirection IS right THEN Runaway IS nervious;
+	 RULE 401 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS down AND PACMANdirection IS up THEN Runaway IS nervious;
+	 RULE 402 : IF SUEdistance IS medium AND SUEconfidence IS medium AND SUEdirection IS down AND PACMANdirection IS down THEN Runaway IS calm;
+	 RULE 403 : IF SUEdistance IS far AND SUEconfidence IS high THEN Runaway IS calm;
+	 RULE 404 : IF SUEdistance IS low THEN Runaway IS nervious;
+//
+//
+
+
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK

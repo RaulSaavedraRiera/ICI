@@ -10,10 +10,10 @@ public class ExecutorTest {
 	public static void main(String[] args) {
 		Executor executor = new Executor.Builder()
 				.setTickLimit(4000)
-				.setGhostPO(false)
+				.setGhostPO(true)
 				.setPacmanPO(true)
 				.setPacmanPOvisual(true) // visualizaci�n
-				.setGhostsPOvisual(false) // visualizaci�n
+				.setGhostsPOvisual(true) // visualizaci�n
 				.setPOType(POType.LOS)
 				.setSightLimit(200)
 				.setVisual(true)
