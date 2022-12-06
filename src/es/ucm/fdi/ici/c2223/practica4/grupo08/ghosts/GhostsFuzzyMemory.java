@@ -6,6 +6,11 @@ import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 
 public class GhostsFuzzyMemory {
+	
+	private int actualLevel;
+	
+	private int mostProbableActualPacmanPos;
+	private int predictorPosPoints;
 
 	private int pacmanLastPosition;
 	private MOVE pacmanLastDirection;
@@ -25,6 +30,24 @@ public class GhostsFuzzyMemory {
 	private int[] ghostNearestPP;
 	
 	public GhostsFuzzyMemory() 
+	{
+		activePP = new HashMap<Integer, Boolean>();
+		mem = new HashMap<String, Double>();
+		
+		pacmanLastPosition = -1;
+		pacmanLastDirection = MOVE.NEUTRAL;
+		pacmanPosConfidence = 0;
+		pacmanTimeSinceSeen = 0;
+		
+		ghostAsignedPP = new int[4];
+		ghostPositions = new int[4];
+		ghostLastMoves = new MOVE[4];
+		ghostNearestPP = new int[4];
+		
+		setActualLevel(-1);
+	}
+	
+	public void reset() 
 	{
 		activePP = new HashMap<Integer, Boolean>();
 		mem = new HashMap<String, Double>();
@@ -142,5 +165,29 @@ public class GhostsFuzzyMemory {
 	
 	public int getPacmanPosConfidence() {
 		return pacmanPosConfidence;
+	}
+	
+	public int getMostProbableActualPacmanPos() {
+		return mostProbableActualPacmanPos;
+	}
+
+	public void setMostProbableActualPacmanPos(int mostProbableActualPacmanPos) {
+		this.mostProbableActualPacmanPos = mostProbableActualPacmanPos;
+	}
+
+	public int getPredictorPosPoints() {
+		return predictorPosPoints;
+	}
+
+	public void setPredictorPosPoints(int predictorPosPoints) {
+		this.predictorPosPoints = predictorPosPoints;
+	}
+
+	public int getActualLevel() {
+		return actualLevel;
+	}
+
+	public void setActualLevel(int actualLevel) {
+		this.actualLevel = actualLevel;
 	}
 }
