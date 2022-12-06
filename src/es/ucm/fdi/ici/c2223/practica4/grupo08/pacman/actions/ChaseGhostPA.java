@@ -33,7 +33,7 @@ public class ChaseGhostPA implements Action{
 		
 		@Override
 		public String getActionId() {
-			return "PacmanChaseGhost";
+			return "ChaseGHOST";
 			
 		}
 		

@@ -1,35 +1,34 @@
 package es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import es.ucm.fdi.ici.Action;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
 import es.ucm.fdi.ici.rules.RulesAction;
 import jess.Fact;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
+import pacman.game.GameView;
 
 public class RunAwayCornerPA implements Action{
 	
 	
-	ArrayList<Integer> corners = new ArrayList<Integer>();
+	
+	MsPacManFuzzyMemory memory;
 	
 	
-	
-		public RunAwayCornerPA() {
-			
+		public RunAwayCornerPA(MsPacManFuzzyMemory mem) {
+			memory = mem;
 		}
 
 		@Override
 		public MOVE execute(Game game) {
 			
 			//almacenamos las esquinas
-			if (corners.isEmpty()) {
-				for(int i = 0; i < game.getActivePowerPillsIndices().length; i++) {
-					corners.add(game.getActivePowerPillsIndices()[i]);
-				}
-			}
+		
 			
 			
 	       
@@ -40,7 +39,7 @@ public class RunAwayCornerPA implements Action{
 
 		@Override
 		public String getActionId() {
-			return "PacmanRunAwayCorner";
+			return "RunawayCORNER";
 			
 		}
 		
@@ -105,9 +104,13 @@ public class RunAwayCornerPA implements Action{
 					 final int node = currentNode = nextNode;
 					  
 					  //comprobamos si hay pildora en esta casilla
-					  if(Arrays.stream(game.getActivePillsIndices()).anyMatch(i -> i == node))
-						  pills++;
-						  
+					 for (int key:memory.pills.keySet()) {
+							if(node == key && memory.pills.get(key)) {
+								pills++;
+								break;
+							}
+					 }
+					
 					
 					  //solo debe haber 1
 					  nextNode = nextNeighbours[0];
@@ -132,19 +135,17 @@ public class RunAwayCornerPA implements Action{
 			
 			int currentDistance = 0;
 			
-			for(int c : corners){
-				
-				if(!Arrays.stream(game.getActivePowerPillsIndices()).anyMatch(i -> i == c)) {
-					
-					currentDistance = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), corner);
+			
+			 for (int key:memory.powerPills.keySet()) {
+				 currentDistance = game.getShortestPathDistance(game.getPacmanCurrentNodeIndex(), corner);
 					
 					if(currentDistance < distance) {
-						corner = c;
+						corner = key;
 						distance = currentDistance;		
 					}
-				}
-				
-			}
+			 }
+			 
+			 GameView.addLines(game, Color.GREEN, game.getPacmanCurrentNodeIndex(), corner);
 			return corner;
 		}
 

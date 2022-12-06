@@ -192,8 +192,20 @@ public class MsPacManInput extends FuzzyInput {
 		vars.put("LAIRdistance", (double)distanceToLair);
 		vars.put("NEARESTCORNERDistance", (double)distanceToNearestCorner);
 		
+		double PPILLSinmap = 0.;
+		 for (int key:mem.powerPills.keySet()) {
+				if(mem.powerPills.get(key)) {
+					PPILLSinmap = 1;
+					break;
+				}
+		 }
+				
+		
+		//vars.put("PPILLSinmap", PPILLSinmap);
+				
 		saveNumGhostDistance(vars);
-
+		
+		
 		
 		return vars;
 	}
@@ -203,15 +215,18 @@ public class MsPacManInput extends FuzzyInput {
 		
 		
 		//los fantasmas salen media distancia si estan en jaula vistos por ultiam vez
-		for(double dG : distanceGhosts)
+		for(int i = 0; i < 4; ++i)
 		{
-			if(dG >= this.DISTANCE_GHOST_MEDIUM)
+			double dG = distanceGhosts[i];
+			
+			if(dG >= this.DISTANCE_GHOST_MEDIUM || mem.lairTimeGhosts[i] > 0)
 				farGhosts++;
 			else if(dG >= this.DISTANCE_GHOST_NEAR || dG == -1)
 				mediumGhosts++;
 			else
 				nearGhosts++;
 		}
+		
 			if(farGhosts == 0)
 				vars.put("NOGHOSTS"  + "far", 1.);
 			else
@@ -243,6 +258,8 @@ public class MsPacManInput extends FuzzyInput {
 			else
 				vars.put("G" + Integer.toString(i) + "DISTANCE_near", 0.);
 		}
+		
+		
 	}
 
 }
