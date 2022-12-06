@@ -187,7 +187,7 @@ public class MsPacManInput extends FuzzyInput {
 		for(int i = 0; i < 4; ++i)
 			vars.put("PP" + Integer.toString(i) + "distance", distancePP[i]);
 			
-		
+		vars.put("PACMANdirection", (double)game.getPacmanLastMoveMade().ordinal());
 		vars.put("PILLSnear", (double)pillsNear);
 		vars.put("LAIRdistance", (double)distanceToLair);
 		vars.put("NEARESTCORNERDistance", (double)distanceToNearestCorner);

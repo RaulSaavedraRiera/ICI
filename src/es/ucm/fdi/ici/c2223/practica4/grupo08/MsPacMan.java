@@ -7,6 +7,7 @@ import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.MaxActionSelector;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManFuzzyMemory;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.MsPacManInput;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.ChaseEdiblePA;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.ChaseGhostPA;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.ChasePillPA;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.pacman.actions.ChasePowerPillPA;
@@ -43,7 +44,8 @@ public class MsPacMan extends PacmanController {
 					new ChasePowerPillPA(fuzzyMemory),
 					new ChaseGhostPA(fuzzyMemory),
 					new DefaultRandomPA(fuzzyMemory),
-					new RunAwayNearestChasingGhostAnyDirPA(fuzzyMemory)
+					new RunAwayNearestChasingGhostAnyDirPA(fuzzyMemory),
+					new ChaseEdiblePA(fuzzyMemory)
 				};
 		
 		//ConsoleFuzzyEngineObserver observer = new ConsoleFuzzyEngineObserver("MsPacMan","MsPacManRules");

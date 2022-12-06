@@ -71,6 +71,7 @@ VAR_INPUT				// Define input variables
 	NOGHOSTSmedium : REAL;
 	NOGHOSTSnear : REAL;
 	PPILLSinmap : REAL;
+	PACMANdirection : REAL;
 	
 END_VAR
 
@@ -83,6 +84,7 @@ VAR_OUTPUT				// Define output variable
 	
 	ChasePILL: REAL;
 	ChaseGHOST : REAL;
+	GoToEdible : REAL;
 		
 	DefaultAction: REAL;
 END_VAR
@@ -376,7 +378,7 @@ END_FUZZIFY
 DEFUZZIFY Runaway			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
-	TERM emergency := (15,0) (25,1) (30,1);
+	TERM emergency := (15,0) (20,1) (50,1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -384,7 +386,7 @@ END_DEFUZZIFY
 DEFUZZIFY GoToPPill			// Defzzzify output variable 'tip' : {'cheap', 'average', 'generous' }
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
-	TERM emergency := (10,0) (25,1) (30,1);
+	TERM emergency := (10,0) (15,1) (50,1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -408,7 +410,7 @@ END_DEFUZZIFY
 DEFUZZIFY RunawayLAIR	
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
-	TERM emergency := (15,0) (25,1) (30,1);
+	TERM emergency := (15,0) (22,1) (30,1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -422,6 +424,14 @@ DEFUZZIFY ChasePILL
 END_DEFUZZIFY
 
 DEFUZZIFY ChaseGHOST	
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := gauss 15 5;
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+
+DEFUZZIFY GoToEdible	
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := gauss 15 5;
 	TERM emergency := (15,0) (25,1) (30,1);
