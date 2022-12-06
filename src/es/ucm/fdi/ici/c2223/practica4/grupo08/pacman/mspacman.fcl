@@ -544,36 +544,145 @@ RULEBLOCK MsPacManRules
 //	
 
 //reglas entorno
- //cuando no hay ghosts cerca
-	 RULE 119: IF NOGHOSTSnear IS true AND LAIRdistance IS far THEN RunAwayLAIR IS calm;
-	 RULE 120: IF NOGHOSTSnear IS true AND LAIRdistance IS medium THEN RunAwayLAIR IS nervious;
-	 RULE 121: IF NOGHOSTSnear IS true AND LAIRdistance IS near THEN RunAwayLAIR IS emergency;
+ //cuando no hay ghosts cerca ni media distancia
 	 
-	 RULE 122: IF NOGHOSTSnear IS true AND PP0distance IS far THEN RunAwayCORNER IS calm;
-	 RULE 123: IF NOGHOSTSnear IS true AND PP1distance IS far THEN RunAwayCORNER IS calm;
-	 RULE 124: IF NOGHOSTSnear IS true AND PP2distance IS far THEN RunAwayCORNER IS calm;
-	 RULE 125: IF NOGHOSTSnear IS true AND PP3distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 119: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 120: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 121: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 122: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS far THEN RunAwayCORNER IS calm;
 	    
-	 RULE 126: IF NOGHOSTSnear IS true AND PP0distance IS medium THEN RunAwayCORNER IS nervious;
-	 RULE 127: IF NOGHOSTSnear IS true AND PP1distance IS medium THEN RunAwayCORNER IS nervious;
-	 RULE 128: IF NOGHOSTSnear IS true AND PP2distance IS medium THEN RunAwayCORNER IS nervious;
-	 RULE 129: IF NOGHOSTSnear IS true AND PP3distance IS medium THEN RunAwayCORNER IS nervious;
+	 RULE 123: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS medium THEN RunAwayCORNER IS nervious;
+	 RULE 124: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS medium THEN RunAwayCORNER IS nervious;
+	 RULE 125: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS medium THEN RunAwayCORNER IS nervious;
+	 RULE 126: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS medium THEN RunAwayCORNER IS nervious;
 	 
-	 RULE 130: IF NOGHOSTSnear IS true AND PP0distance IS near THEN RunAwayCORNER IS emergency;
-	 RULE 131: IF NOGHOSTSnear IS true AND PP1distance IS near THEN RunAwayCORNER IS emergency;
-	 RULE 132: IF NOGHOSTSnear IS true AND PP2distance IS near THEN RunAwayCORNER IS emergency;
-	 RULE 133: IF NOGHOSTSnear IS true AND PP3distance IS near THEN RunAwayCORNER IS emergency;
+	 RULE 127: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP0distance IS near THEN RunAwayCORNER IS emergency;
+	 RULE 128: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP1distance IS near THEN RunAwayCORNER IS emergency;
+	 RULE 129: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP2distance IS near THEN RunAwayCORNER IS emergency;
+	 RULE 130: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PP3distance IS near THEN RunAwayCORNER IS emergency;
 	 
-	 RULE 134: IF NOGHOSTSnear IS true AND PILLSnear IS high THEN ChasePILL IS emergency;
-	 RULE 135: IF NOGHOSTSnear IS true AND PILLSnear IS medium THEN ChasePILL IS nervious;
-	 RULE 136: IF NOGHOSTSnear IS true AND PILLSnear IS few THEN ChasePILL IS calm;
-	 RULE 137: IF NOGHOSTSnear IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
-	 RULE 138: IF NOGHOSTSnear IS true AND PILLSnear IS few THEN ChaseGHOST IS nervious;
+	 RULE 131: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS high THEN ChasePILL IS emergency;
+	 RULE 132: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS medium THEN ChasePILL IS nervious;
+	 RULE 133: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 134: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 135: IF NOGHOSTSnear IS true AND NOGHOSTSmedium IS true AND PILLSnear IS few THEN ChaseGHOST IS nervious;
 	 
+//cuando no hay ghost cerca
+	//cuando solo haya 1 o 2 fantasmas a media distancia
+	 
+	 RULE 136: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 137: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 138: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 139: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS far THEN RunAwayCORNER IS calm;
+	    
+	 RULE 140: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS medium THEN RunAwayCORNER IS nervious;
+	 RULE 141: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS medium THEN RunAwayCORNER IS nervious;
+	 RULE 142: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS medium THEN RunAwayCORNER IS nervious;
+	 RULE 143: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS medium THEN RunAwayCORNER IS nervious;
+	 
+	 RULE 144: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP0distance IS near THEN RunAwayCORNER IS emergency;
+	 RULE 145: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP1distance IS near THEN RunAwayCORNER IS emergency;
+	 RULE 146: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP2distance IS near THEN RunAwayCORNER IS emergency;
+	 RULE 147: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PP3distance IS near THEN RunAwayCORNER IS emergency;
+	 
+	 RULE 148: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS high THEN ChasePILL IS emergency;
+	 RULE 149: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS medium THEN ChasePILL IS nervious;
+	 RULE 150: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 151: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 152: IF NOGHOSTSnear IS true AND (G2DISTANCE_medium IS true OR  G1DISTANCE_medium IS true) AND PILLSnear IS few THEN ChaseGHOST IS calm;
+	 
+	 //cuando solo haya 3 o 4 fantasmas a media distancia
+	 
+	 RULE 153: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 154: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 155: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 156: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS far THEN RunAwayCORNER IS calm;
+	    
+	 RULE 157: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 158: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 159: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 160: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS medium THEN RunAwayCORNER IS calm;
+	 
+	 RULE 161: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP0distance IS near THEN RunAwayCORNER IS nervious;
+	 RULE 162: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP1distance IS near THEN RunAwayCORNER IS nervious;
+	 RULE 163: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP2distance IS near THEN RunAwayCORNER IS nervious;
+	 RULE 164: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PP3distance IS near THEN RunAwayCORNER IS nervious;
+	 
+	 RULE 165: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS high THEN ChasePILL IS emergency;
+	 RULE 166: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS medium THEN ChasePILL IS nervious;
+	 RULE 167: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 168: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 169: IF NOGHOSTSnear IS true AND (G3DISTANCE_medium IS true OR  G4DISTANCE_medium IS true) AND PILLSnear IS few THEN ChaseGHOST IS calm;
+	 
+//cuando hay ghost cerca
+	//cuando hay 1
+	 
+	 RULE 170: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 171: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 172: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 173: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS far THEN RunAwayCORNER IS calm;
+	    
+	 RULE 174: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 175: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 176: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 177: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS medium THEN RunAwayCORNER IS calm;
+	 
+	 RULE 178: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP0distance IS near THEN RunAwayCORNER IS nervious;
+	 RULE 179: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP1distance IS near THEN RunAwayCORNER IS nervious;
+	 RULE 180: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP2distance IS near THEN RunAwayCORNER IS nervious;
+	 RULE 181: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PP3distance IS near THEN RunAwayCORNER IS nervious;
+	 
+	 RULE 182: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS high THEN ChasePILL IS nervious;
+	 RULE 183: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS medium THEN ChasePILL IS calm;
+	 RULE 184: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 185: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 186: IF NOGHOSTSnear IS false AND G1DISTANCE_near IS true AND PILLSnear IS few THEN ChaseGHOST IS calm;
 	
-
-
-	//IF 4fantasmasCerca && buenas tardes THEN hola
+	//cuando hay 2
+	
+	 RULE 187: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 188: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 189: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 190: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS far THEN RunAwayCORNER IS calm;
+	    
+	 RULE 191: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 192: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 193: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 194: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS medium THEN RunAwayCORNER IS calm;
+	 
+	 RULE 195: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP0distance IS near THEN RunAwayCORNER IS calm;
+	 RULE 196: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP1distance IS near THEN RunAwayCORNER IS calm;
+	 RULE 197: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP2distance IS near THEN RunAwayCORNER IS calm;
+	 RULE 198: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PP3distance IS near THEN RunAwayCORNER IS calm;
+	 
+	 RULE 199: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS high THEN ChasePILL IS nervious;
+	 RULE 200: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS medium THEN ChasePILL IS calm;
+	 RULE 201: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 202: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND (PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	 RULE 203: IF NOGHOSTSnear IS false AND G2DISTANCE_near IS true AND PILLSnear IS few THEN ChaseGHOST IS calm;
+	
+	
+	//cuando hay 3 o 4
+	 RULE 204: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 205: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 206: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS far THEN RunAwayCORNER IS calm;
+	 RULE 207: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS far THEN RunAwayCORNER IS calm;
+	    
+	 RULE 208: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 209: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 210: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS medium THEN RunAwayCORNER IS calm;
+	 RULE 211: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS medium THEN RunAwayCORNER IS calm;
+	 
+	 RULE 212: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP0distance IS near THEN RunAwayCORNER IS calm;
+	 RULE 213: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP1distance IS near THEN RunAwayCORNER IS calm;
+	 RULE 214: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP2distance IS near THEN RunAwayCORNER IS calm;
+	 RULE 215: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PP3distance IS near THEN RunAwayCORNER IS calm;
+	 
+	 RULE 216: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS high THEN ChasePILL IS calm;
+	 RULE 217: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS medium THEN ChasePILL IS calm;
+	 RULE 218: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS few THEN ChasePILL IS calm;
+	 RULE 219: IF NOGHOSTSnear IS false AND (G3DISTANCE_near IS true OR  G4DISTANCE_near IS true) AND PILLSnear IS high OR PILLSnear IS medium) THEN ChaseGHOST IS calm;
+	
 END_RULEBLOCK
 
 END_FUNCTION_BLOCK
