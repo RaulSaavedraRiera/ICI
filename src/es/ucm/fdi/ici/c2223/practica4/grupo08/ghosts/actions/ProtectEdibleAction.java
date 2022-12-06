@@ -17,7 +17,7 @@ public class ProtectEdibleAction implements Action {
 
 	@Override
 	public String getActionId() {
-		return ghost + "protectsEdible";
+		return ghost + "ProtectsEdible";
 	}
 
 	@Override

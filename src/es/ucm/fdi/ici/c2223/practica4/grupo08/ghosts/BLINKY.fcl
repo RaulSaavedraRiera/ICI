@@ -159,7 +159,7 @@ END_DEFUZZIFY
 
 
 RULEBLOCK BLINKYRules
-    	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
 	ACT : MIN;			// Use 'min' activation method
 	ACCU : MAX;			// Use 'MAX' accumulation method (Other options PROBOR and SUM)
 
@@ -190,72 +190,74 @@ RULEBLOCK BLINKYRules
 	//search for mspacman when confidence is 0
 	RULE 19 : IF pacmanPosConfidence IS zero THEN BLINKYSearchPacman IS emergency;
 	RULE 20 : IF pacmanPosConfidence IS low THEN BLINKYSearchPacman IS nervious;
+	RULE 21 : IF pacmanPosConfidence IS medium THEN BLINKYSearchPacman IS calm;
+	RULE 22 : IF pacmanPosConfidence IS high THEN BLINKYSearchPacman IS calm;
 	
 	//protect another edible ghost
-	RULE 21 : IF edible IS no AND anotherGhostEdible IS yes THEN BLINKYProtectsEdible IS emergency;
+	RULE 23 : IF edible IS no AND anotherGhostEdible IS yes THEN BLINKYProtectsEdible IS emergency;
 
 	//run away to ghost or run away to lair
-	RULE 22 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS no THEN BLINKYRunsAwayToGhost IS emergency;
-	RULE 23 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS far THEN BLINKYRunsAwayToGhost IS emergency;
-	RULE 24 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS medium THEN BLINKYRunsAwayToGhost IS nervious;
-	RULE 25 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS near THEN BLINKYRunsAwayToGhost IS calm;
+	RULE 24 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS no THEN BLINKYRunsAwayToGhost IS emergency;
+	RULE 25 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS far THEN BLINKYRunsAwayToGhost IS emergency;
+	RULE 26 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS medium THEN BLINKYRunsAwayToGhost IS nervious;
+	RULE 27 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS near THEN BLINKYRunsAwayToGhost IS calm;
 
-	RULE 26 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS no THEN BLINKYRunsToLair IS emergency;
-	RULE 27 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS near THEN BLINKYRunsToLair IS emergency;
-	RULE 28 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS medium THEN BLINKYRunsToLair IS nervious;
-	RULE 29 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS far THEN BLINKYRunsToLair IS calm;
+	RULE 28 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS no THEN BLINKYRunsToLair IS emergency;
+	RULE 29 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS near THEN BLINKYRunsToLair IS emergency;
+	RULE 30 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS medium THEN BLINKYRunsToLair IS nervious;
+	RULE 31 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS far THEN BLINKYRunsToLair IS calm;
 
 	//goes to corner to die
-	RULE 30 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN BLINKYGoesToPP IS emergency;
-	RULE 31 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN BLINKYGoesToPP IS nervious;
-	RULE 32 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN BLINKYGoesToPP IS calm;
+	RULE 32 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN BLINKYGoesToPP IS emergency;
+	RULE 33 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN BLINKYGoesToPP IS nervious;
+	RULE 34 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN BLINKYGoesToPP IS calm;
 
-	RULE 33 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN BLINKYGoesToPP IS nervious;
-	RULE 34 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN BLINKYGoesToPP IS nervious;
-	RULE 35 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN BLINKYGoesToPP IS calm;
+	RULE 35 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN BLINKYGoesToPP IS nervious;
+	RULE 36 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN BLINKYGoesToPP IS nervious;
+	RULE 37 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN BLINKYGoesToPP IS calm;
 
-	RULE 36 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN BLINKYGoesToPP IS nervious;
-	RULE 37 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN BLINKYGoesToPP IS calm;
-	RULE 38 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN BLINKYGoesToPP IS calm;
+	RULE 38 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN BLINKYGoesToPP IS nervious;
+	RULE 39 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN BLINKYGoesToPP IS calm;
+	RULE 40 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN BLINKYGoesToPP IS calm;
 
 	//turns non edible before pacman reaches
-	RULE 39 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
-	RULE 40 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
-	RULE 41 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS high THEN BLINKYChase IS calm;
+	RULE 41 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
+	RULE 42 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
+	RULE 43 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS high THEN BLINKYChase IS calm;
 
-	RULE 42 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS medium THEN BLINKYChase IS emergency;
-	RULE 43 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS medium THEN BLINKYChase IS nervious;
-	RULE 44 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS medium THEN BLINKYChase IS calm;
+	RULE 44 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS medium THEN BLINKYChase IS emergency;
+	RULE 45 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS medium THEN BLINKYChase IS nervious;
+	RULE 46 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS medium THEN BLINKYChase IS calm;
 
-	RULE 45 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS low THEN BLINKYChase IS nervious;
-	RULE 46 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS low THEN BLINKYChase IS calm;
-	RULE 47 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS low THEN BLINKYChase IS calm;
+	RULE 47 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS low THEN BLINKYChase IS nervious;
+	RULE 48 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS low THEN BLINKYChase IS calm;
+	RULE 49 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS low THEN BLINKYChase IS calm;
 
 	//trap in the corner
-	RULE 48 : IF pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN BLINKYTrapsInCorner IS emergency;
-	RULE 49 : IF pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN BLINKYTrapsInCorner IS emergency;
-	RULE 50 : IF pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN BLINKYTrapsInCorner IS emergency;
+	RULE 50 : IF pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN BLINKYTrapsInCorner IS emergency;
+	RULE 51 : IF pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN BLINKYTrapsInCorner IS emergency;
+	RULE 52 : IF pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN BLINKYTrapsInCorner IS emergency;
 
-	RULE 51 : IF pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN BLINKYTrapsInCorner IS nervious;
-	RULE 52 : IF pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN BLINKYTrapsInCorner IS emergency;
-	RULE 53 : IF pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN BLINKYTrapsInCorner IS emergency;
+	RULE 53 : IF pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN BLINKYTrapsInCorner IS nervious;
+	RULE 54 : IF pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN BLINKYTrapsInCorner IS emergency;
+	RULE 55 : IF pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN BLINKYTrapsInCorner IS emergency;
 
-	RULE 54 : IF pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN BLINKYTrapsInCorner IS calm;
-	RULE 55 : IF pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN BLINKYTrapsInCorner IS calm;
-	RULE 56 : IF pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN BLINKYTrapsInCorner IS nervious;
+	RULE 56 : IF pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN BLINKYTrapsInCorner IS calm;
+	RULE 57 : IF pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN BLINKYTrapsInCorner IS calm;
+	RULE 58 : IF pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN BLINKYTrapsInCorner IS nervious;
 
 	//intercept junction before pp
-	RULE 57 : IF intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
-	RULE 58 : IF intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
-	RULE 59 : IF intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
+	RULE 59 : IF intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
+	RULE 60 : IF intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
+	RULE 61 : IF intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN BLINKYChase IS emergency;
 
-	RULE 60 : IF intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN BLINKYChase IS nervious;
-	RULE 61 : IF intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN BLINKYChase IS emergency;
-	RULE 62 : IF intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN BLINKYChase IS emergency;
+	RULE 62 : IF intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN BLINKYChase IS nervious;
+	RULE 63 : IF intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN BLINKYChase IS emergency;
+	RULE 64 : IF intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN BLINKYChase IS emergency;
 
-	RULE 63 : IF intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN BLINKYChase IS calm;
-	RULE 64 : IF intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN BLINKYChase IS calm;
-	RULE 65 : IF intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN BLINKYChase IS nervious;
+	RULE 65 : IF intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN BLINKYChase IS calm;
+	RULE 66 : IF intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN BLINKYChase IS calm;
+	RULE 67 : IF intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN BLINKYChase IS nervious;
 
 END_RULEBLOCK
 

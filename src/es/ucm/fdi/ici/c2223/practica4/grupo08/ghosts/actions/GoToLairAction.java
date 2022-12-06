@@ -31,6 +31,6 @@ public class GoToLairAction implements Action {
 
 	@Override
 	public String getActionId() {
-		return ghost + "chases";
+		return ghost + "RunsToLair";
 	}
 }

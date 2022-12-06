@@ -9,26 +9,26 @@ import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
 public class TrapCornerAction implements Action {
-	
-	JunctionManager juncManager;
+
 	GHOST ghost;
-	public TrapCornerAction(GHOST ghost, GhostData ghostData) {
+
+	public TrapCornerAction(GHOST ghost) {
 		this.ghost = ghost;
 	}
+
 	@Override
 	public String getActionId() {
-		
-		return ghost +"trapCorner";
+
+		return ghost + "TrapsInCorner";
 	}
+
 	@Override
 	public MOVE execute(Game game) {
 		if (game.doesGhostRequireAction(ghost)) // if it requires an action
-		{	
+		{
 			MOVE move = game.getApproximateNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(ghost),
 					game.getPacmanCurrentNodeIndex(), game.getGhostLastMoveMade(ghost), DM.PATH);
-			juncManager.markDirection(game.getGhostCurrentNodeIndex(ghost), game.getPacmanLastMoveMade());
-			
-			move = juncManager.getNextAvailableMove(game.getGhostCurrentNodeIndex(ghost), move, game.getGhostLastMoveMade(ghost));
+
 			return move;
 		}
 		return MOVE.NEUTRAL;

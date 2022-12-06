@@ -10,8 +10,13 @@ import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.GhostsInput;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.MaxActionSelector;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.MsPacmanPredictor;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.ChaseAction;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.GoToLairAction;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.GoToNearestPPAction;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.ProtectEdibleAction;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.RunAwayAction;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.RunAwayToGhostAction;
 import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.SearchForPacmanAction;
+import es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions.TrapCornerAction;
 import es.ucm.fdi.ici.fuzzy.ActionSelector;
 import es.ucm.fdi.ici.fuzzy.FuzzyEngine;
 import es.ucm.fdi.ici.fuzzy.observers.ConsoleFuzzyEngineObserver;
@@ -45,7 +50,16 @@ public class Ghosts extends GhostController {
 				new RunAwayAction(GHOST.INKY, fuzzyMemory), new RunAwayAction(GHOST.SUE, fuzzyMemory),
 				new SearchForPacmanAction(GHOST.BLINKY, fuzzyMemory),
 				new SearchForPacmanAction(GHOST.PINKY, fuzzyMemory), new SearchForPacmanAction(GHOST.INKY, fuzzyMemory),
-				new SearchForPacmanAction(GHOST.SUE, fuzzyMemory) };
+				new SearchForPacmanAction(GHOST.SUE, fuzzyMemory), new GoToLairAction(GHOST.BLINKY),
+				new GoToLairAction(GHOST.PINKY), new GoToLairAction(GHOST.INKY), new GoToLairAction(GHOST.SUE),
+				new GoToNearestPPAction(GHOST.BLINKY), new GoToNearestPPAction(GHOST.PINKY),
+				new GoToNearestPPAction(GHOST.INKY), new GoToNearestPPAction(GHOST.SUE),
+				new RunAwayToGhostAction(GHOST.BLINKY), new RunAwayToGhostAction(GHOST.PINKY),
+				new RunAwayToGhostAction(GHOST.INKY), new RunAwayToGhostAction(GHOST.SUE),
+				new TrapCornerAction(GHOST.BLINKY), new TrapCornerAction(GHOST.PINKY), new TrapCornerAction(GHOST.INKY),
+				new TrapCornerAction(GHOST.SUE), new ProtectEdibleAction(GHOST.BLINKY),
+				new ProtectEdibleAction(GHOST.PINKY), new ProtectEdibleAction(GHOST.INKY),
+				new ProtectEdibleAction(GHOST.SUE) };
 
 		ActionSelector actionSelector = new MaxActionSelector(actions);
 

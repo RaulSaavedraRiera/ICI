@@ -42,6 +42,6 @@ public class GoToNearestPPAction implements Action {
 
 	@Override
 	public String getActionId() {
-		return ghost + "goesToNearestPP";
+		return ghost + "GoesToPP";
 	}
 }

@@ -10,7 +10,7 @@ import pacman.game.Game;
 public class RunAwayToGhostAction implements Action {
 
 	GHOST ghost;
-	public RunAwayToGhostAction(GHOST ghost, GhostData ghostData) {
+	public RunAwayToGhostAction(GHOST ghost) {
 		this.ghost = ghost;
 	}
 
@@ -44,6 +44,6 @@ public class RunAwayToGhostAction implements Action {
 
 	@Override
 	public String getActionId() {
-		return ghost + "runsAwayToGhost";
+		return ghost + "RunsAwayToGhost";
 	}
 }
