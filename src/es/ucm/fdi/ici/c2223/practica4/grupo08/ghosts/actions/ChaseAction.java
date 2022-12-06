@@ -24,12 +24,15 @@ public class ChaseAction implements Action {
 	@Override
 	public MOVE execute(Game game) {
 
-		GameView.addPoints(game, Color.RED, fuzzyMem.getPacmanLastPosition());
-		
+		int pos = game.getGhostCurrentNodeIndex(ghost);
+		int pacmanPos = fuzzyMem.getPacmanLastPosition();
+		MOVE lastMove = game.getGhostLastMoveMade(ghost);
+
+		GameView.addPoints(game, Color.RED, game.getShortestPath(pos, pacmanPos, lastMove));
+
 		if (game.doesGhostRequireAction(ghost)) // if it requires an action
-		{	
-			return game.getApproximateNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(ghost),
-					fuzzyMem.getPacmanLastPosition(), game.getGhostLastMoveMade(ghost), DM.PATH);
+		{
+			return game.getApproximateNextMoveTowardsTarget(pos, pacmanPos, lastMove, DM.PATH);
 		}
 		return MOVE.NEUTRAL;
 	}

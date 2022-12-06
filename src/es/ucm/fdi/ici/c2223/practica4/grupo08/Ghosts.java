@@ -52,8 +52,8 @@ public class Ghosts extends GhostController {
 				new SearchForPacmanAction(GHOST.PINKY, fuzzyMemory), new SearchForPacmanAction(GHOST.INKY, fuzzyMemory),
 				new SearchForPacmanAction(GHOST.SUE, fuzzyMemory), new GoToLairAction(GHOST.BLINKY),
 				new GoToLairAction(GHOST.PINKY), new GoToLairAction(GHOST.INKY), new GoToLairAction(GHOST.SUE),
-				new GoToNearestPPAction(GHOST.BLINKY), new GoToNearestPPAction(GHOST.PINKY),
-				new GoToNearestPPAction(GHOST.INKY), new GoToNearestPPAction(GHOST.SUE),
+				new GoToNearestPPAction(GHOST.BLINKY, fuzzyMemory), new GoToNearestPPAction(GHOST.PINKY, fuzzyMemory),
+				new GoToNearestPPAction(GHOST.INKY, fuzzyMemory), new GoToNearestPPAction(GHOST.SUE, fuzzyMemory),
 				new RunAwayToGhostAction(GHOST.BLINKY), new RunAwayToGhostAction(GHOST.PINKY),
 				new RunAwayToGhostAction(GHOST.INKY), new RunAwayToGhostAction(GHOST.SUE),
 				new TrapCornerAction(GHOST.BLINKY), new TrapCornerAction(GHOST.PINKY), new TrapCornerAction(GHOST.INKY),
@@ -72,18 +72,18 @@ public class Ghosts extends GhostController {
 
 		fuzzyEngines[GHOST.BLINKY.ordinal()] = new FuzzyEngine("Blinky", RULES_PATH + "BLINKY.fcl", "FuzzyBlinky",
 				actionSelector);
-		fuzzyEngines[GHOST.BLINKY.ordinal()].addObserver(BLINKYobserver);
+		//fuzzyEngines[GHOST.BLINKY.ordinal()].addObserver(BLINKYobserver);
 
 		fuzzyEngines[GHOST.PINKY.ordinal()] = new FuzzyEngine("Pinky", RULES_PATH + "PINKY.fcl", "FuzzyPinky",
 				actionSelector);
-		fuzzyEngines[GHOST.PINKY.ordinal()].addObserver(PINKYobserver);
+		//fuzzyEngines[GHOST.PINKY.ordinal()].addObserver(PINKYobserver);
 
 		fuzzyEngines[GHOST.INKY.ordinal()] = new FuzzyEngine("Inky", RULES_PATH + "INKY.fcl", "FuzzyInky",
 				actionSelector);
-		fuzzyEngines[GHOST.INKY.ordinal()].addObserver(INKYobserver);
+		//fuzzyEngines[GHOST.INKY.ordinal()].addObserver(INKYobserver);
 
 		fuzzyEngines[GHOST.SUE.ordinal()] = new FuzzyEngine("Sue", RULES_PATH + "SUE.fcl", "FuzzySue", actionSelector);
-		fuzzyEngines[GHOST.SUE.ordinal()].addObserver(SUEobserver);
+		//fuzzyEngines[GHOST.SUE.ordinal()].addObserver(SUEobserver);
 	}
 
 	@Override

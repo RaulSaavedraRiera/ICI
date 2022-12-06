@@ -22,7 +22,10 @@ public class GhostsInput extends FuzzyInput {
 	private int[] distanceToLair;
 	private int[] remainingTime;
 	private int[] distanceToNearestPP;
-	private int[] ghostNearestPP;
+	private double[] distanceToPacmanWithSpeed;
+
+	private int mostProbablePacmanPos;
+	private int mostProbablePacmanPosPoints;
 
 	private GhostsFuzzyMemory mem;
 	private MsPacmanPredictor pacmanPredictor;
@@ -55,13 +58,16 @@ public class GhostsInput extends FuzzyInput {
 		HashMap<String, Double> vars = new HashMap<String, Double>();
 
 		vars.put("distanceToPacman", (double) distanceToPacmanLastPosition[g.ordinal()]);
+		vars.put("distanceToPacmanWithSpeed", distanceToPacmanWithSpeed[g.ordinal()]);
 		vars.put("edible", parseBoolToDouble(edible[g.ordinal()]));
 		vars.put("anotherGhostEdible", parseBoolToDouble(anotherGhostEdible[g.ordinal()]));
 		vars.put("anotherGhostNotEdible", parseBoolToDouble(anotherGhostNotEdible[g.ordinal()]));
 		vars.put("anotherGhostInLair", parseBoolToDouble(anotherGhostInLair[g.ordinal()]));
 		vars.put("distanceToLair", (double) distanceToLair[g.ordinal()]);
 		vars.put("remainingTime", (double) remainingTime[g.ordinal()]);
-		vars.put("arrivesFirstToPP", parseBoolToDouble(pacmanNearestPP != -1 &&(ghostNearestPP[g.ordinal()] == pacmanNearestPP) && (distanceToNearestPP[g.ordinal()] < pacmanDistToPP)));
+		vars.put("arrivesFirstToPP",
+				parseBoolToDouble(pacmanNearestPP != -1 && (mem.getGhostNearestPP(g) == pacmanNearestPP)
+						&& (distanceToNearestPP[g.ordinal()] < pacmanDistToPP)));
 
 		return vars;
 	}
@@ -72,18 +78,17 @@ public class GhostsInput extends FuzzyInput {
 		pacmanVisible = false;
 
 		distanceToPacmanLastPosition = new int[4];
+		distanceToPacmanWithSpeed = new double[4];
 		distanceToAsignedPP = new int[4];
 		remainingTime = new int[4];
 		distanceToLair = new int[4];
-		distanceToNearestPP = new int[]{ 2000, 2000, 2000, 2000};
-		
+		distanceToNearestPP = new int[] { 2000, 2000, 2000, 2000 };
+
 		edible = new boolean[4];
 		anotherGhostEdible = new boolean[4];
 		anotherGhostNotEdible = new boolean[4];
 		anotherGhostInLair = new boolean[4];
 
-		ghostNearestPP = new int[] { -1, -1, -1, -1};
-		
 		if (mem == null)
 			return;
 
@@ -118,12 +123,15 @@ public class GhostsInput extends FuzzyInput {
 			distanceToPacmanLastPosition[g.ordinal()] = game.getShortestPathDistance(pos, mem.getPacmanLastPosition(),
 					lastMove);
 
+			distanceToPacmanWithSpeed[g.ordinal()] = distanceToPacmanLastPosition[g.ordinal()] * 0.5;
+
 			edible[g.ordinal()] = game.isGhostEdible(g);
-			
+
 			distanceToAsignedPP[g.ordinal()] = game.getShortestPathDistance(pos, mem.getGhostAsignedPP(g), lastMove);
-			
-			distanceToLair[g.ordinal()] = game.getShortestPathDistance(pos, game.getCurrentMaze().initialGhostNodeIndex, lastMove);
-			
+
+			distanceToLair[g.ordinal()] = game.getShortestPathDistance(pos, game.getCurrentMaze().initialGhostNodeIndex,
+					lastMove);
+
 			remainingTime[g.ordinal()] = game.getGhostEdibleTime(g);
 
 			for (GHOST g2 : GHOST.values()) {
@@ -136,7 +144,7 @@ public class GhostsInput extends FuzzyInput {
 				}
 			}
 		}
-		
+
 		int minDistToPP = 2000;
 		int dist;
 		int nearestPP = -1;
@@ -153,31 +161,37 @@ public class GhostsInput extends FuzzyInput {
 					minDistToPP = dist;
 				}
 
-				for (GHOST g : GHOST.values()) 
-				{
-					if (dist < distanceToNearestPP[g.ordinal()]) 
-					{
+				for (GHOST g : GHOST.values()) {
+					if (dist < distanceToNearestPP[g.ordinal()]) {
 						distanceToNearestPP[g.ordinal()] = dist;
-						ghostNearestPP[g.ordinal()] = pp;
+						mem.setGhostNearestPP(g, nearestPP);
 					}
 				}
 			}
-			
 
 			// si ve que no hay una PP lo marca
-			if (game.isNodeObservable(pp) && game.getActivePowerPillsIndices().length == 0) // &&
-																							// !game.isPowerPillStillAvailable(pp)
+			if (game.isNodeObservable(pp) && game.getActivePowerPillsIndices().length == 0)
 				mem.setPPActive(pp, false);
 		}
 
 		pacmanDistToPP = minDistToPP;
 		pacmanNearestPP = nearestPP;
 
-		if (mem.getPacmanPosConfidence() != 0) 
-		{
+		if (mem.getPacmanPosConfidence() > 0) {
+			
+			//predictor
 			pacmanPredictor.calculate();
-			pacmanPredictor.getMostProbablePos();
+			mostProbablePacmanPos = pacmanPredictor.getMostProbablePos();
+			mostProbablePacmanPosPoints = pacmanPredictor.getMostProbablePosPoints();
+			System.out.println("Points: " + mostProbablePacmanPosPoints);
+			
+			//marcar PP mas cercana a pacman como comida si se comio una
+			if (game.wasPowerPillEaten() && pacmanNearestPP != -1) 
+			{
+				mem.setPPActive(pacmanNearestPP, false);
+			}
 		}
+
 	}
 
 	double parseBoolToDouble(boolean bool) {

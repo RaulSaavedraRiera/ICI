@@ -103,7 +103,7 @@ END_FUZZIFY
 DEFUZZIFY INKYRunaway
 	TERM calm := (0,1) (5,1) (15,0);
 	TERM nervious := (5, 0) (15, 1) (25, 0);
-	TERM emergency := (15,0) (25,1) (30,1);
+	TERM emergency := (15,0) (30,1) (50,1);
 	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
 	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
 END_DEFUZZIFY
@@ -191,8 +191,6 @@ RULEBLOCK INKYRules
 	//search for mspacman when confidence is 0
 	RULE 19 : IF edible IS no AND pacmanPosConfidence IS zero THEN INKYSearchPacman IS emergency;
 	RULE 20 : IF edible IS no AND pacmanPosConfidence IS low THEN INKYSearchPacman IS nervious;
-	RULE 21 : IF edible IS no AND pacmanPosConfidence IS medium THEN INKYSearchPacman IS calm;
-	RULE 22 : IF edible IS no AND pacmanPosConfidence IS high THEN INKYSearchPacman IS calm;
 	
 	//protect another edible ghost
 	RULE 23 : IF edible IS no AND anotherGhostEdible IS yes THEN INKYProtectsEdible IS emergency;
@@ -234,49 +232,36 @@ RULEBLOCK INKYRules
 	RULE 48 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS low THEN INKYChase IS calm;
 	RULE 49 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS low THEN INKYChase IS calm;
 
-	//trap in the corner
-	RULE 50 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN INKYTrapsInCorner IS emergency;
-	RULE 51 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN INKYTrapsInCorner IS emergency;
-	RULE 52 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN INKYTrapsInCorner IS emergency;
-
-	RULE 53 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN INKYTrapsInCorner IS nervious;
-	RULE 54 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN INKYTrapsInCorner IS emergency;
-	RULE 55 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN INKYTrapsInCorner IS emergency;
-
-	RULE 56 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN INKYTrapsInCorner IS calm;
-	RULE 57 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN INKYTrapsInCorner IS calm;
-	RULE 58 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN INKYTrapsInCorner IS nervious;
-
-	//intercept junction before pp
-	RULE 59 : IF edible IS no AND intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN INKYChase IS emergency;
-	RULE 60 : IF edible IS no AND intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN INKYChase IS emergency;
-	RULE 61 : IF edible IS no AND intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN INKYChase IS emergency;
-
-	RULE 62 : IF edible IS no AND intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN INKYChase IS nervious;
-	RULE 63 : IF edible IS no AND intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN INKYChase IS emergency;
-	RULE 64 : IF edible IS no AND intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN INKYChase IS emergency;
-
-	RULE 65 : IF edible IS no AND intercept IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN INKYChase IS calm;
-	RULE 66 : IF edible IS no AND intercept IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN INKYChase IS calm;
-	RULE 67 : IF edible IS no AND intercept IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN INKYChase IS nervious;
+//	//trap in the corner
+//	RULE 50 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN INKYTrapsInCorner IS emergency;
+//	RULE 51 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN INKYTrapsInCorner IS emergency;
+//	RULE 52 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN INKYTrapsInCorner IS emergency;
+//
+//	RULE 53 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN INKYTrapsInCorner IS nervious;
+//	RULE 54 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN INKYTrapsInCorner IS emergency;
+//	RULE 55 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN INKYTrapsInCorner IS emergency;
+//
+//	RULE 56 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN INKYTrapsInCorner IS calm;
+//	RULE 57 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN INKYTrapsInCorner IS calm;
+//	RULE 58 : IF edible IS no AND pacmanInCorner IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN INKYTrapsInCorner IS nervious;
 	
 	//near PP chase (ghost near pacman)
-	RULE 68 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN INKYChase IS emergency;
-	RULE 69 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN INKYChase IS nervious;
-	RULE 70 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN INKYChase IS calm;
+	RULE 59 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN INKYChase IS emergency;
+	RULE 60 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN INKYChase IS nervious;
+	RULE 61 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN INKYChase IS calm;
 
-	RULE 71 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN INKYChase IS emergency;
-	RULE 72 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN INKYChase IS nervious;
-	RULE 73 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN INKYChase IS calm;
+	RULE 62 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN INKYChase IS emergency;
+	RULE 63 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN INKYChase IS nervious;
+	RULE 64 : IF distanceToPacman IS near AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN INKYChase IS calm;
 
 	//near PP runAway (ghost medium distance to pacman)
-	RULE 74 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN INKYRunaway IS emergency;
-	RULE 75 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN INKYRunaway IS calm;
-	RULE 76 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN INKYRunaway IS calm;
+	RULE 65 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN INKYRunaway IS emergency;
+	RULE 66 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN INKYRunaway IS calm;
+	RULE 67 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN INKYRunaway IS calm;
 	
-	RULE 77 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN INKYRunaway IS emergency;
-	RULE 78 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN INKYRunaway IS nervious;
-	RULE 79 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN INKYRunaway IS calm;
+	RULE 68 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN INKYRunaway IS emergency;
+	RULE 69 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN INKYRunaway IS nervious;
+	RULE 70 : IF distanceToPacman IS medium AND pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN INKYRunaway IS calm;
 
 END_RULEBLOCK
 

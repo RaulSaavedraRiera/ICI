@@ -13,6 +13,8 @@ public class MsPacmanPredictor {
 
 	private ArrayList<Integer> msPacmanPosiblePos;
 	private ArrayList<MOVE> msPacmanPosibleDirs;
+	
+	int mostProbablePosPoints;
 
 	Game game;
 	GhostsFuzzyMemory ghostMem;
@@ -24,6 +26,7 @@ public class MsPacmanPredictor {
 
 		msPacmanPosiblePos = new ArrayList<Integer>();
 		msPacmanPosibleDirs = new ArrayList<MOVE>();
+		mostProbablePosPoints = 0;
 	}
 
 	// calcula las posibles posiciones de pacman
@@ -118,7 +121,8 @@ public class MsPacmanPredictor {
 		}
 
 		if (mostProbablePos != -1) {
-			GameView.addPoints(game, Color.RED, mostProbablePos);
+			GameView.addPoints(game, Color.MAGENTA, mostProbablePos);
+			mostProbablePosPoints = maxPoints;
 		}
 
 		return mostProbablePos;
@@ -178,5 +182,9 @@ public class MsPacmanPredictor {
 		}
 
 		return nearestGhost;
+	}
+	
+	public int getMostProbablePosPoints() {
+		return mostProbablePosPoints;
 	}
 }
