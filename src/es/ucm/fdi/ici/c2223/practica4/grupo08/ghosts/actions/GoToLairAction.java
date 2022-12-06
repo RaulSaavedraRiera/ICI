@@ -21,7 +21,7 @@ public class GoToLairAction implements Action {
 		
 		if (game.doesGhostRequireAction(ghost)) // if it requires an action
 		{	
-			int lairNode = game.getNumberOfNodes()/2;
+			int lairNode = game.getCurrentMaze().lairNodeIndex;
 			
 			return game.getApproximateNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(ghost),
 					lairNode, game.getGhostLastMoveMade(ghost), DM.PATH);

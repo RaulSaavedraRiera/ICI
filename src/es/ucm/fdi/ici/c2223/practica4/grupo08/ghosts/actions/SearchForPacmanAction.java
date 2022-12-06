@@ -1,6 +1,7 @@
 package es.ucm.fdi.ici.c2223.practica4.grupo08.ghosts.actions;
 
 import java.awt.Color;
+import java.util.Random;
 
 import es.ucm.fdi.ici.Action;
 import es.ucm.fdi.ici.c2223.practica3.grupo08.GhostData;
@@ -16,6 +17,11 @@ public class SearchForPacmanAction implements Action {
 	GHOST ghost;
 	GhostsFuzzyMemory fuzzyMem;
 
+	boolean searchCorner = true;
+
+	private Random rnd = new Random();
+	private MOVE[] allMoves = MOVE.values();
+
 	public SearchForPacmanAction(GHOST ghost, GhostsFuzzyMemory mem) {
 		this.ghost = ghost;
 		this.fuzzyMem = mem;
@@ -23,17 +29,46 @@ public class SearchForPacmanAction implements Action {
 
 	@Override
 	public MOVE execute(Game game) {
-		
-		//objectivo de la busqueda (de momento la PP asignada)
+
+		// objectivo de la busqueda (de momento la PP asignada)
 		int objective = fuzzyMem.getGhostAsignedPP(ghost);
-		
-		GameView.addLines(game, Color.YELLOW, game.getGhostCurrentNodeIndex(ghost), objective);
-		
-		if (game.doesGhostRequireAction(ghost)) // if it requires an action
-		{	
-			return game.getApproximateNextMoveTowardsTarget(game.getGhostCurrentNodeIndex(ghost),
-					objective, game.getGhostLastMoveMade(ghost), DM.PATH);
+		int lairNode = game.getCurrentMaze().initialGhostNodeIndex;
+		int pos = game.getGhostCurrentNodeIndex(ghost);
+		MOVE lastMove = game.getGhostLastMoveMade(ghost);
+
+		if (searchCorner)
+			GameView.addLines(game, Color.YELLOW, game.getGhostCurrentNodeIndex(ghost), objective);
+
+		else
+			GameView.addLines(game, Color.YELLOW, game.getGhostCurrentNodeIndex(ghost), lairNode);
+
+		// busca yendo a la esquina que le corresponde
+		if (searchCorner && game.getShortestPathDistance(pos, objective, lastMove) > 10)
+			return game.getApproximateNextMoveTowardsTarget(pos, objective, lastMove, DM.PATH);
+
+		// busca yendo hacia el centro o a uno aleatorio
+		else {
+			if (searchCorner)
+				searchCorner = false;
+
+			int random = rnd.nextInt(0, 2);
+
+			if (random == 0) {
+
+				if (game.getShortestPathDistance(pos, lairNode, lastMove) > 10) {
+					return game.getApproximateNextMoveTowardsTarget(pos, lairNode, lastMove, DM.PATH);
+				}
+
+				else {
+					searchCorner = true;
+				}
+			}
+
+			else {
+				return allMoves[rnd.nextInt(allMoves.length)];
+			}
 		}
+
 		return MOVE.NEUTRAL;
 	}
 
