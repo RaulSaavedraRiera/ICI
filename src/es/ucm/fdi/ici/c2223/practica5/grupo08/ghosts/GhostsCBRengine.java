@@ -27,7 +27,11 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	private MOVE action;
 	private GhostsStorageManager storageManager;
 
-	CustomPlainTextConnector connector;
+	CustomPlainTextConnector connectorGeneralEdible;
+	CustomPlainTextConnector connectorGeneralNotEdible;
+	CustomPlainTextConnector connectorTeamEdible;
+	CustomPlainTextConnector connectorTeamNotEdible;
+	
 	CBRCaseBase caseBase;
 	NNConfig simConfig;
 	
@@ -35,8 +39,8 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	final static String TEAM = "grupo08";  //Cuidado!! poner el grupo aquí
 	
 	
-	final static String CONNECTOR_FILE_PATH = "es/ucm/fdi/ici/practica5/"+TEAM+"/mspacman/plaintextconfig.xml";
-	final static String CASE_BASE_PATH = "cbrdata"+File.separator+TEAM+File.separator+"mspacman"+File.separator;
+	final static String CONNECTOR_FILE_PATH = "es/ucm/fdi/ici/c2223/practica5/"+TEAM+"/ghosts/plaintextconfig.xml";
+	final static String CASE_BASE_PATH = "cbrdata"+File.separator+TEAM+File.separator+"ghosts"+File.separator;
 
 	
 	public GhostsCBRengine(GhostsStorageManager storageManager)
@@ -50,10 +54,24 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	
 	@Override
 	public void configure() throws ExecutionException {
-		connector = new CustomPlainTextConnector();
+		
+		//conectores para cada base de casos
+		connectorGeneralEdible = new CustomPlainTextConnector();
 		caseBase = new CachedLinearCaseBase();
 		
-		connector.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH));
+		connectorGeneralNotEdible = new CustomPlainTextConnector();
+		caseBase = new CachedLinearCaseBase();
+		
+		connectorTeamEdible = new CustomPlainTextConnector();
+		caseBase = new CachedLinearCaseBase();
+		
+		connectorTeamNotEdible = new CustomPlainTextConnector();
+		caseBase = new CachedLinearCaseBase();
+		
+		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH));
+		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH));
+		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH));
+		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH));
 		
 		//Do not use default case base path in the xml file. Instead use custom file path for each opponent.
 		//Note that you can create any subfolder of files to store the case base inside your "cbrdata/grupoXX" folder.
