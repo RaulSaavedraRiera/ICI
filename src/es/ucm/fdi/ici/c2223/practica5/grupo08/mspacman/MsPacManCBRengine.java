@@ -16,9 +16,9 @@ import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Equ
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Interval;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.selection.SelectCases;
 import es.ucm.fdi.gaia.jcolibri.util.FileIO;
-import es.ucm.fdi.ici.practica5.grupoXX.CBRengine.Average;
-import es.ucm.fdi.ici.practica5.grupoXX.CBRengine.CachedLinearCaseBase;
-import es.ucm.fdi.ici.practica5.grupoXX.CBRengine.CustomPlainTextConnector;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.Average;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.CachedLinearCaseBase;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.CustomPlainTextConnector;
 import pacman.game.Constants.MOVE;
 
 public class MsPacManCBRengine implements StandardCBRApplication {
