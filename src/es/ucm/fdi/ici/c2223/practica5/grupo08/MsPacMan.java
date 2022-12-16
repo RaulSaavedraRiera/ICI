@@ -1,22 +1,23 @@
 package es.ucm.fdi.ici.c2223.practica5.grupo08;
 
 import es.ucm.fdi.gaia.jcolibri.exception.ExecutionException;
-import es.ucm.fdi.ici.practica5.grupoXX.mspacman.MsPacManCBRengine;
-import es.ucm.fdi.ici.practica5.grupoXX.mspacman.MsPacManInput;
-import es.ucm.fdi.ici.practica5.grupoXX.mspacman.MsPacManStorageManager;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.mspacman.MsPacManCBRengine;
+import  es.ucm.fdi.ici.c2223.practica5.grupo08.mspacman.MsPacManStorageManager;
+import  es.ucm.fdi.ici.c2223.practica5.grupo08.mspacman.MsPacManInput;
+
 import pacman.controllers.PacmanController;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
 public class MsPacMan extends PacmanController {
 
-	GhostsCBRengine cbrEngine;
-	GhostsStorageManager storageManager;
+	MsPacManCBRengine cbrEngine;
+	MsPacManStorageManager storageManager;
 		
 	public MsPacMan()
 	{		
-		this.storageManager = new GhostsStorageManager();
-		cbrEngine = new GhostsCBRengine(storageManager);
+		this.storageManager = new MsPacManStorageManager();
+		cbrEngine = new MsPacManCBRengine(storageManager);
 	}
 	
 	@Override
@@ -52,7 +53,7 @@ public class MsPacMan extends PacmanController {
 		
 		
 		try {
-			GhostsInput input = new GhostsInput(game);
+			MsPacManInput input = new MsPacManInput(game);
 			input.parseInput();
 			storageManager.setGame(game);
 			cbrEngine.cycle(input.getQuery());
