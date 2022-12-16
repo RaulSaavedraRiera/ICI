@@ -212,20 +212,7 @@ public class MsPacManInput extends FuzzyInput {
 			else
 				nearGhosts++;
 		}
-			if(farGhosts == 0)
-				vars.put("NOGHOSTS"  + "far", 1.);
-			else
-				vars.put("NOGHOSTS"  + "far", 0.);
 			
-			if(mediumGhosts == 0)
-				vars.put("NOGHOSTS"  + "medium", 1.);
-			else
-				vars.put("NOGHOSTS"  + "medium", 0.);
-			
-			if(nearGhosts == 0)
-				vars.put("NOGHOSTS"  + "near", 1.);
-			else
-				vars.put("NOGHOSTS"  + "near", 0.);
 		
 		for(int i = 1; i <=4; ++i) {
 			if(i == farGhosts)

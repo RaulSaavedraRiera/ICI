@@ -1,0 +1,262 @@
+FUNCTION_BLOCK FuzzySue
+
+VAR_INPUT
+	pacmanPosConfidence : REAL;
+    	distanceToPacman : REAL;
+    	pacmanDistanceToPPill : REAL;
+    	distanceToPacmanWithSpeed : REAL;
+	pacmanInCorner : REAL;
+
+	distanceToLair : REAL;
+    	remainingTime : REAL;
+	edible : REAL;
+	arrivesFirstToPP : REAL;
+	anotherGhostNotEdible : REAL;
+	anotherGhostInLair : REAL;
+	anotherGhostEdible : REAL;
+	intercept : REAL;
+END_VAR
+
+VAR_OUTPUT
+    SUERunaway : REAL;
+    SUEChase : REAL;
+    SUESearchPacman : REAL;
+    SUEProtectsEdible : REAL;
+    SUERunsToLair : REAL;
+    SUEGoesToPP : REAL;
+    SUETrapsInCorner : REAL;
+    SUERunsAwayToGhost : REAL;
+END_VAR
+
+FUZZIFY distanceToPacman
+	TERM near:=(0,1)(50,0);
+	TERM medium := (40,0)(100,1)(150,0);
+	TERM far := (120,0)(160,1)(2000,1);
+END_FUZZIFY
+
+FUZZIFY pacmanDistanceToPPill
+	TERM near:=(0,1)(40,1)(60,0);
+	TERM medium := (50,0)(80,1)(100,0);
+	TERM far := (90,0)(120,1);
+END_FUZZIFY
+
+FUZZIFY distanceToPacmanWithSpeed
+	TERM near:=(0,1)(20,1)(40,0);
+	TERM medium := (30,0)(50,1)(70,0);
+	TERM far := (60,0)(80,1);
+END_FUZZIFY
+
+FUZZIFY remainingTime
+	TERM low := (0,1)(10,0);
+	TERM medium := (5,0)(10,1)(30,1)(35,0);
+	TERM high := (30,0)(50,1);
+END_FUZZIFY
+
+FUZZIFY edible
+	TERM no := (0,1)(0.5,1)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
+END_FUZZIFY
+
+FUZZIFY distanceToLair
+	TERM near:=(0,1)(20,1)(40,0);
+	TERM medium := (30,0)(50,1)(70,0);
+	TERM far := (60,0)(80,1);
+END_FUZZIFY
+
+FUZZIFY arrivesFirstToPP
+	TERM no := (0,1)(0.5,1)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
+END_FUZZIFY
+
+FUZZIFY anotherGhostNotEdible
+	TERM no := (0,1)(0.5,1)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
+END_FUZZIFY
+
+FUZZIFY anotherGhostEdible
+	TERM no := (0,1)(0.5,1)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
+END_FUZZIFY
+
+FUZZIFY anotherGhostInLair
+	TERM no := (0,1)(0.5,1)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
+END_FUZZIFY
+
+FUZZIFY intercept
+	TERM no := (0,1)(0.5,1)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
+END_FUZZIFY
+
+FUZZIFY pacmanInCorner
+	TERM no := (0,1)(0.5,1)(0.5,0);
+	TERM yes:= (0.5,0)(0.5,1)(1,1);
+END_FUZZIFY
+
+FUZZIFY pacmanPosConfidence
+	TERM zero := (0,1)(1,1)(1,0);
+	TERM low := (1,0)(1,1)(25,1)(50,0) ; 
+	TERM medium := (30,0)(40,1)(60,1)(70,0);
+	TERM high := (50,0)(75,1)(100,1);
+END_FUZZIFY
+
+DEFUZZIFY SUERunaway
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+DEFUZZIFY SUEChase
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+DEFUZZIFY SUESearchPacman
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;		// Default value is 0 (if no rule activates defuzzifier)
+END_DEFUZZIFY
+DEFUZZIFY SUEProtectsEdible
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;
+END_DEFUZZIFY
+DEFUZZIFY SUERunsAwayToGhost
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;
+END_DEFUZZIFY
+DEFUZZIFY SUERunsToLair
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;
+END_DEFUZZIFY
+DEFUZZIFY SUEGoesToPP
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;
+END_DEFUZZIFY
+DEFUZZIFY SUETrapsInCorner
+	TERM calm := (0,1) (5,1) (15,0);
+	TERM nervious := (5, 0) (15, 1) (25, 0);
+	TERM emergency := (15,0) (25,1) (30,1);
+	METHOD : COG;		// Use 'Center Of Gravity' defuzzification method
+	DEFAULT := 0;
+END_DEFUZZIFY
+
+
+RULEBLOCK SUERules
+    	AND : MIN;			// Use 'min' for 'and' (also implicit use 'max' for 'or' to fulfill DeMorgan's Law)
+	ACT : MIN;			// Use 'min' activation method
+	ACCU : MAX;			// Use 'MAX' accumulation method (Other options PROBOR and SUM)
+
+	RULE 1 : IF distanceToPacman IS near AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	RULE 2 : IF distanceToPacman IS medium AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	RULE 3 : IF distanceToPacman IS far AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	
+	RULE 4 : IF distanceToPacman IS near AND pacmanPosConfidence IS medium THEN SUEChase IS nervious;
+	RULE 5 : IF distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN SUEChase IS nervious;
+	RULE 6 : IF distanceToPacman IS far AND pacmanPosConfidence IS medium THEN SUEChase IS nervious;
+	
+	RULE 7 : IF distanceToPacman IS near AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+	RULE 8 : IF distanceToPacman IS medium AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+	RULE 9 : IF distanceToPacman IS far AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+
+	RULE 10 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS high THEN SUERunaway IS emergency;
+	RULE 11 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS medium THEN SUERunaway IS calm;
+	RULE 12 : IF pacmanDistanceToPPill IS near AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
+
+	RULE 13 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS high THEN SUERunaway IS emergency;
+	RULE 14 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS medium THEN SUERunaway IS nervious;
+	RULE 15 : IF pacmanDistanceToPPill IS medium AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
+
+	RULE 16 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS high THEN SUERunaway IS calm;
+	RULE 17 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS medium THEN SUERunaway IS calm;
+	RULE 18 : IF pacmanDistanceToPPill IS far AND pacmanPosConfidence IS low THEN SUERunaway IS calm;
+    
+    	//search for mspacman when confidence is 0
+    	RULE 19 : IF pacmanPosConfidence IS zero THEN SUESearchPacman IS emergency;
+    	RULE 20 : IF pacmanPosConfidence IS low THEN SUESearchPacman IS nervious;
+	
+	//protect another edible ghost
+	RULE 21 : IF edible IS no AND anotherGhostEdible IS yes THEN SUEProtectsEdible IS emergency;
+
+	//run away to ghost or run away to lair
+	RULE 22 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS no THEN SUERunsAwayToGhost IS emergency;
+	RULE 23 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS far THEN SUERunsAwayToGhost IS emergency;
+	RULE 24 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS medium THEN SUERunsAwayToGhost IS nervious;
+	RULE 25 : IF edible IS yes AND anotherGhostNotEdible IS yes AND anotherGhostInLair IS yes AND distanceToLair IS near THEN SUERunsAwayToGhost IS calm;
+
+	RULE 26 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible is no THEN SUERunsToLair IS emergency;
+	RULE 27 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS near THEN SUERunsToLair IS emergency;
+	RULE 28 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS medium THEN SUERunsToLair IS nervious;
+	RULE 29 : IF edible IS yes AND anotherGhostInLair IS yes AND anotherGhostNotEdible IS yes AND distanceToLair IS far THEN SUERunsToLair IS calm;
+
+	//goes to corner to die
+	RULE 30 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS high THEN SUEGoesToPP IS emergency;
+	RULE 31 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS high THEN SUEGoesToPP IS nervious;
+	RULE 32 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS high THEN SUEGoesToPP IS calm;
+
+	RULE 33 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS medium THEN SUEGoesToPP IS nervious;
+	RULE 34 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN SUEGoesToPP IS nervious;
+	RULE 35 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS medium THEN SUEGoesToPP IS calm;
+
+	RULE 36 : IF edible IS yes AND distanceToPacman IS near AND pacmanPosConfidence IS low THEN SUEGoesToPP IS nervious;
+	RULE 37 : IF edible IS yes AND distanceToPacman IS medium AND pacmanPosConfidence IS low THEN SUEGoesToPP IS calm;
+	RULE 38 : IF edible IS yes AND distanceToPacman IS far AND pacmanPosConfidence IS low THEN SUEGoesToPP IS calm;
+
+	//turns non edible before pacman reaches
+	RULE 39 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	RULE 40 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	RULE 41 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS high THEN SUEChase IS calm;
+
+	RULE 42 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS medium THEN SUEChase IS emergency;
+	RULE 43 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS medium THEN SUEChase IS nervious;
+	RULE 44 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS medium THEN SUEChase IS calm;
+
+	RULE 45 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS far AND pacmanPosConfidence IS low THEN SUEChase IS nervious;
+	RULE 46 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS medium AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+	RULE 47 : IF edible IS yes AND remainingTime IS low AND distanceToPacmanWithSpeed IS near AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+
+	//trap in the corner
+	RULE 48 : IF pacmanInCorner IS yes and distanceToPacman IS far AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
+	RULE 49 : IF pacmanInCorner IS yes and distanceToPacman IS medium AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
+	RULE 50 : IF pacmanInCorner IS yes and distanceToPacman IS near AND pacmanPosConfidence IS high THEN SUETrapsInCorner IS emergency;
+
+	RULE 51 : IF pacmanInCorner IS yes and distanceToPacman IS far AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS nervious;
+	RULE 52 : IF pacmanInCorner IS yes and distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS emergency;
+	RULE 53 : IF pacmanInCorner IS yes and distanceToPacman IS near AND pacmanPosConfidence IS medium THEN SUETrapsInCorner IS emergency;
+
+	RULE 54 : IF pacmanInCorner IS yes and distanceToPacman IS far AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS calm;
+	RULE 55 : IF pacmanInCorner IS yes and distanceToPacman IS medium AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS calm;
+	RULE 56 : IF pacmanInCorner IS yes and distanceToPacman IS near AND pacmanPosConfidence IS low THEN SUETrapsInCorner IS nervious;
+
+	//intercept junction before pp
+	RULE 57 : IF intercept IS yes and distanceToPacman IS far AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	RULE 58 : IF intercept IS yes and distanceToPacman IS medium AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+	RULE 59 : IF intercept IS yes and distanceToPacman IS near AND pacmanPosConfidence IS high THEN SUEChase IS emergency;
+
+	RULE 60 : IF intercept IS yes and distanceToPacman IS far AND pacmanPosConfidence IS medium THEN SUEChase IS nervious;
+	RULE 61 : IF intercept IS yes and distanceToPacman IS medium AND pacmanPosConfidence IS medium THEN SUEChase IS emergency;
+	RULE 62 : IF intercept IS yes and distanceToPacman IS near AND pacmanPosConfidence IS medium THEN SUEChase IS emergency;
+
+	RULE 63 : IF intercept IS yes and distanceToPacman IS far AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+	RULE 64 : IF intercept IS yes and distanceToPacman IS medium AND pacmanPosConfidence IS low THEN SUEChase IS calm;
+	RULE 65 : IF intercept IS yes and distanceToPacman IS near AND pacmanPosConfidence IS low THEN SUEChase IS nervious;
+
+END_RULEBLOCK
+
+END_FUNCTION_BLOCK

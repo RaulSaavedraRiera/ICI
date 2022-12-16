@@ -19,9 +19,7 @@ import es.ucm.fdi.ici.c2223.practica3.grupo08.mspacman.actions.RunAwayPowerPillP
 import es.ucm.fdi.ici.rules.RuleEngine;
 import es.ucm.fdi.ici.rules.RulesAction;
 import es.ucm.fdi.ici.rules.RulesInput;
-import es.ucm.fdi.ici.rules.observers.ConsoleRuleEngineObserver;
 import pacman.controllers.PacmanController;
-import pacman.game.Constants.GHOST;
 import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
@@ -33,7 +31,7 @@ public class MsPacMan extends PacmanController {
 	
 	public MsPacMan() {
 		
-		setName("MsPacman8");
+		setName("MsPacManIfUrNasty");
 		setTeam("Team 08");
 		
 		map = new HashMap<String,RulesAction>();
@@ -70,8 +68,8 @@ public class MsPacMan extends PacmanController {
 		engine  = new RuleEngine("PACMAN",rulesFile, map);
 		
 	
-		ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver("PACMAN", true);
-		engine.addObserver(observer);
+//		ConsoleRuleEngineObserver observer = new ConsoleRuleEngineObserver("PACMAN", true);
+//		engine.addObserver(observer);
 		
 		
 	}

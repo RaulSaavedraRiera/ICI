@@ -79,10 +79,14 @@ public class MsPacmanPredictor {
 		int cont = 0;
 		for (int nextPos : msPacmanPosiblePos) {
 			int points = 0;
-
+			
+			
 			// cada nodo de distancia a la PP mas cercana quita 2 puntos
 			MOVE lastMove = msPacmanPosibleDirs.get(cont);
 			int nearestPP = getNearestPP(nextPos, lastMove);
+			System.out.println(nextPos);
+			System.out.println(nearestPP);
+			System.out.println(lastMove);
 			int distanceToPP = game.getShortestPathDistance(nextPos, nearestPP, lastMove);
 
 			points -= distanceToPP * 2;

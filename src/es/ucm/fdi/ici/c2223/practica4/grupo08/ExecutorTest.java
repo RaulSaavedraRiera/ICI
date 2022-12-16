@@ -13,8 +13,8 @@ public class ExecutorTest {
 				.setTickLimit(4000)
 				.setGhostPO(true)
 				.setPacmanPO(true)
-				.setPacmanPOvisual(false) // visualizaci�n
-				.setGhostsPOvisual(false) // visualizaci�n
+				.setPacmanPOvisual(false) 
+				.setGhostsPOvisual(false) 
 				.setPOType(POType.LOS)
 				.setSightLimit(200)
 				.setVisual(true)
@@ -23,6 +23,6 @@ public class ExecutorTest {
 		PacmanController pacMan = new MsPacMan();
 		GhostController ghosts = new Ghosts();
 
-		System.out.println(executor.runGame(pacMan, ghosts, 40));
+		System.out.println(executor.runGame(pacMan, ghosts, 10));
 	}
 }
