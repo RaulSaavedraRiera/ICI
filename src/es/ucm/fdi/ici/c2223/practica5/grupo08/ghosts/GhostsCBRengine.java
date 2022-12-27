@@ -25,97 +25,112 @@ public class GhostsCBRengine implements StandardCBRApplication {
 
 	private String opponent;
 	private MOVE action;
-	private GhostsStorageManager storageManager;
+	private GhostsStorageManager edibleStorageManager;
+	private GhostsStorageManager notEdibleStorageManager;
 
 	CustomPlainTextConnector connectorGeneralEdible;
 	CustomPlainTextConnector connectorGeneralNotEdible;
 	CustomPlainTextConnector connectorTeamEdible;
 	CustomPlainTextConnector connectorTeamNotEdible;
-	
-	CBRCaseBase caseBase;
-	NNConfig simConfig;
-	
-	
-	final static String TEAM = "grupo08";  //Cuidado!! poner el grupo aquí
-	
-	
-	final static String CONNECTOR_FILE_PATH_GENERAL_EDIBLE = "es/ucm/fdi/ici/c2223/practica5/"+TEAM+"/ghosts/GeneralEdibleplaintextconfig.xml";
-	final static String CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE = "es/ucm/fdi/ici/c2223/practica5/"+TEAM+"/ghosts/GeneralNotEdibleplaintextconfig.xml";
-	final static String CASE_BASE_PATH = "cbrdata"+File.separator+TEAM+File.separator+"ghosts"+File.separator;
 
-	
-	public GhostsCBRengine(GhostsStorageManager storageManager)
-	{
-		this.storageManager = storageManager;
+	CBRCaseBase generalEdibleCaseBase;
+	CBRCaseBase generalNotEdibleCaseBase;
+	NNConfig simConfig;
+
+	final static String TEAM = "grupo08"; // Cuidado!! poner el grupo aquí
+
+	final static String CONNECTOR_FILE_PATH_GENERAL_EDIBLE = "es/ucm/fdi/ici/c2223/practica5/" + TEAM
+			+ "/ghosts/GeneralEdibleplaintextconfig.xml";
+	final static String CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE = "es/ucm/fdi/ici/c2223/practica5/" + TEAM
+			+ "/ghosts/GeneralNotEdibleplaintextconfig.xml";
+	final static String EDIBLE_CASE_BASE_PATH = "cbrdata" + File.separator + TEAM + File.separator + "ghosts"
+			+ File.separator;
+	final static String NOTEDIBLE_CASE_BASE_PATH = "cbrdata" + File.separator + TEAM + File.separator + "ghosts"
+			+ File.separator;
+
+	public GhostsCBRengine(GhostsStorageManager edibleStorageManager, GhostsStorageManager notEdibleStorageManager) {
+		this.edibleStorageManager = edibleStorageManager;
+		this.notEdibleStorageManager = notEdibleStorageManager;
 	}
-	
+
 	public void setOpponent(String opponent) {
 		this.opponent = opponent;
 	}
-	
+
 	@Override
 	public void configure() throws ExecutionException {
-		
-		//conectores para cada base de casos
+
+		// conectores para cada base de casos
 		connectorGeneralEdible = new CustomPlainTextConnector();
-		caseBase = new CachedLinearCaseBase();
-		
+		generalEdibleCaseBase = new CachedLinearCaseBase();
+
 		connectorGeneralNotEdible = new CustomPlainTextConnector();
-		caseBase = new CachedLinearCaseBase();
-		
-		connectorTeamEdible = new CustomPlainTextConnector();
-		caseBase = new CachedLinearCaseBase();
-		
-		connectorTeamNotEdible = new CustomPlainTextConnector();
-		caseBase = new CachedLinearCaseBase();
-		
+		generalNotEdibleCaseBase = new CachedLinearCaseBase();
+
+//		connectorTeamEdible = new CustomPlainTextConnector();
+//		caseBase = new CachedLinearCaseBase();
+//		
+//		connectorTeamNotEdible = new CustomPlainTextConnector();
+//		caseBase = new CachedLinearCaseBase();
+
 		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_EDIBLE));
-		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE));
-		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_EDIBLE));
-		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE));
-		
-		//Do not use default case base path in the xml file. Instead use custom file path for each opponent.
-		//Note that you can create any subfolder of files to store the case base inside your "cbrdata/grupoXX" folder.
-		connector.setCaseBaseFile(CASE_BASE_PATH, opponent+".csv");
-		
-		this.storageManager.setCaseBase(caseBase);
-		
+		connectorGeneralNotEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE));
+//		connectorTeamEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_EDIBLE));
+//		connectorTeamNotEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE));
+
+		// Do not use default case base path in the xml file. Instead use custom file
+		// path for each opponent.
+		// Note that you can create any subfolder of files to store the case base inside
+		// your "cbrdata/grupoXX" folder.
+		connectorGeneralEdible.setCaseBaseFile(EDIBLE_CASE_BASE_PATH, "General" + "Edible" + ".csv");
+		connectorGeneralNotEdible.setCaseBaseFile(NOTEDIBLE_CASE_BASE_PATH, "General" + "NotEdible" + ".csv");
+
+		this.edibleStorageManager.setCaseBase(generalEdibleCaseBase);
+		this.notEdibleStorageManager.setCaseBase(generalNotEdibleCaseBase);
+
 		simConfig = new NNConfig();
 		simConfig.setDescriptionSimFunction(new Average());
-		simConfig.addMapping(new Attribute("score",GhostsDescription.class), new Interval(15000));
-		simConfig.addMapping(new Attribute("time",GhostsDescription.class), new Interval(4000));
-		simConfig.addMapping(new Attribute("nearestPPill",GhostsDescription.class), new Interval(650));
-		simConfig.addMapping(new Attribute("nearestGhost",GhostsDescription.class), new Interval(650));
-		simConfig.addMapping(new Attribute("edibleGhost",GhostsDescription.class), new Equal());
-		
+		simConfig.addMapping(new Attribute("score", GhostsDescription.class), new Interval(15000));
+		simConfig.addMapping(new Attribute("time", GhostsDescription.class), new Interval(4000));
+		simConfig.addMapping(new Attribute("nearestPPill", GhostsDescription.class), new Interval(650));
+		simConfig.addMapping(new Attribute("nearestGhost", GhostsDescription.class), new Interval(650));
+		simConfig.addMapping(new Attribute("edibleGhost", GhostsDescription.class), new Equal());
+
 	}
 
 	@Override
 	public CBRCaseBase preCycle() throws ExecutionException {
-		caseBase.init(connector);
-		return caseBase;
+		generalEdibleCaseBase.init(connectorGeneralEdible);
+		generalNotEdibleCaseBase.init(connectorGeneralNotEdible);
+		
+		return generalEdibleCaseBase;
 	}
 
 	@Override
 	public void cycle(CBRQuery query) throws ExecutionException {
-		if(caseBase.getCases().isEmpty()) {
+		
+		//hay que diferenciar por edible y not edible
+		if (generalEdibleCaseBase.getCases().isEmpty()) {
 			this.action = MOVE.NEUTRAL;
-		}
-		else {
-			//Compute retrieve
-			Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(caseBase.getCases(), query, simConfig);
-			//Compute reuse
+		} else {
+			// Compute retrieve
+			Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(generalEdibleCaseBase.getCases(), query,
+					simConfig);
+			// Compute reuse
 			this.action = reuse(eval);
 		}
-		
-		//Compute revise & retain
+
+		// Compute revise & retain
 		CBRCase newCase = createNewCase(query);
-		this.storageManager.reviseAndRetain(newCase);
 		
+		//if (query.getEdible())
+		this.edibleStorageManager.reviseAndRetain(newCase);
+
+		//else
+		this.notEdibleStorageManager.reviseAndRetain(newCase);
 	}
 
-	private MOVE reuse(Collection<RetrievalResult> eval)
-	{
+	private MOVE reuse(Collection<RetrievalResult> eval) {
 		// This simple implementation only uses 1NN
 		// Consider using kNNs with majority voting
 		RetrievalResult first = SelectCases.selectTopKRR(eval, 1).iterator().next();
@@ -124,37 +139,37 @@ public class GhostsCBRengine implements StandardCBRApplication {
 
 		GhostsResult result = (GhostsResult) mostSimilarCase.getResult();
 		GhostsSolution solution = (GhostsSolution) mostSimilarCase.getSolution();
-		
-		//Now compute a solution for the query
-		
-		//Here, it simply takes the action of the 1NN
+
+		// Now compute a solution for the query
+
+		// Here, it simply takes the action of the 1NN
 		MOVE action = solution.getAction();
-		
-		//But if not enough similarity or bad case, choose another move randomly
-		if((similarity<0.7)||(result.getScore()<100)) {
-			int index = (int)Math.floor(Math.random()*4);
-			if(MOVE.values()[index]==action) 
-				index= (index+1)%4;
+
+		// But if not enough similarity or bad case, choose another move randomly
+		if ((similarity < 0.7) || (result.getScore() < 100)) {
+			int index = (int) Math.floor(Math.random() * 4);
+			if (MOVE.values()[index] == action)
+				index = (index + 1) % 4;
 			action = MOVE.values()[index];
 		}
 		return action;
 	}
-	
-	
-	
 
 	/**
-	 * Creates a new case using the query as description, 
-	 * storing the action into the solution and 
-	 * setting the proper id number
+	 * Creates a new case using the query as description, storing the action into
+	 * the solution and setting the proper id number
 	 */
 	private CBRCase createNewCase(CBRQuery query) {
 		CBRCase newCase = new CBRCase();
 		GhostsDescription newDescription = (GhostsDescription) query.getDescription();
 		GhostsResult newResult = new GhostsResult();
 		GhostsSolution newSolution = new GhostsSolution();
-		int newId = this.caseBase.getCases().size();
-		newId+= storageManager.getPendingCases();
+		
+		//sumamos todas las bases de casos
+		int newId = this.generalEdibleCaseBase.getCases().size() + generalNotEdibleCaseBase.getCases().size();
+		newId += edibleStorageManager.getPendingCases();
+		newId += notEdibleStorageManager.getPendingCases();
+		
 		newDescription.setId(newId);
 		newResult.setId(newId);
 		newSolution.setId(newId);
@@ -164,15 +179,17 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		newCase.setSolution(newSolution);
 		return newCase;
 	}
-	
+
 	public MOVE getSolution() {
 		return this.action;
 	}
 
 	@Override
 	public void postCycle() throws ExecutionException {
-		this.storageManager.close();
-		this.caseBase.close();
+		this.edibleStorageManager.close();
+		this.notEdibleStorageManager.close();
+		this.generalEdibleCaseBase.close();
+		this.generalNotEdibleCaseBase.close();
 	}
 
 }

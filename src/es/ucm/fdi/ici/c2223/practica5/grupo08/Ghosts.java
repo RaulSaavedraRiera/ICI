@@ -14,11 +14,13 @@ import pacman.game.Game;
 public class Ghosts extends GhostController {
 
 	GhostsCBRengine cbrEngine;
-	GhostsStorageManager storageManager;
+	GhostsStorageManager edibleStorageManager;
+	GhostsStorageManager notEdibleStorageManager;
 
 	public Ghosts() {
-		this.storageManager = new GhostsStorageManager();
-		cbrEngine = new GhostsCBRengine(storageManager);
+		this.edibleStorageManager = new GhostsStorageManager();
+		this.notEdibleStorageManager = new GhostsStorageManager();
+		cbrEngine = new GhostsCBRengine(edibleStorageManager, notEdibleStorageManager);
 	}
 
 	@Override
@@ -56,7 +58,8 @@ public class Ghosts extends GhostController {
 			try {
 				GhostsInput input = new GhostsInput(game);
 				input.parseInput();
-				storageManager.setGame(game);
+				edibleStorageManager.setGame(game);
+				notEdibleStorageManager.setGame(game);
 				cbrEngine.cycle(input.getQuery());
 				MOVE move = cbrEngine.getSolution();
 				moves.put(g, move);
