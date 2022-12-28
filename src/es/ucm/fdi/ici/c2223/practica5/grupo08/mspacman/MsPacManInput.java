@@ -12,17 +12,30 @@ public class MsPacManInput extends CBRInput {
 		super(game);
 		
 	}
+	
+	final int DISTANCE_PILL_NEAR = 35;
 
-	Integer nearestGhost;
-	Boolean edible;
-	Integer nearestPPill;
 	Integer score;
 	Integer time;
 	
+	Integer nearestPPill;
+	Integer nearesPill;
+	Integer pillsNear;
+	Integer pillsRemaining;
+	
+	Integer nearestGhostDistanceChasing;
+	Integer nearestGhostDistanceEdible;
+	Integer timeNearestEdibleGhost;
+	
 	@Override
 	public void parseInput() {
-		computeNearestGhost(game);
+		
+		computeNearestGhostsDistance(game);
+		
 		computeNearestPPill(game);
+		computeNearestPill(game);
+		computePillsData(game);
+		
 		time = game.getTotalTime();
 		score = game.getScore();
 	}
@@ -30,21 +43,30 @@ public class MsPacManInput extends CBRInput {
 	@Override
 	public CBRQuery getQuery() {
 		MsPacManDescription description = new MsPacManDescription();
-		description.setEdibleGhost(edible);
-		description.setNearestGhost(nearestGhost);
-		description.setNearestPPill(nearestPPill);
+		
 		description.setScore(score);
 		description.setTime(time);
 		
+		description.setNearestPPill(nearestPPill);
+		description.setNearestPill(nearesPill);
+		description.setPillsNear(pillsNear);
+		description.setPillsRemaining(pillsRemaining);
+		
+		description.setNearestGhostDistanceChasing(nearestGhostDistanceChasing);
+		description.setNearestGhostDistanceEdible(nearestGhostDistanceEdible);
+		description.setTimeNearestEdibleGhost(timeNearestEdibleGhost);
+
 		CBRQuery query = new CBRQuery();
 		query.setDescription(description);
 		return query;
 	}
 	
-	private void computeNearestGhost(Game game) {
-		nearestGhost = Integer.MAX_VALUE;
-		edible = false;
-		GHOST nearest = null;
+	private void computeNearestGhostsDistance(Game game) {
+		nearestGhostDistanceChasing = Integer.MAX_VALUE;
+		nearestGhostDistanceEdible = Integer.MAX_VALUE;
+		
+		GHOST nearestC = null; GHOST nearestE = null;
+		
 		for(GHOST g: GHOST.values()) {
 			int pos = game.getGhostCurrentNodeIndex(g);
 			int distance; 
@@ -52,22 +74,57 @@ public class MsPacManInput extends CBRInput {
 				distance = (int)game.getDistance(game.getPacmanCurrentNodeIndex(), pos, DM.PATH);
 			else
 				distance = Integer.MAX_VALUE;
-			if(distance < nearestGhost)
+			
+			
+			if(game.getGhostEdibleTime(g) > 0)
 			{
-				nearestGhost = distance;
-				nearest = g;
+				if(distance < nearestGhostDistanceEdible)
+				{
+					nearestGhostDistanceEdible = distance;
+					//nearest = g;
+				}
 			}
+			
+			else
+			{
+				if(distance < nearestGhostDistanceChasing)
+				{
+					nearestGhostDistanceChasing = distance;
+					//nearest = g;
+				}
+			}
+			
 		}
-		if(nearest!=null)
-			edible = game.isGhostEdible(nearest);
 	}
 	
+	//de momento no tenemos en cuenta distancia al fantasma
 	private void computeNearestPPill(Game game) {
 		nearestPPill = Integer.MAX_VALUE;
-		for(int pos: game.getPowerPillIndices()) {
+		for(int pos: game.getActivePowerPillsIndices()) {
 			int distance = (int)game.getDistance(game.getPacmanCurrentNodeIndex(), pos, DM.PATH);
-			if(distance < nearestGhost)
-				nearestPPill = distance;
+			//if(distance < nearestGhost)
+			nearestPPill = distance;
 		}
+	}
+	
+	private void computeNearestPill(Game game) {
+		nearestPPill = Integer.MAX_VALUE;
+		for(int pos: game.getActivePillsIndices()) {
+			int distance = (int)game.getDistance(game.getPacmanCurrentNodeIndex(), pos, DM.PATH);
+			//if(distance < nearestGhost)
+			nearestPPill = distance;
+		}
+	}
+	
+	private void computePillsData(Game game) {
+		
+		pillsRemaining = game.getActivePillsIndices().length;
+		pillsNear = 0;
+		
+		for(int p : game.getActivePillsIndices()) {
+			if(DISTANCE_PILL_NEAR >= game.getDistance(game.getPacmanCurrentNodeIndex(), p, DM.PATH))
+				pillsNear++;
+		}
+	
 	}
 }
