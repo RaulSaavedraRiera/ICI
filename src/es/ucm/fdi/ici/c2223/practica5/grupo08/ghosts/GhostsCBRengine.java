@@ -92,10 +92,14 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		simConfig.setDescriptionSimFunction(new Average());
 		simConfig.addMapping(new Attribute("score", GhostsDescription.class), new Interval(15000));
 		simConfig.addMapping(new Attribute("time", GhostsDescription.class), new Interval(4000));
-		simConfig.addMapping(new Attribute("nearestPPill", GhostsDescription.class), new Interval(650));
-		simConfig.addMapping(new Attribute("nearestGhost", GhostsDescription.class), new Interval(650));
+		simConfig.addMapping(new Attribute("actualDir", GhostsDescription.class), new MoveSim());
+		simConfig.addMapping(new Attribute("lastDir", GhostsDescription.class), new MoveSim());
+		simConfig.addMapping(new Attribute("distanceToPacman", GhostsDescription.class), new DistanceSim());
+		simConfig.addMapping(new Attribute("nearestPill", GhostsDescription.class), new DistanceSim());
+		simConfig.addMapping(new Attribute("nearestPPill", GhostsDescription.class), new DistanceSim());
+		simConfig.addMapping(new Attribute("nearestGhost", GhostsDescription.class), new DistanceSim());
+		simConfig.addMapping(new Attribute("pillsLeft", GhostsDescription.class), new PillsSim());
 		simConfig.addMapping(new Attribute("edibleGhost", GhostsDescription.class), new Equal());
-
 	}
 
 	@Override
