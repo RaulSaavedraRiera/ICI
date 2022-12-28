@@ -39,7 +39,7 @@ public class GhostsInput extends CBRInput {
 
 		lastDir = game.getGhostLastMoveMade(ghost);
 		
-		pillsLeft = game.getNumberOfActivePills();l
+		pillsLeft = game.getNumberOfActivePills();
 		
 		edibleGhost = game.isGhostEdible(ghost);
 		distanceToPacman = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost), game.getPacmanCurrentNodeIndex(), lastDir);

@@ -56,7 +56,7 @@ public class Ghosts extends GhostController {
 				moves.put(g, MOVE.NEUTRAL);
 
 			try {
-				GhostsInput input = new GhostsInput(game);
+				GhostsInput input = new GhostsInput(game, g);
 				input.parseInput();
 				edibleStorageManager.setGame(game);
 				notEdibleStorageManager.setGame(game);
