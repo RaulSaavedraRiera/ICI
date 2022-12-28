@@ -113,12 +113,20 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	@Override
 	public void cycle(CBRQuery query) throws ExecutionException {
 		
+		GhostsDescription desc = (GhostsDescription) query.getDescription();
+
 		//hay que diferenciar por edible y not edible
 		if (generalEdibleCaseBase.getCases().isEmpty()) {
 			this.action = MOVE.NEUTRAL;
-		} else {
+		} else if (desc.getEdibleGhost()) {
 			// Compute retrieve
 			Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(generalEdibleCaseBase.getCases(), query,
+					simConfig);
+			// Compute reuse
+			this.action = reuse(eval);
+		} else {
+			// Compute retrieve
+			Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(generalNotEdibleCaseBase.getCases(), query,
 					simConfig);
 			// Compute reuse
 			this.action = reuse(eval);
@@ -127,11 +135,10 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		// Compute revise & retain
 		CBRCase newCase = createNewCase(query);
 		
-		//if (query.getEdible())
-		this.edibleStorageManager.reviseAndRetain(newCase);
-
-		//else
-		this.notEdibleStorageManager.reviseAndRetain(newCase);
+		if (desc.getEdibleGhost())
+			this.edibleStorageManager.reviseAndRetain(newCase);
+		else
+			this.notEdibleStorageManager.reviseAndRetain(newCase);
 	}
 
 	private MOVE reuse(Collection<RetrievalResult> eval) {
