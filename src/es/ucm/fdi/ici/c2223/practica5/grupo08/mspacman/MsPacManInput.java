@@ -17,6 +17,8 @@ public class MsPacManInput extends CBRInput {
 
 	Integer score;
 	Integer time;
+	Integer livesRemaining;
+	Integer pPillsRemaining;
 	
 	Integer nearestPPill;
 	Integer nearesPill;
@@ -38,6 +40,8 @@ public class MsPacManInput extends CBRInput {
 		
 		time = game.getTotalTime();
 		score = game.getScore();
+		livesRemaining = game.getPacmanNumberOfLivesRemaining();
+		pPillsRemaining = game.getActivePowerPillsIndices().length;
 	}
 
 	@Override
@@ -46,6 +50,8 @@ public class MsPacManInput extends CBRInput {
 		
 		description.setScore(score);
 		description.setTime(time);
+		description.setLivesRemaining(livesRemaining);
+		description.setpPillsRemaining(pPillsRemaining);
 		
 		description.setNearestPPill(nearestPPill);
 		description.setNearestPill(nearesPill);

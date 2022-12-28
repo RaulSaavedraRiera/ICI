@@ -44,14 +44,45 @@ public class MsPacManStorageManager {
 		
 	}
 	
+	//isPacmanDead * ((puntosFinales - puntosIniciales) + PPComidas * 100 ) / (5 - nFantasmasComidos)
 	private void reviseCase(CBRCase bCase) {
 		MsPacManDescription description = (MsPacManDescription)bCase.getDescription();
 		int oldScore = description.getScore();
 		int currentScore = game.getScore();
-		int resultValue = currentScore - oldScore;
+		
+		int pacmanDead = 1; 
+		if(game.getPacmanNumberOfLivesRemaining() < description.getLivesRemaining()) 
+			pacmanDead = 0;
+		
+		int scoreValue = currentScore - oldScore;
+		
+		int pPillsValue = game.getActivePowerPillsIndices().length - description.getpPillsRemaining();
+		
+		int pointsFromEats = scoreValue - (pPillsValue*50 + 
+				((game.getActivePillsIndices().length - description.pillsRemaining - pPillsValue) * 10));
+		
+		int ghostsEat = 0;
+		if(pointsFromEats != 0)
+		{
+			switch(pointsFromEats) {
+			case 200:
+				ghostsEat = 1;
+				break;
+			case 400:
+				ghostsEat = 2;
+				break;
+			case 800:
+				ghostsEat = 3;
+				break;
+			case 1600:
+				ghostsEat = 4;
+				break;
+			}
+			
+		}
 		
 		MsPacManResult result = (MsPacManResult)bCase.getResult();
-		result.setScore(resultValue);	
+		result.setScore(pacmanDead * ((scoreValue + pPillsValue)/(5-ghostsEat)));	
 	}
 	
 	private void retainCase(CBRCase bCase)

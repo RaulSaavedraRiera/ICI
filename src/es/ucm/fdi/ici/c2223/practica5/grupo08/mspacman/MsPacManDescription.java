@@ -5,10 +5,12 @@ import es.ucm.fdi.gaia.jcolibri.cbrcore.CaseComponent;
 
 public class MsPacManDescription implements CaseComponent {
 
-	//variables generales
+	//variables para gestion de casos
 	Integer id;	
 	Integer score;
 	Integer time;
+	Integer livesRemaining;
+	Integer pPillsRemaining;
 	
 	//variables relacionadas con las posiciones
 	Integer nearestPPill;
@@ -47,6 +49,22 @@ public class MsPacManDescription implements CaseComponent {
 	public void setTime(Integer time) {
 		this.time = time;
 	}
+	
+	public Integer getLivesRemaining() {
+		return livesRemaining;
+	}
+
+	public void setLivesRemaining(Integer livesRemaining) {
+		this.livesRemaining = livesRemaining;
+	}
+
+	public Integer getpPillsRemaining() {
+		return pPillsRemaining;
+	}
+
+	public void setpPillsRemaining(Integer pPillsRemaining) {
+		this.pPillsRemaining = pPillsRemaining;
+	}
 
 	public Integer getNearestPPill() {
 		return nearestPPill;
@@ -55,8 +73,6 @@ public class MsPacManDescription implements CaseComponent {
 	public void setNearestPPill(Integer nearestPPill) {
 		this.nearestPPill = nearestPPill;
 	}
-
-	
 
 	public Integer getNearestPill() {
 		return nearestPill;
@@ -113,7 +129,8 @@ public class MsPacManDescription implements CaseComponent {
 
 	@Override
 	public String toString() {
-		return "MsPacManDescription [id=" + id + ", score=" + score + ", time=" + time + 
+		return "MsPacManDescription [id=" + id + ", score=" + score + ", time=" + time +
+				", livesRemaining=" + livesRemaining + ", pPillsRemaining=" + pPillsRemaining +
 				", nearestPPill="+ nearestPPill + ", nearestPill=" + nearestPill + ", pillsNear="+ pillsNear + ", pillsRemaining=" + pillsRemaining 
 				+ ", nearestGhostDistanceChasing=" + nearestGhostDistanceChasing + ", nearestGhostDistanceEdible=" + nearestGhostDistanceEdible +  
 				", timeNearestEdibleGhost=" + timeNearestEdibleGhost + "]";
