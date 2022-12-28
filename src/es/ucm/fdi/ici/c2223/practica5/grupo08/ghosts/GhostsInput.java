@@ -4,70 +4,102 @@ import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
 import es.ucm.fdi.ici.cbr.CBRInput;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
+import pacman.game.Constants.MOVE;
 import pacman.game.Game;
+import pacman.game.internal.Ghost;
 
 public class GhostsInput extends CBRInput {
 
-	public GhostsInput(Game game) {
+	GHOST ghost;
+
+	public GhostsInput(Game game, GHOST g) {
 		super(game);
-		
+		this.ghost = g;
 	}
 
-	Integer nearestGhost;
-	Boolean edible;
-	Integer nearestPPill;
 	Integer score;
 	Integer time;
-	
+	Integer nearestPPill;
+	Integer nearestPill;
+	Integer nearestGhost;
+	Integer distanceToPacman;
+	Integer pillsLeft;
+	Boolean edibleGhost;
+	MOVE actualDir;
+	MOVE lastDir;
+
 	@Override
 	public void parseInput() {
 		computeNearestGhost(game);
 		computeNearestPPill(game);
-		time = game.getTotalTime();
+		computeNearestPill(game);
+
 		score = game.getScore();
+		time = game.getTotalTime();
+
+		lastDir = game.getGhostLastMoveMade(ghost);
+		
+		pillsLeft = game.getNumberOfActivePills();l
+		
+		edibleGhost = game.isGhostEdible(ghost);
+		distanceToPacman = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost), game.getPacmanCurrentNodeIndex(), lastDir);
 	}
 
 	@Override
 	public CBRQuery getQuery() {
 		GhostsDescription description = new GhostsDescription();
-		description.setEdibleGhost(edible);
-		description.setNearestGhost(nearestGhost);
-		description.setNearestPPill(nearestPPill);
 		description.setScore(score);
 		description.setTime(time);
-		
+		description.setNearestPPill(nearestPPill);
+		description.setNearestPPill(nearestPill);
+		description.setNearestGhost(nearestGhost);
+		description.setDistanceToPacman(distanceToPacman);
+		description.setPillsLeft(pillsLeft);
+		description.setEdibleGhost(edibleGhost);
+		description.setActualDir(actualDir);
+		description.setLastDir(lastDir);
+
 		CBRQuery query = new CBRQuery();
 		query.setDescription(description);
 		return query;
 	}
-	
+
 	private void computeNearestGhost(Game game) {
 		nearestGhost = Integer.MAX_VALUE;
-		edible = false;
+		
 		GHOST nearest = null;
-		for(GHOST g: GHOST.values()) {
-			int pos = game.getGhostCurrentNodeIndex(g);
-			int distance; 
-			if(pos != -1) 
-				distance = (int)game.getDistance(game.getPacmanCurrentNodeIndex(), pos, DM.PATH);
-			else
-				distance = Integer.MAX_VALUE;
-			if(distance < nearestGhost)
-			{
-				nearestGhost = distance;
-				nearest = g;
+		for (GHOST g : GHOST.values()) {
+
+			if (ghost != g) {
+				int pos = game.getGhostCurrentNodeIndex(g);
+				int distance;
+				if (pos != -1)
+					distance = (int) game.getDistance(game.getGhostCurrentNodeIndex(ghost), pos, DM.PATH);
+				else
+					distance = Integer.MAX_VALUE;
+				if (distance < nearestGhost) {
+					nearestGhost = distance;
+					nearest = g;
+				}
 			}
 		}
-		if(nearest!=null)
-			edible = game.isGhostEdible(nearest);
 	}
-	
+
 	private void computeNearestPPill(Game game) {
 		nearestPPill = Integer.MAX_VALUE;
-		for(int pos: game.getPowerPillIndices()) {
-			int distance = (int)game.getDistance(game.getPacmanCurrentNodeIndex(), pos, DM.PATH);
-			if(distance < nearestGhost)
+		for (int pos : game.getPowerPillIndices()) {
+			int distance = (int) game.getDistance(game.getGhostCurrentNodeIndex(ghost), pos, DM.PATH);
+			if (distance < nearestGhost)
 				nearestPPill = distance;
+		}
+	}
+	
+	private void computeNearestPill(Game game) {
+		nearestPill = Integer.MAX_VALUE;
+		for (int pos : game.getPillIndices()) {
+			int distance = (int) game.getDistance(game.getGhostCurrentNodeIndex(ghost), pos, DM.PATH);
+			if (distance < nearestGhost)
+				nearestPill = distance;
 		}
 	}
 }
