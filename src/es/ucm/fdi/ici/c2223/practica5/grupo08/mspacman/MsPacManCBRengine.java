@@ -23,6 +23,13 @@ import pacman.game.Constants.MOVE;
 
 public class MsPacManCBRengine implements StandardCBRApplication {
 
+	//hay que reviSar estos valores
+	final int MAX_PILLS = 226;
+	final int MAX_PUNTUATION = 15000;
+	final int STANDARD_TIME = 4000;
+	final int MAX_DISTANCE = 650;
+	final int MAX_TIME_EDIBLE = 199;
+	
 	private String opponent;
 	private MOVE action;
 	private MsPacManStorageManager storageManager;
@@ -74,11 +81,17 @@ public class MsPacManCBRengine implements StandardCBRApplication {
 		
 		simConfig = new NNConfig();
 		simConfig.setDescriptionSimFunction(new Average());
-		simConfig.addMapping(new Attribute("score",MsPacManDescription.class), new Interval(15000));
-		simConfig.addMapping(new Attribute("time",MsPacManDescription.class), new Interval(4000));
-		simConfig.addMapping(new Attribute("nearestPPill",MsPacManDescription.class), new Interval(650));
-		simConfig.addMapping(new Attribute("nearestGhost",MsPacManDescription.class), new Interval(650));
-		simConfig.addMapping(new Attribute("edibleGhost",MsPacManDescription.class), new Equal());
+		simConfig.addMapping(new Attribute("score",MsPacManDescription.class), new Interval(MAX_PUNTUATION));
+		simConfig.addMapping(new Attribute("time",MsPacManDescription.class), new Interval(STANDARD_TIME));
+		
+		simConfig.addMapping(new Attribute("nearestPPill",MsPacManDescription.class), new Interval(MAX_DISTANCE));
+		simConfig.addMapping(new Attribute("nearestPill",MsPacManDescription.class), new Interval(MAX_DISTANCE));
+		simConfig.addMapping(new Attribute("pillsNear",MsPacManDescription.class), new Interval(MAX_DISTANCE));
+		simConfig.addMapping(new Attribute("pillsRemaining",MsPacManDescription.class), new Interval(MAX_DISTANCE));
+		
+		simConfig.addMapping(new Attribute("nearestGhostDistanceChasing",MsPacManDescription.class), new Interval(MAX_DISTANCE));
+		simConfig.addMapping(new Attribute("nearestGhostDistanceEdible",MsPacManDescription.class), new Interval(MAX_DISTANCE));
+		simConfig.addMapping(new Attribute("timeNearestEdibleGhost",MsPacManDescription.class), new Interval(MAX_TIME_EDIBLE));
 		
 	}
 
