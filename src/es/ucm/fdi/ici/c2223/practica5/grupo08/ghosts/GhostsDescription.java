@@ -2,19 +2,22 @@ package es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts;
 
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CaseComponent;
+import pacman.game.Constants.MOVE;
 
 public class GhostsDescription implements CaseComponent {
 
 	Integer id;
-	
+
 	Integer score;
 	Integer time;
 	Integer nearestPPill;
+	Integer nearestPill;
 	Integer nearestGhost;
+	Integer distanceToPacman;
+	Integer pillsLeft;
 	Boolean edibleGhost;
-	
-	
-
+	MOVE actualDir;
+	MOVE lastDir;
 
 	public Integer getId() {
 		return id;
@@ -71,12 +74,50 @@ public class GhostsDescription implements CaseComponent {
 
 	@Override
 	public String toString() {
-		return "MsPacManDescription [id=" + id + ", score=" + score + ", time=" + time + ", nearestPPill="
-				+ nearestPPill + ", nearestGhost=" + nearestGhost + ", edibleGhost=" + edibleGhost + "]";
+		return "GhostsDescription [id=" + id + ", score=" + score + ", time=" + time + ", nearestPPill=" + nearestPPill
+				+ ", nearestPill=" + nearestPill + ", distanceToPacman=" + distanceToPacman + ", nearestGhost="
+				+ nearestGhost + ", pillsLeft=" + pillsLeft + ", edibleGhost=" + edibleGhost + ", edibleGhost="
+				+ edibleGhost + ", actualDir=" + actualDir + ", lastDir=" + lastDir + "]";
 	}
 
+	public Integer getNearestPill() {
+		return nearestPill;
+	}
 
-	
-	
+	public void setNearestPill(Integer nearestPill) {
+		this.nearestPill = nearestPill;
+	}
+
+	public Integer getDistanceToPacman() {
+		return distanceToPacman;
+	}
+
+	public void setDistanceToPacman(Integer distanceToPacman) {
+		this.distanceToPacman = distanceToPacman;
+	}
+
+	public Integer getPillsLeft() {
+		return pillsLeft;
+	}
+
+	public void setPillsLeft(Integer pillsLeft) {
+		this.pillsLeft = pillsLeft;
+	}
+
+	public MOVE getActualDir() {
+		return actualDir;
+	}
+
+	public void setActualDir(MOVE actualDir) {
+		this.actualDir = actualDir;
+	}
+
+	public MOVE getLastDir() {
+		return lastDir;
+	}
+
+	public void setLastDir(MOVE lastDir) {
+		this.lastDir = lastDir;
+	}
 
 }
