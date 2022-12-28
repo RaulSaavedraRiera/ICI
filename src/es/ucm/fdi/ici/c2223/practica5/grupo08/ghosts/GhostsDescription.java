@@ -17,7 +17,6 @@ public class GhostsDescription implements CaseComponent {
 	Integer pillsLeft;
 	Boolean edibleGhost;
 	MOVE actualDir;
-	MOVE lastDir;
 
 	public Integer getId() {
 		return id;

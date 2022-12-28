@@ -26,7 +26,6 @@ public class GhostsInput extends CBRInput {
 	Integer pillsLeft;
 	Boolean edibleGhost;
 	MOVE actualDir;
-	MOVE lastDir;
 
 	@Override
 	public void parseInput() {
@@ -37,7 +36,7 @@ public class GhostsInput extends CBRInput {
 		score = game.getScore();
 		time = game.getTotalTime();
 
-		lastDir = game.getGhostLastMoveMade(ghost);
+		actualDir = game.getGhostLastMoveMade(ghost);
 		
 		pillsLeft = game.getNumberOfActivePills();
 		

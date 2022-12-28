@@ -66,7 +66,6 @@ public class Ghosts extends GhostController {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			moves.put(g, MOVE.NEUTRAL);
 		}
 	
 		return moves;
