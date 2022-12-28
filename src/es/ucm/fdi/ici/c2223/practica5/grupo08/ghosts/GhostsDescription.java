@@ -76,7 +76,7 @@ public class GhostsDescription implements CaseComponent {
 		return "GhostsDescription [id=" + id + ", score=" + score + ", time=" + time + ", nearestPPill=" + nearestPPill
 				+ ", nearestPill=" + nearestPill + ", distanceToPacman=" + distanceToPacman + ", nearestGhost="
 				+ nearestGhost + ", pillsLeft=" + pillsLeft + ", edibleGhost=" + edibleGhost + ", edibleGhost="
-				+ edibleGhost + ", actualDir=" + actualDir + ", lastDir=" + lastDir + "]";
+				+ edibleGhost + ", actualDir=" + actualDir + "]";
 	}
 
 	public Integer getNearestPill() {
@@ -109,14 +109,6 @@ public class GhostsDescription implements CaseComponent {
 
 	public void setActualDir(MOVE actualDir) {
 		this.actualDir = actualDir;
-	}
-
-	public MOVE getLastDir() {
-		return lastDir;
-	}
-
-	public void setLastDir(MOVE lastDir) {
-		this.lastDir = lastDir;
 	}
 
 }
