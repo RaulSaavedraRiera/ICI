@@ -12,13 +12,15 @@ import es.ucm.fdi.gaia.jcolibri.exception.ExecutionException;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.RetrievalResult;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNConfig;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNScoringMethod;
-import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Equal;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.local.Interval;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.selection.SelectCases;
 import es.ucm.fdi.gaia.jcolibri.util.FileIO;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.Average;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.CachedLinearCaseBase;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.CustomPlainTextConnector;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.DistanceSim;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.PillsNearSim;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.PillsSim;
 import pacman.game.Constants.MOVE;
 
 public class MsPacManCBRengine implements StandardCBRApplication {
@@ -84,13 +86,13 @@ public class MsPacManCBRengine implements StandardCBRApplication {
 		simConfig.addMapping(new Attribute("score",MsPacManDescription.class), new Interval(MAX_PUNTUATION));
 		simConfig.addMapping(new Attribute("time",MsPacManDescription.class), new Interval(STANDARD_TIME));
 		
-		simConfig.addMapping(new Attribute("nearestPPill",MsPacManDescription.class), new Interval(MAX_DISTANCE));
-		simConfig.addMapping(new Attribute("nearestPill",MsPacManDescription.class), new Interval(MAX_DISTANCE));
-		simConfig.addMapping(new Attribute("pillsNear",MsPacManDescription.class), new Interval(MAX_DISTANCE));
-		simConfig.addMapping(new Attribute("pillsRemaining",MsPacManDescription.class), new Interval(MAX_DISTANCE));
+		simConfig.addMapping(new Attribute("nearestPPill",MsPacManDescription.class), new DistanceSim());
+		simConfig.addMapping(new Attribute("nearestPill",MsPacManDescription.class), new DistanceSim());
+		simConfig.addMapping(new Attribute("pillsNear",MsPacManDescription.class), new PillsNearSim());
+		simConfig.addMapping(new Attribute("pillsRemaining",MsPacManDescription.class), new PillsSim());
 		
-		simConfig.addMapping(new Attribute("nearestGhostDistanceChasing",MsPacManDescription.class), new Interval(MAX_DISTANCE));
-		simConfig.addMapping(new Attribute("nearestGhostDistanceEdible",MsPacManDescription.class), new Interval(MAX_DISTANCE));
+		simConfig.addMapping(new Attribute("nearestGhostDistanceChasing",MsPacManDescription.class), new DistanceSim());
+		simConfig.addMapping(new Attribute("nearestGhostDistanceEdible",MsPacManDescription.class), new DistanceSim());
 		simConfig.addMapping(new Attribute("timeNearestEdibleGhost",MsPacManDescription.class), new Interval(MAX_TIME_EDIBLE));
 		
 	}

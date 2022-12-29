@@ -2,7 +2,6 @@ package es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine;
 
 import es.ucm.fdi.gaia.jcolibri.exception.NoApplicableSimilarityFunctionException;
 import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.LocalSimilarityFunction;
-import pacman.game.Constants.MOVE;
 
 public class DistanceSim implements LocalSimilarityFunction{
 

@@ -4,6 +4,7 @@ import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRQuery;
 import es.ucm.fdi.ici.cbr.CBRInput;
 import pacman.game.Constants.DM;
 import pacman.game.Constants.GHOST;
+import pacman.game.Constants.MOVE;
 import pacman.game.Game;
 
 public class MsPacManInput extends CBRInput {
@@ -29,6 +30,8 @@ public class MsPacManInput extends CBRInput {
 	Integer nearestGhostDistanceEdible;
 	Integer timeNearestEdibleGhost;
 	
+	MOVE currentDirPacman;
+	
 	@Override
 	public void parseInput() {
 		
@@ -42,6 +45,8 @@ public class MsPacManInput extends CBRInput {
 		score = game.getScore();
 		livesRemaining = game.getPacmanNumberOfLivesRemaining();
 		pPillsRemaining = game.getActivePowerPillsIndices().length;
+		
+		currentDirPacman = game.getPacmanLastMoveMade();
 	}
 
 	@Override
@@ -61,6 +66,8 @@ public class MsPacManInput extends CBRInput {
 		description.setNearestGhostDistanceChasing(nearestGhostDistanceChasing);
 		description.setNearestGhostDistanceEdible(nearestGhostDistanceEdible);
 		description.setTimeNearestEdibleGhost(timeNearestEdibleGhost);
+		
+		description.setCurrentDirPacman(currentDirPacman);
 
 		CBRQuery query = new CBRQuery();
 		query.setDescription(description);

@@ -2,6 +2,7 @@ package es.ucm.fdi.ici.c2223.practica5.grupo08.mspacman;
 
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CaseComponent;
+import pacman.game.Constants.MOVE;
 
 public class MsPacManDescription implements CaseComponent {
 
@@ -11,7 +12,8 @@ public class MsPacManDescription implements CaseComponent {
 	Integer time;
 	Integer livesRemaining;
 	Integer pPillsRemaining;
-	
+	MOVE currentDirPacman;
+
 	//variables relacionadas con las posiciones
 	Integer nearestPPill;
 	Integer nearestPill;
@@ -22,6 +24,7 @@ public class MsPacManDescription implements CaseComponent {
 	Integer nearestGhostDistanceChasing;
 	Integer nearestGhostDistanceEdible;
 	Integer timeNearestEdibleGhost;
+	
 	
 	
 
@@ -122,6 +125,14 @@ public class MsPacManDescription implements CaseComponent {
 		this.timeNearestEdibleGhost = timeNearestEdibleGhost;
 	}
 
+	public MOVE getCurrentDirPacman() {
+		return currentDirPacman;
+	}
+
+	public void setCurrentDirPacman(MOVE currentDirPacman) {
+		this.currentDirPacman = currentDirPacman;
+	}
+
 	@Override
 	public Attribute getIdAttribute() {
 		return new Attribute("id", MsPacManDescription.class);
@@ -133,7 +144,8 @@ public class MsPacManDescription implements CaseComponent {
 				", livesRemaining=" + livesRemaining + ", pPillsRemaining=" + pPillsRemaining +
 				", nearestPPill="+ nearestPPill + ", nearestPill=" + nearestPill + ", pillsNear="+ pillsNear + ", pillsRemaining=" + pillsRemaining 
 				+ ", nearestGhostDistanceChasing=" + nearestGhostDistanceChasing + ", nearestGhostDistanceEdible=" + nearestGhostDistanceEdible +  
-				", timeNearestEdibleGhost=" + timeNearestEdibleGhost + "]";
+				", timeNearestEdibleGhost=" + timeNearestEdibleGhost +
+				", currentDirPacman=" + currentDirPacman + "]";
 	}
 
 
