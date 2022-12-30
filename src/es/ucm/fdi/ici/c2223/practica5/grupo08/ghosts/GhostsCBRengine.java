@@ -19,6 +19,9 @@ import es.ucm.fdi.gaia.jcolibri.util.FileIO;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.Average;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.CachedLinearCaseBase;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.CustomPlainTextConnector;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.DistanceSim;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.MoveSim;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.CBRengine.PillsSim;
 import pacman.game.Constants.MOVE;
 
 public class GhostsCBRengine implements StandardCBRApplication {
