@@ -1,16 +1,20 @@
 <TextFileConfiguration>
 	<FilePath>not used</FilePath>
 	<Delimiters>,</Delimiters>
-	<DescriptionClassName>es.ucm.fdi.ici.c2223.practica5.grupo08.Ghosts.GhostsDescription</DescriptionClassName>
+	<DescriptionClassName>es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts.GhostsDescription</DescriptionClassName>
 	<DescriptionMappings>
 		<Map>id</Map>
 		<Map>score</Map>
 		<Map>time</Map>
+		<Map>actualDir</Map>
+		<Map>distanceToPacman</Map>
+		<Map>nearestPill</Map>
 		<Map>nearestPPill</Map>		
-		<Map>nearestGhost</Map>		
+		<Map>nearestGhost</Map>
+		<Map>pillsLeft</Map>		
 		<Map>edibleGhost</Map>		
 	</DescriptionMappings>
-	<SolutionClassName>es.ucm.fdi.ici.c2223.practica5.grupo08.Ghosts.GhostsSolution</SolutionClassName>
+	<SolutionClassName>es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts.GhostsSolution</SolutionClassName>
 	<SolutionMappings>
 		<Map>id</Map>
 		<Map>action</Map>
