@@ -41,7 +41,7 @@ public class GhostsInput extends CBRInput {
 		pillsLeft = game.getNumberOfActivePills();
 		
 		edibleGhost = game.isGhostEdible(ghost);
-		distanceToPacman = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost), game.getPacmanCurrentNodeIndex(), lastDir);
+		distanceToPacman = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost), game.getPacmanCurrentNodeIndex(), actualDir);
 	}
 
 	@Override
@@ -56,7 +56,6 @@ public class GhostsInput extends CBRInput {
 		description.setPillsLeft(pillsLeft);
 		description.setEdibleGhost(edibleGhost);
 		description.setActualDir(actualDir);
-		description.setLastDir(lastDir);
 
 		CBRQuery query = new CBRQuery();
 		query.setDescription(description);
