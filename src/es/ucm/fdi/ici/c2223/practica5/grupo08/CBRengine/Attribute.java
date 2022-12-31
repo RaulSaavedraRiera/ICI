@@ -10,7 +10,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Function;
 
 import es.ucm.fdi.gaia.jcolibri.exception.AttributeAccessException;
-import es.ucm.fdi.ici.practica5.grupoXX.mspacman.MsPacManDescription;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.mspacman.MsPacManDescription;
 
 @SuppressWarnings("rawtypes")
 public class Attribute extends es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute {
@@ -135,9 +135,9 @@ public class Attribute extends es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute {
 	
 	public static void main(String[] args) {
 		try {
-			Attribute a = new Attribute("id", GhostsDescription.class);
+			Attribute a = new Attribute("id", MsPacManDescription.class);
 		
-			GhostsDescription d = new GhostsDescription();
+			MsPacManDescription d = new MsPacManDescription();
 			d.setId(25);
 			
 			System.out.println(a.getValue(d));
