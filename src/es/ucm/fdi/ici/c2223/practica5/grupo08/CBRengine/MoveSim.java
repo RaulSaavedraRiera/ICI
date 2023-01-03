@@ -34,9 +34,9 @@ public class MoveSim implements LocalSimilarityFunction {
 	public double compute(Object o1, Object o2) throws NoApplicableSimilarityFunctionException {
 		if ((o1 == null) || (o2 == null))
 			return 0;
-		if (!(o1 instanceof Number))
+		if (!(o1 instanceof MOVE))
 			throw new NoApplicableSimilarityFunctionException(this.getClass(), o1.getClass());
-		if (!(o2 instanceof Number))
+		if (!(o2 instanceof MOVE))
 			throw new NoApplicableSimilarityFunctionException(this.getClass(), o2.getClass());
 		
 		MOVE i1 = (MOVE) o1;
