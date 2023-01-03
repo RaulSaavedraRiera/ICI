@@ -7,7 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/MsPacManEngine"/>
-	<classpathentry kind="lib" path="/ICI-Evaluation/lib/ici-c2122-practica1.jar"/>
 	<classpathentry kind="lib" path="/MsPacManEngine/lib/jess.jar"/>
 	<classpathentry kind="lib" path="C:/Users/burgo/.m2/repository/es/ucm/fdi/gaia/jCOLIBRI/3.2/jCOLIBRI-3.2.jar" sourcepath="C:/Users/burgo/.m2/repository/es/ucm/fdi/gaia/jCOLIBRI/3.2/jCOLIBRI-3.2-sources.jar">
 		<attributes>
@@ -15,6 +14,15 @@
 			<attribute name="maven.groupId" value="es.ucm.fdi.gaia"/>
 			<attribute name="maven.artifactId" value="jCOLIBRI"/>
 			<attribute name="maven.version" value="3.2"/>
+			<attribute name="maven.scope" value="compile"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="C:/Users/burgo/.m2/repository/org/apache/logging/log4j/log4j-api/2.10.0/log4j-api-2.10.0.jar" sourcepath="C:/Users/burgo/.m2/repository/org/apache/logging/log4j/log4j-api/2.10.0/log4j-api-2.10.0-sources.jar">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+			<attribute name="maven.groupId" value="org.apache.logging.log4j"/>
+			<attribute name="maven.artifactId" value="log4j-api"/>
+			<attribute name="maven.version" value="2.10.0"/>
 			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>

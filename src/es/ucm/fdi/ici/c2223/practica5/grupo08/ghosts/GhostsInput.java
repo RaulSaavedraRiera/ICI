@@ -29,19 +29,23 @@ public class GhostsInput extends CBRInput {
 
 	@Override
 	public void parseInput() {
-		computeNearestGhost(game);
-		computeNearestPPill(game);
-		computeNearestPill(game);
+		if (ghost != null) {
 
-		score = game.getScore();
-		time = game.getTotalTime();
+			computeNearestGhost(game);
+			computeNearestPPill(game);
+			computeNearestPill(game);
 
-		actualDir = game.getGhostLastMoveMade(ghost);
-		
-		pillsLeft = game.getNumberOfActivePills();
-		
-		edibleGhost = game.isGhostEdible(ghost);
-		distanceToPacman = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost), game.getPacmanCurrentNodeIndex(), actualDir);
+			score = game.getScore();
+			time = game.getTotalTime();
+
+			actualDir = game.getGhostLastMoveMade(ghost);
+
+			pillsLeft = game.getNumberOfActivePills();
+
+			edibleGhost = game.isGhostEdible(ghost);
+			distanceToPacman = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(ghost),
+					game.getPacmanCurrentNodeIndex(), actualDir);
+		}
 	}
 
 	@Override
@@ -64,15 +68,15 @@ public class GhostsInput extends CBRInput {
 
 	private void computeNearestGhost(Game game) {
 		nearestGhost = Integer.MAX_VALUE;
-		
+
 		GHOST nearest = null;
 		for (GHOST g : GHOST.values()) {
 
-			if (ghost != g) {
+			if (this.ghost != g) {
 				int pos = game.getGhostCurrentNodeIndex(g);
 				int distance;
 				if (pos != -1)
-					distance = (int) game.getDistance(game.getGhostCurrentNodeIndex(ghost), pos, DM.PATH);
+					distance = game.getShortestPathDistance(game.getGhostCurrentNodeIndex(this.ghost), pos);
 				else
 					distance = Integer.MAX_VALUE;
 				if (distance < nearestGhost) {
@@ -91,7 +95,7 @@ public class GhostsInput extends CBRInput {
 				nearestPPill = distance;
 		}
 	}
-	
+
 	private void computeNearestPill(Game game) {
 		nearestPill = Integer.MAX_VALUE;
 		for (int pos : game.getPillIndices()) {
