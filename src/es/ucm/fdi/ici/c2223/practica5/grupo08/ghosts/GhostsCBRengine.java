@@ -31,6 +31,7 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	private MOVE action;
 	private GhostsStorageManager edibleStorageManager;
 	private GhostsStorageManager notEdibleStorageManager;
+	private GhostsResultUpdater resultUpdater;
 
 	CustomPlainTextConnector connectorGeneralEdible;
 	CustomPlainTextConnector connectorGeneralNotEdible;
@@ -52,9 +53,10 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	final static String NOTEDIBLE_CASE_BASE_PATH = "cbrdata" + File.separator + TEAM + File.separator + "ghosts"
 			+ File.separator;
 
-	public GhostsCBRengine(GhostsStorageManager edibleStorageManager, GhostsStorageManager notEdibleStorageManager) {
+	public GhostsCBRengine(GhostsStorageManager edibleStorageManager, GhostsStorageManager notEdibleStorageManager, GhostsResultUpdater resultUpdater) {
 		this.edibleStorageManager = edibleStorageManager;
 		this.notEdibleStorageManager = notEdibleStorageManager;
+		this.resultUpdater = resultUpdater;
 	}
 
 	public void setOpponent(String opponent) {
@@ -139,25 +141,26 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		CBRCase newCase = createNewCase(query);
 		
 		if (desc.getEdibleGhost())
-			this.edibleStorageManager.reviseAndRetain(newCase);
+			this.edibleStorageManager.reviseAndRetain(newCase, resultUpdater);
 		else
-			this.notEdibleStorageManager.reviseAndRetain(newCase);
+			this.notEdibleStorageManager.reviseAndRetain(newCase, resultUpdater);
 	}
 
 	private MOVE reuse(Collection<RetrievalResult> eval) {
 		// This simple implementation only uses 1NN
 		// Consider using kNNs with majority voting
 		Collection<RetrievalResult> neighbours = SelectCases.selectTopKRR(eval, 3);
+		int n = neighbours.size();
 		Iterator<RetrievalResult> it = neighbours.iterator();
 		
 		//retrieve 3 neighbours
-		RetrievalResult[] retrievals = new RetrievalResult[3];
+		RetrievalResult[] retrievals = new RetrievalResult[n];
 		
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < n; i++)
 			retrievals[i] = it.next();
 
 		GhostsResult[] results = new GhostsResult[3];
-		for (int i = 0; i < 3; i++)
+		for (int i = 0; i < n; i++)
 			results[i] = (GhostsResult) retrievals[i].get_case().getResult();	
 
 		CBRCase chosenCase = retrievals[0].get_case();
@@ -166,7 +169,7 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		//points = result * 0.6 + similarity * 0.4
 		double maxPoints = results[0].getScore() * 0.6 + retrievals[0].getEval() * 0.4;
 		
-		for (int i = 1; i < 3; i++) 
+		for (int i = 1; i < n; i++) 
 		{
 			double points = results[i].getScore() * 0.6 + retrievals[i].getEval() * 0.4;
 			

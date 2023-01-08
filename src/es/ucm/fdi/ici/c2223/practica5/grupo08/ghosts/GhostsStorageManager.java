@@ -29,16 +29,17 @@ public class GhostsStorageManager {
 		this.caseBase = caseBase;
 	}
 	
-	public void reviseAndRetain(CBRCase newCase)
+	public void reviseAndRetain(CBRCase newCase, GhostsResultUpdater resultUpdater)
 	{			
 		this.buffer.add(newCase);
+		resultUpdater.addCase(newCase);
 		
 		//Buffer not full yet.
 		if(this.buffer.size()<TIME_WINDOW)
 			return;
 		
-		
 		CBRCase bCase = this.buffer.remove(0);
+		resultUpdater.removeCase(bCase);
 		reviseCase(bCase);
 		retainCase(bCase);
 		

@@ -5,6 +5,7 @@ import java.util.EnumMap;
 import es.ucm.fdi.gaia.jcolibri.exception.ExecutionException;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts.GhostsCBRengine;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts.GhostsInput;
+import es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts.GhostsResultUpdater;
 import es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts.GhostsStorageManager;
 import pacman.controllers.GhostController;
 import pacman.game.Constants.GHOST;
@@ -16,16 +17,20 @@ public class Ghosts extends GhostController {
 	GhostsCBRengine cbrEngine;
 	GhostsStorageManager edibleStorageManager;
 	GhostsStorageManager notEdibleStorageManager;
+	
+	GhostsResultUpdater resultUpdater;
 
 	public Ghosts() {
 		this.edibleStorageManager = new GhostsStorageManager();
 		this.notEdibleStorageManager = new GhostsStorageManager();
-		cbrEngine = new GhostsCBRengine(edibleStorageManager, notEdibleStorageManager);
+		this.resultUpdater = new GhostsResultUpdater();
+		cbrEngine = new GhostsCBRengine(edibleStorageManager, notEdibleStorageManager, resultUpdater);
 	}
 
 	@Override
 	public void preCompute(String opponent) {
 		cbrEngine.setOpponent(opponent);
+		resultUpdater.reset();
 		try {
 			cbrEngine.configure();
 			cbrEngine.preCycle();
@@ -52,6 +57,9 @@ public class Ghosts extends GhostController {
 			// This implementation only computes a new action when MsPacMan is in a
 			// junction.
 			// This is relevant for the case storage policy
+			
+			resultUpdater.update(game);
+			
 			if (!game.doesGhostRequireAction(g))
 				moves.put(g, MOVE.NEUTRAL);
 
