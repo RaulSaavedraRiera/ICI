@@ -13,7 +13,7 @@ public class GhostsStorageManager {
 	CBRCaseBase caseBase;
 	Vector<CBRCase> buffer;
 
-	private final static int TIME_WINDOW = 3;
+	private final static int TIME_WINDOW = 4;
 	
 	public GhostsStorageManager()
 	{
@@ -48,7 +48,7 @@ public class GhostsStorageManager {
 		GhostsDescription description = (GhostsDescription)bCase.getDescription();
 		int oldScore = description.getScore();
 		int currentScore = game.getScore();
-		int resultValue = currentScore - oldScore;
+		int resultValue = ((currentScore - oldScore) + description.getPPEaten() * 100) / (5 - description.getGhostsEaten());
 		
 		GhostsResult result = (GhostsResult)bCase.getResult();
 		result.setScore(resultValue);	

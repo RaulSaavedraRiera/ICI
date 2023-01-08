@@ -17,6 +17,27 @@ public class GhostsDescription implements CaseComponent {
 	Integer pillsLeft;
 	Boolean edibleGhost;
 	MOVE actualDir;
+	
+	Integer PPEaten = 0;
+	Integer ghostsEaten = 0;
+	
+	public void addPPEaten() 
+	{
+		PPEaten++;
+	}
+	public Integer getPPEaten() 
+	{
+		return PPEaten;
+	}
+	
+	public void addGhostEaten() 
+	{
+		ghostsEaten++;
+	}
+	public Integer getGhostsEaten() 
+	{
+		return ghostsEaten;
+	}
 
 	public Integer getId() {
 		return id;
