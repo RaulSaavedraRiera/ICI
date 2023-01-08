@@ -2,6 +2,7 @@ package es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.Iterator;
 
 import es.ucm.fdi.gaia.jcolibri.cbraplications.StandardCBRApplication;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.Attribute;
@@ -146,14 +147,40 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	private MOVE reuse(Collection<RetrievalResult> eval) {
 		// This simple implementation only uses 1NN
 		// Consider using kNNs with majority voting
-		RetrievalResult first = SelectCases.selectTopKRR(eval, 1).iterator().next();
-		CBRCase mostSimilarCase = first.get_case();
-		double similarity = first.getEval();
+		Collection<RetrievalResult> neighbours = SelectCases.selectTopKRR(eval, 3);
+		Iterator<RetrievalResult> it = neighbours.iterator();
+		
+		//retrieve 3 neighbours
+		RetrievalResult[] retrievals = new RetrievalResult[3];
+		
+		for (int i = 0; i < 3; i++)
+			retrievals[i] = it.next();
 
-		GhostsResult result = (GhostsResult) mostSimilarCase.getResult();
-		GhostsSolution solution = (GhostsSolution) mostSimilarCase.getSolution();
+		GhostsResult[] results = new GhostsResult[3];
+		for (int i = 0; i < 3; i++)
+			results[i] = (GhostsResult) retrievals[i].get_case().getResult();	
+
+		CBRCase chosenCase = retrievals[0].get_case();
+		double similarity = retrievals[0].getEval();
+		
+		//points = result * 0.6 + similarity * 0.4
+		double maxPoints = results[0].getScore() * 0.6 + retrievals[0].getEval() * 0.4;
+		
+		for (int i = 1; i < 3; i++) 
+		{
+			double points = results[i].getScore() * 0.6 + retrievals[i].getEval() * 0.4;
+			
+			if (points > maxPoints) 
+			{
+				maxPoints = points;
+				chosenCase = retrievals[i].get_case();
+				similarity = retrievals[i].getEval();
+			}
+		}
 
 		// Now compute a solution for the query
+		GhostsResult result = (GhostsResult) chosenCase.getResult();
+		GhostsSolution solution = (GhostsSolution) chosenCase.getSolution();
 
 		// Here, it simply takes the action of the 1NN
 		MOVE action = solution.getAction();
