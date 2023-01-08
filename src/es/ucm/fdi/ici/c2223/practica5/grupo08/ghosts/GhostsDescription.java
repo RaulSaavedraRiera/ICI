@@ -21,18 +21,24 @@ public class GhostsDescription implements CaseComponent {
 	Integer PPEaten = 0;
 	Integer ghostsEaten = 0;
 	
-	public void addPPEaten() 
+	public GhostsDescription() {
+		// TODO Auto-generated constructor stub
+		PPEaten = 0;
+		ghostsEaten = 0;
+	}
+	
+	public void setPPEaten(Integer pp) 
 	{
-		PPEaten++;
+		PPEaten = pp;
 	}
 	public Integer getPPEaten() 
 	{
 		return PPEaten;
 	}
 	
-	public void addGhostEaten() 
+	public void setGhostsEaten(Integer ghost) 
 	{
-		ghostsEaten++;
+		ghostsEaten = ghost;
 	}
 	public Integer getGhostsEaten() 
 	{

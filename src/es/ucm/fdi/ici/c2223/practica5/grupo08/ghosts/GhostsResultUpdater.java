@@ -30,7 +30,7 @@ public class GhostsResultUpdater {
 				for (CBRCase c : casesInBuffer) 
 				{
 					GhostsDescription desc = (GhostsDescription)c.getDescription();
-					desc.addGhostEaten();
+					desc.setGhostsEaten(desc.getGhostsEaten()+1);
 					
 					c.setDescription(desc);
 				}
@@ -39,7 +39,7 @@ public class GhostsResultUpdater {
 			for (CBRCase c : casesInBuffer) 
 			{
 				GhostsDescription desc = (GhostsDescription)c.getDescription();
-				desc.addPPEaten();
+				desc.setPPEaten(desc.getGhostsEaten()+1);
 				
 				c.setDescription(desc);
 			}
