@@ -56,7 +56,7 @@ public class MsPacManInput extends CBRInput {
 		description.setScore(score);
 		description.setTime(time);
 		description.setLivesRemaining(livesRemaining);
-		description.setpPillsRemaining(pPillsRemaining);
+		description.setPPillsRemaining(pPillsRemaining);
 		
 		description.setNearestPPill(nearestPPill);
 		description.setNearestPill(nearesPill);

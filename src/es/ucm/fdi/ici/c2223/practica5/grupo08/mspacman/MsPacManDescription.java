@@ -11,7 +11,7 @@ public class MsPacManDescription implements CaseComponent {
 	Integer score;
 	Integer time;
 	Integer livesRemaining;
-	Integer pPillsRemaining;
+	Integer PPillsRemaining;
 	MOVE currentDirPacman;
 
 	//variables relacionadas con las posiciones
@@ -61,12 +61,12 @@ public class MsPacManDescription implements CaseComponent {
 		this.livesRemaining = livesRemaining;
 	}
 
-	public Integer getpPillsRemaining() {
-		return pPillsRemaining;
+	public Integer getPPillsRemaining() {
+		return PPillsRemaining;
 	}
 
-	public void setpPillsRemaining(Integer pPillsRemaining) {
-		this.pPillsRemaining = pPillsRemaining;
+	public void setPPillsRemaining(Integer PPillsRemaining) {
+		this.PPillsRemaining = PPillsRemaining;
 	}
 
 	public Integer getNearestPPill() {
@@ -141,7 +141,7 @@ public class MsPacManDescription implements CaseComponent {
 	@Override
 	public String toString() {
 		return "MsPacManDescription [id=" + id + ", score=" + score + ", time=" + time +
-				", livesRemaining=" + livesRemaining + ", pPillsRemaining=" + pPillsRemaining +
+				", livesRemaining=" + livesRemaining + ", PPillsRemaining=" + PPillsRemaining +
 				", nearestPPill="+ nearestPPill + ", nearestPill=" + nearestPill + ", pillsNear="+ pillsNear + ", pillsRemaining=" + pillsRemaining 
 				+ ", nearestGhostDistanceChasing=" + nearestGhostDistanceChasing + ", nearestGhostDistanceEdible=" + nearestGhostDistanceEdible +  
 				", timeNearestEdibleGhost=" + timeNearestEdibleGhost +

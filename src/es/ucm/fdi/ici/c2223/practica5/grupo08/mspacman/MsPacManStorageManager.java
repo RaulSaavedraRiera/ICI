@@ -56,7 +56,7 @@ public class MsPacManStorageManager {
 		
 		int scoreValue = currentScore - oldScore;
 		
-		int pPillsValue = game.getActivePowerPillsIndices().length - description.getpPillsRemaining();
+		int pPillsValue = game.getActivePowerPillsIndices().length - description.getPPillsRemaining();
 		
 		int pointsFromEats = scoreValue - (pPillsValue*50 + 
 				((game.getActivePillsIndices().length - description.pillsRemaining - pPillsValue) * 10));

@@ -1,21 +1,28 @@
 <TextFileConfiguration>
 	<FilePath>not used</FilePath>
 	<Delimiters>,</Delimiters>
-	<DescriptionClassName>es.ucm.fdi.ici.practica5.grupoXX.mspacman.MsPacManDescription</DescriptionClassName>
+	<DescriptionClassName>es.ucm.fdi.ici.c2223.practica5.grupo08.mspacman.MsPacManDescription</DescriptionClassName>
 	<DescriptionMappings>
 		<Map>id</Map>
 		<Map>score</Map>
 		<Map>time</Map>
+		<Map>livesRemaining</Map>		
+		<Map>PPillsRemaining</Map>		
+		<Map>currentDirPacman</Map>	
 		<Map>nearestPPill</Map>		
-		<Map>nearestGhost</Map>		
-		<Map>edibleGhost</Map>		
+		<Map>nearestPill</Map>		
+		<Map>pillsNear</Map>		
+		<Map>pillsRemaining</Map>		
+		<Map>nearestGhostDistanceChasing</Map>		
+		<Map>nearestGhostDistanceEdible</Map>		
+		<Map>timeNearestEdibleGhost</Map>
 	</DescriptionMappings>
-	<SolutionClassName>es.ucm.fdi.ici.practica5.grupoXX.mspacman.MsPacManSolution</SolutionClassName>
+	<SolutionClassName>es.ucm.fdi.ici.c2223.practica5.grupo08.mspacman.MsPacManSolution</SolutionClassName>
 	<SolutionMappings>
 		<Map>id</Map>
 		<Map>action</Map>
 	</SolutionMappings>
-	<ResultClassName>es.ucm.fdi.ici.practica5.grupoXX.mspacman.MsPacManResult</ResultClassName>
+	<ResultClassName>es.ucm.fdi.ici.c2223.practica5.grupo08.mspacman.MsPacManResult</ResultClassName>
 	<ResultMappings>
 		<Map>id</Map>
 		<Map>score</Map>
