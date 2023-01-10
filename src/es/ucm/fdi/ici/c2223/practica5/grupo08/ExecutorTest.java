@@ -1,6 +1,5 @@
 package es.ucm.fdi.ici.c2223.practica5.grupo08;
 
-import es.ucm.fdi.ici.c2223.practica1.grupo12.MsPacManRunAway;
 import pacman.Executor;
 import pacman.controllers.GhostController;
 import pacman.controllers.PacmanController;
@@ -15,7 +14,7 @@ public class ExecutorTest {
 				.setScaleFactor(2.0)
 				.build();
 		// PacmanController pacMan = new HumanController(new KeyBoardInput());
-		PacmanController pacMan = new MsPacMan();
+		PacmanController pacMan = new es.ucm.fdi.ici.c2223.practica3.grupo08.MsPacMan();
 		GhostController ghosts = new Ghosts();
 
 		System.out.println(executor.runGame(pacMan, ghosts, 1));

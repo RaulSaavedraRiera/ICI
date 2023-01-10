@@ -54,7 +54,7 @@ public class GhostsInput extends CBRInput {
 		description.setScore(score);
 		description.setTime(time);
 		description.setNearestPPill(nearestPPill);
-		description.setNearestPPill(nearestPill);
+		description.setNearestPill(nearestPill);
 		description.setNearestGhost(nearestGhost);
 		description.setDistanceToPacman(distanceToPacman);
 		description.setPillsLeft(pillsLeft);
