@@ -140,10 +140,16 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		// Compute revise & retain
 		CBRCase newCase = createNewCase(query);
 		
-		if (desc.getEdibleGhost())
+		if (desc.getEdibleGhost()) 
+		{
 			this.edibleStorageManager.reviseAndRetain(newCase, resultUpdater);
+			this.edibleStorageManager.deleteSimilarCases(simConfig);
+		}
 		else
+		{
 			this.notEdibleStorageManager.reviseAndRetain(newCase, resultUpdater);
+			this.notEdibleStorageManager.deleteSimilarCases(simConfig);
+		}
 	}
 
 	private MOVE reuse(Collection<RetrievalResult> eval) {
@@ -189,7 +195,7 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		MOVE action = solution.getAction();
 
 		// But if not enough similarity or bad case, choose another move randomly
-		if ((similarity < 0.7) || (result.getScore() < 100)) {
+		if ((similarity < 0.7) || (result.getScore() < -300)) {
 			int index = (int) Math.floor(Math.random() * 4);
 			if (MOVE.values()[index] == action)
 				index = (index + 1) % 4;

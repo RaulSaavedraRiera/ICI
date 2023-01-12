@@ -17,7 +17,7 @@ public class Ghosts extends GhostController {
 	GhostsCBRengine cbrEngine;
 	GhostsStorageManager edibleStorageManager;
 	GhostsStorageManager notEdibleStorageManager;
-	
+
 	GhostsResultUpdater resultUpdater;
 
 	public Ghosts() {
@@ -57,25 +57,27 @@ public class Ghosts extends GhostController {
 			// This implementation only computes a new action when MsPacMan is in a
 			// junction.
 			// This is relevant for the case storage policy
-			
+
 			resultUpdater.update(game);
-			
+
 			if (!game.doesGhostRequireAction(g))
 				moves.put(g, MOVE.NEUTRAL);
 
-			try {
-				GhostsInput input = new GhostsInput(game, g);
-				input.parseInput();
-				edibleStorageManager.setGame(game);
-				notEdibleStorageManager.setGame(game);
-				cbrEngine.cycle(input.getQuery());
-				MOVE move = cbrEngine.getSolution();
-				moves.put(g, move);
-			} catch (Exception e) {
-				e.printStackTrace();
+			else {
+				try {
+					GhostsInput input = new GhostsInput(game, g);
+					input.parseInput();
+					edibleStorageManager.setGame(game);
+					notEdibleStorageManager.setGame(game);
+					cbrEngine.cycle(input.getQuery());
+					MOVE move = cbrEngine.getSolution();
+					moves.put(g, move);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
-	
+
 		return moves;
 	}
 

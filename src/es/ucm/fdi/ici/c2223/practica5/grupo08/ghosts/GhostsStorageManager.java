@@ -1,10 +1,14 @@
 package es.ucm.fdi.ici.c2223.practica5.grupo08.ghosts;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Vector;
 
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCase;
 import es.ucm.fdi.gaia.jcolibri.cbrcore.CBRCaseBase;
 import es.ucm.fdi.gaia.jcolibri.method.retain.StoreCasesMethod;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.NNConfig;
+import es.ucm.fdi.gaia.jcolibri.method.retrieve.NNretrieval.similarity.GlobalSimilarityFunction;
 import pacman.game.Game;
 
 public class GhostsStorageManager {
@@ -49,7 +53,7 @@ public class GhostsStorageManager {
 		GhostsDescription description = (GhostsDescription)bCase.getDescription();
 		int oldScore = description.getScore();
 		int currentScore = game.getScore();
-		int resultValue = ((currentScore - oldScore) + description.getPPEaten() * 100) / (5 - description.getGhostsEaten());
+		int resultValue = (oldScore - currentScore) + description.getPPEaten() * 1000;
 		
 		GhostsResult result = (GhostsResult)bCase.getResult();
 		result.setScore(resultValue);	
@@ -63,6 +67,38 @@ public class GhostsStorageManager {
 		//here you should also check if the case must be stored into persistence (too similar to existing ones, etc.)
 		
 		StoreCasesMethod.storeCase(this.caseBase, bCase);
+	}
+	
+	public void deleteSimilarCases(NNConfig simConfig) 
+	{
+		List<CBRCase> similarCases = new ArrayList<CBRCase>();
+		
+		for (CBRCase c1 : caseBase.getCases()) 
+		{
+			for (CBRCase c2 : caseBase.getCases()) 
+			{
+				if (c1 != c2) 
+				{
+			        GlobalSimilarityFunction gsf = simConfig.getDescriptionSimFunction();
+			        
+			        double sim = gsf.compute(c1.getDescription(), c2.getDescription(), c1, c2, simConfig);
+			        
+			        //si se parecen mas de un limite se añade el de menor resultado para borrar
+			        if (sim > 0.99) 
+			        {
+			        	double resultC1 = ((GhostsResult) c1.getResult()).getScore();
+			        	double resultC2 = ((GhostsResult) c2.getResult()).getScore();
+			        	
+			        	if (resultC1 > resultC2)
+			        		similarCases.add(c2);
+			        	else 
+			        		similarCases.add(c1);
+			        }
+				}
+			}
+		}
+		
+		caseBase.forgetCases(similarCases);
 	}
 
 	public void close() {

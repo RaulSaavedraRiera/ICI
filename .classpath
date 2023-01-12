@@ -26,5 +26,6 @@
 			<attribute name="maven.scope" value="compile"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="libs/ici.c2021.practica1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
