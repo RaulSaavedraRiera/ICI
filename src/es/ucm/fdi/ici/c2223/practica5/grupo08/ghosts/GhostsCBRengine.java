@@ -40,6 +40,8 @@ public class GhostsCBRengine implements StandardCBRApplication {
 
 	CBRCaseBase generalEdibleCaseBase;
 	CBRCaseBase generalNotEdibleCaseBase;
+	CBRCaseBase teamEdibleCaseBase;
+	CBRCaseBase teamNotEdibleCaseBase;
 	NNConfig simConfig;
 
 	final static String TEAM = "grupo08"; // Cuidado!! poner el grupo aquí
@@ -48,12 +50,17 @@ public class GhostsCBRengine implements StandardCBRApplication {
 			+ "/ghosts/GeneralEdibleplaintextconfig.xml";
 	final static String CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE = "es/ucm/fdi/ici/c2223/practica5/" + TEAM
 			+ "/ghosts/GeneralNotEdibleplaintextconfig.xml";
+	final static String CONNECTOR_FILE_PATH_TEAM_EDIBLE = "es/ucm/fdi/ici/c2223/practica5/" + TEAM
+			+ "/ghosts/TeamEdibleplaintextconfig.xml";
+	final static String CONNECTOR_FILE_PATH_TEAM_NOTEDIBLE = "es/ucm/fdi/ici/c2223/practica5/" + TEAM
+			+ "/ghosts/TeamNotEdibleplaintextconfig.xml";
 	final static String EDIBLE_CASE_BASE_PATH = "cbrdata" + File.separator + TEAM + File.separator + "ghosts"
 			+ File.separator;
 	final static String NOTEDIBLE_CASE_BASE_PATH = "cbrdata" + File.separator + TEAM + File.separator + "ghosts"
 			+ File.separator;
 
-	public GhostsCBRengine(GhostsStorageManager edibleStorageManager, GhostsStorageManager notEdibleStorageManager, GhostsResultUpdater resultUpdater) {
+	public GhostsCBRengine(GhostsStorageManager edibleStorageManager, GhostsStorageManager notEdibleStorageManager,
+			GhostsResultUpdater resultUpdater) {
 		this.edibleStorageManager = edibleStorageManager;
 		this.notEdibleStorageManager = notEdibleStorageManager;
 		this.resultUpdater = resultUpdater;
@@ -73,16 +80,16 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		connectorGeneralNotEdible = new CustomPlainTextConnector();
 		generalNotEdibleCaseBase = new CachedLinearCaseBase();
 
-//		connectorTeamEdible = new CustomPlainTextConnector();
-//		caseBase = new CachedLinearCaseBase();
-//		
-//		connectorTeamNotEdible = new CustomPlainTextConnector();
-//		caseBase = new CachedLinearCaseBase();
+		connectorTeamEdible = new CustomPlainTextConnector();
+		teamEdibleCaseBase = new CachedLinearCaseBase();
+
+		connectorTeamNotEdible = new CustomPlainTextConnector();
+		teamNotEdibleCaseBase = new CachedLinearCaseBase();
 
 		connectorGeneralEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_EDIBLE));
 		connectorGeneralNotEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE));
-//		connectorTeamEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_EDIBLE));
-//		connectorTeamNotEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_GENERAL_NOTEDIBLE));
+		connectorTeamEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_TEAM_EDIBLE));
+		connectorTeamNotEdible.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH_TEAM_NOTEDIBLE));
 
 		// Do not use default case base path in the xml file. Instead use custom file
 		// path for each opponent.
@@ -90,9 +97,14 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		// your "cbrdata/grupoXX" folder.
 		connectorGeneralEdible.setCaseBaseFile(EDIBLE_CASE_BASE_PATH, "General" + "Edible" + ".csv");
 		connectorGeneralNotEdible.setCaseBaseFile(NOTEDIBLE_CASE_BASE_PATH, "General" + "NotEdible" + ".csv");
+		
+		String filePath = EDIBLE_CASE_BASE_PATH + File.separator + opponent + File.separator;
+		connectorTeamEdible.setCaseBaseFile(filePath, opponent + "Edible.csv");
+		filePath = NOTEDIBLE_CASE_BASE_PATH + File.separator + opponent + File.separator;
+		connectorTeamNotEdible.setCaseBaseFile(filePath, opponent + "NotEdible.csv");
 
-		this.edibleStorageManager.setCaseBase(generalEdibleCaseBase);
-		this.notEdibleStorageManager.setCaseBase(generalNotEdibleCaseBase);
+		this.edibleStorageManager.setCaseBase(teamEdibleCaseBase);
+		this.notEdibleStorageManager.setCaseBase(teamNotEdibleCaseBase);
 
 		simConfig = new NNConfig();
 		simConfig.setDescriptionSimFunction(new Average());
@@ -111,74 +123,89 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	public CBRCaseBase preCycle() throws ExecutionException {
 		generalEdibleCaseBase.init(connectorGeneralEdible);
 		generalNotEdibleCaseBase.init(connectorGeneralNotEdible);
-		
-		return generalEdibleCaseBase;
+		teamEdibleCaseBase.init(connectorTeamEdible);
+		teamNotEdibleCaseBase.init(connectorTeamNotEdible);
+
+		return teamEdibleCaseBase;
 	}
 
 	@Override
 	public void cycle(CBRQuery query) throws ExecutionException {
-		
+
 		GhostsDescription desc = (GhostsDescription) query.getDescription();
 
-		//hay que diferenciar por edible y not edible
-		if (generalEdibleCaseBase.getCases().isEmpty()) {
-			this.action = MOVE.NEUTRAL;
-		} else if (desc.getEdibleGhost()) {
-			// Compute retrieve
-			Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(generalEdibleCaseBase.getCases(), query,
-					simConfig);
-			// Compute reuse
-			this.action = reuse(eval);
+		// hay que diferenciar por edible y not edible
+		if (desc.getEdibleGhost()) {
+
+			if (teamEdibleCaseBase.getCases().isEmpty()) {
+				this.action = MOVE.NEUTRAL;
+			}
+
+			else {
+				// Compute retrieve
+				Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(teamEdibleCaseBase.getCases(),
+						query, simConfig);
+
+				Collection<RetrievalResult> evalGeneral = NNScoringMethod
+						.evaluateSimilarity(generalEdibleCaseBase.getCases(), query, simConfig);
+				// Compute reuse
+				this.action = reuse(eval, evalGeneral);
+			}
 		} else {
-			// Compute retrieve
-			Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(generalNotEdibleCaseBase.getCases(), query,
-					simConfig);
-			// Compute reuse
-			this.action = reuse(eval);
+
+			if (teamNotEdibleCaseBase.getCases().isEmpty()) {
+				this.action = MOVE.NEUTRAL;
+			}
+
+			else {
+				// Compute retrieve
+				Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(teamNotEdibleCaseBase.getCases(),
+						query, simConfig);
+
+				Collection<RetrievalResult> evalGeneral = NNScoringMethod
+						.evaluateSimilarity(generalNotEdibleCaseBase.getCases(), query, simConfig);
+				// Compute reuse
+				this.action = reuse(eval, evalGeneral);
+			}
 		}
 
 		// Compute revise & retain
 		CBRCase newCase = createNewCase(query);
-		
-		if (desc.getEdibleGhost()) 
-		{
+
+		if (desc.getEdibleGhost()) {
 			this.edibleStorageManager.reviseAndRetain(newCase, resultUpdater);
-		}
-		else
-		{
+		} else {
 			this.notEdibleStorageManager.reviseAndRetain(newCase, resultUpdater);
 		}
 	}
 
-	private MOVE reuse(Collection<RetrievalResult> eval) {
+	private MOVE reuse(Collection<RetrievalResult> eval, Collection<RetrievalResult> evalGeneral) {
 		// This simple implementation only uses 1NN
 		// Consider using kNNs with majority voting
 		Collection<RetrievalResult> neighbours = SelectCases.selectTopKRR(eval, 3);
 		int n = neighbours.size();
 		Iterator<RetrievalResult> it = neighbours.iterator();
-		
-		//retrieve 3 neighbours
+
+		// retrieve 3 neighbours
 		RetrievalResult[] retrievals = new RetrievalResult[n];
-		
+
 		for (int i = 0; i < n; i++)
 			retrievals[i] = it.next();
 
 		GhostsResult[] results = new GhostsResult[3];
 		for (int i = 0; i < n; i++)
-			results[i] = (GhostsResult) retrievals[i].get_case().getResult();	
+			results[i] = (GhostsResult) retrievals[i].get_case().getResult();
 
 		CBRCase chosenCase = retrievals[0].get_case();
 		double similarity = retrievals[0].getEval();
-		
-		//points = result * 0.6 + similarity * 0.4
+
+		// points = result * 0.6 + similarity * 0.4
 		double maxPoints = results[0].getScore() * 0.6 + retrievals[0].getEval() * 0.4;
-		
-		for (int i = 1; i < n; i++) 
-		{
+
+		for (int i = 1; i < n; i++) {
 			double points = results[i].getScore() * 0.6 + retrievals[i].getEval() * 0.4;
-			
-			if (points > maxPoints) 
-			{
+
+			if (points > maxPoints) {
 				maxPoints = points;
 				chosenCase = retrievals[i].get_case();
 				similarity = retrievals[i].getEval();
@@ -194,6 +221,12 @@ public class GhostsCBRengine implements StandardCBRApplication {
 
 		// But if not enough similarity or bad case, choose another move randomly
 		if ((similarity < 0.7) || (result.getScore() < -300)) {
+
+			//si hay base de casos general usa esa antes de devolver random
+			if (evalGeneral != null) {
+				return reuse(evalGeneral, null);
+			}
+
 			int index = (int) Math.floor(Math.random() * 4);
 			if (MOVE.values()[index] == action)
 				index = (index + 1) % 4;
@@ -211,12 +244,12 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		GhostsDescription newDescription = (GhostsDescription) query.getDescription();
 		GhostsResult newResult = new GhostsResult();
 		GhostsSolution newSolution = new GhostsSolution();
-		
-		//sumamos todas las bases de casos
+
+		// sumamos todas las bases de casos
 		int newId = this.generalEdibleCaseBase.getCases().size() + generalNotEdibleCaseBase.getCases().size();
 		newId += edibleStorageManager.getPendingCases();
 		newId += notEdibleStorageManager.getPendingCases();
-		
+
 		newDescription.setId(newId);
 		newResult.setId(newId);
 		newSolution.setId(newId);
@@ -239,6 +272,8 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		this.notEdibleStorageManager.deleteSimilarCases(simConfig);
 		this.generalEdibleCaseBase.close();
 		this.generalNotEdibleCaseBase.close();
+		this.teamEdibleCaseBase.close();
+		this.teamNotEdibleCaseBase.close();
 	}
 
 }
