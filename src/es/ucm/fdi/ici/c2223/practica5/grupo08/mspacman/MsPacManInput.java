@@ -94,12 +94,14 @@ public class MsPacManInput extends CBRInput {
 				if(distance < nearestGhostDistanceEdible)
 				{
 					nearestGhostDistanceEdible = distance;
+					timeNearestEdibleGhost = game.getGhostEdibleTime(g);
 					//nearest = g;
 				}
 			}
 			
 			else
 			{
+				timeNearestEdibleGhost = -1;
 				if(distance < nearestGhostDistanceChasing)
 				{
 					nearestGhostDistanceChasing = distance;
@@ -108,6 +110,13 @@ public class MsPacManInput extends CBRInput {
 			}
 			
 		}
+		
+		if (nearestGhostDistanceEdible == Integer.MAX_VALUE)
+			nearestGhostDistanceEdible = -1;
+
+		if (nearestGhostDistanceChasing == Integer.MAX_VALUE)
+		nearestGhostDistanceChasing = -1;
+		
 	}
 	
 	//de momento no tenemos en cuenta distancia al fantasma
@@ -118,15 +127,16 @@ public class MsPacManInput extends CBRInput {
 			//if(distance < nearestGhost)
 			nearestPPill = distance;
 		}
+		if (nearestPPill == Integer.MAX_VALUE) nearestPPill = -1;
 	}
 	
 	private void computeNearestPill(Game game) {
-		nearestPPill = Integer.MAX_VALUE;
+		nearesPill = Integer.MAX_VALUE;
 		for(int pos: game.getActivePillsIndices()) {
 			int distance = (int)game.getDistance(game.getPacmanCurrentNodeIndex(), pos, DM.PATH);
-			//if(distance < nearestGhost)
-			nearestPPill = distance;
+			nearesPill = distance;
 		}
+		if (nearesPill == Integer.MAX_VALUE) nearesPill = -1;
 	}
 	
 	private void computePillsData(Game game) {
