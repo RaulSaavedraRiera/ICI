@@ -143,12 +143,10 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		if (desc.getEdibleGhost()) 
 		{
 			this.edibleStorageManager.reviseAndRetain(newCase, resultUpdater);
-			this.edibleStorageManager.deleteSimilarCases(simConfig);
 		}
 		else
 		{
 			this.notEdibleStorageManager.reviseAndRetain(newCase, resultUpdater);
-			this.notEdibleStorageManager.deleteSimilarCases(simConfig);
 		}
 	}
 
@@ -236,7 +234,9 @@ public class GhostsCBRengine implements StandardCBRApplication {
 	@Override
 	public void postCycle() throws ExecutionException {
 		this.edibleStorageManager.close();
+		this.edibleStorageManager.deleteSimilarCases(simConfig);
 		this.notEdibleStorageManager.close();
+		this.notEdibleStorageManager.deleteSimilarCases(simConfig);
 		this.generalEdibleCaseBase.close();
 		this.generalNotEdibleCaseBase.close();
 	}
