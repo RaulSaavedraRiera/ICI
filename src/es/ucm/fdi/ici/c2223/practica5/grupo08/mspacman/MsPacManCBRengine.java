@@ -37,9 +37,9 @@ public class MsPacManCBRengine implements StandardCBRApplication {
 	private MsPacManStorageManager storageManager;
 
 	CustomPlainTextConnector connectorGeneral;
-	//CustomPlainTextConnector connectorTeam;
+	CustomPlainTextConnector connectorTeam;
 	CBRCaseBase caseBase;
-	//CBRCaseBase caseSpecific;
+	CBRCaseBase caseSpecific;
 	
 	NNConfig simConfig;
 	
@@ -65,21 +65,22 @@ public class MsPacManCBRengine implements StandardCBRApplication {
 	@Override
 	public void configure() throws ExecutionException {
 		connectorGeneral = new CustomPlainTextConnector();
-		//connectorTeam = new CustomPlainTextConnector();
+		connectorTeam = new CustomPlainTextConnector();
 
 		caseBase = new CachedLinearCaseBase();
-		//caseSpecific = new CachedLinearCaseBase();
+		caseSpecific = new CachedLinearCaseBase();
 
 		
 		connectorGeneral.initFromXMLfile(FileIO.findFile(CONNECTOR_FILE_PATH));
-		//connectorTeam.initFromXMLfile(FileIO.findFile(CONNECTOR_SPECIFIC_FILE_PATH));
+		connectorTeam.initFromXMLfile(FileIO.findFile(CONNECTOR_SPECIFIC_FILE_PATH));
 		
 		//Do not use default case base path in the xml file. Instead use custom file path for each opponent.
 		//Note that you can create any subfolder of files to store the case base inside your "cbrdata/grupoXX" folder.
-		connectorGeneral.setCaseBaseFile(CASE_BASE_PATH, opponent+".csv");
-		//connectorTeam.setCaseBaseFile(SPECIFIC_CASE_BASE_PATH, opponent+".csv");
-		
-		this.storageManager.setCaseBase(caseBase);
+		connectorGeneral.setCaseBaseFile(CASE_BASE_PATH, "MsPacManGeneral.csv");
+		connectorTeam.setCaseBaseFile(SPECIFIC_CASE_BASE_PATH + File.separator + opponent + File.separator, opponent+".csv");
+
+		// this.storageManager.setCaseBase(caseBase);
+		this.storageManager.setCaseBase(caseSpecific);
 		
 		simConfig = new NNConfig();
 		simConfig.setDescriptionSimFunction(new Average());
@@ -100,20 +101,22 @@ public class MsPacManCBRengine implements StandardCBRApplication {
 	@Override
 	public CBRCaseBase preCycle() throws ExecutionException {
 		caseBase.init(connectorGeneral);
-		//caseBase.init(conectorTeam);
-		return caseBase;
+		caseSpecific.init(connectorTeam);
+		// return caseBase;
+		return caseSpecific;
 	}
 
 	@Override
 	public void cycle(CBRQuery query) throws ExecutionException {
-		if(caseBase.getCases().isEmpty()) {
+		if(caseSpecific.getCases().isEmpty()) {
 			this.action = MOVE.NEUTRAL;
 		}
 		else {
 			//Compute retrieve
 			Collection<RetrievalResult> eval = NNScoringMethod.evaluateSimilarity(caseBase.getCases(), query, simConfig);
+			Collection<RetrievalResult> evalTeam = NNScoringMethod.evaluateSimilarity(caseSpecific.getCases(), query, simConfig);
 			//Compute reuse
-			this.action = reuse(eval);
+			this.action = reuse(eval, evalTeam);
 		}
 		
 		//Compute revise & retain
@@ -122,7 +125,7 @@ public class MsPacManCBRengine implements StandardCBRApplication {
 		
 	}
 
-	private MOVE reuse(Collection<RetrievalResult> eval)
+	private MOVE reuse(Collection<RetrievalResult> eval, Collection<RetrievalResult> evalGeneral)
 	{
 		// This simple implementation only uses 1NN
 		// Consider using kNNs with majority voting
@@ -139,10 +142,17 @@ public class MsPacManCBRengine implements StandardCBRApplication {
 		MOVE action = solution.getAction();
 		
 		//But if not enough similarity or bad case, choose another move randomly
-		if((similarity<0.7)||(result.getScore()<100)) {
-			int index = (int)Math.floor(Math.random()*4);
-			if(MOVE.values()[index]==action) 
-				index= (index+1)%4;
+		if(similarity < 0.7 || result.getScore() < 100) {
+			
+			if (evalGeneral != null) {
+				return reuse(evalGeneral, null);
+			}
+			
+			int index = (int)Math.floor(Math.random() * 4);
+			
+			if(MOVE.values()[index] == action) 
+				index = (index + 1) % 4;
+			
 			action = MOVE.values()[index];
 		}
 		return action;
@@ -180,7 +190,9 @@ public class MsPacManCBRengine implements StandardCBRApplication {
 	@Override
 	public void postCycle() throws ExecutionException {
 		this.storageManager.close();
+		this.storageManager.deleteSimilarCases(simConfig);
 		this.caseBase.close();
+		this.caseSpecific.close();
 	}
 
 }
