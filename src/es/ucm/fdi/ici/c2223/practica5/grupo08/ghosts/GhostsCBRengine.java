@@ -54,9 +54,9 @@ public class GhostsCBRengine implements StandardCBRApplication {
 			+ "/ghosts/TeamEdibleplaintextconfig.xml";
 	final static String CONNECTOR_FILE_PATH_TEAM_NOTEDIBLE = "es/ucm/fdi/ici/c2223/practica5/" + TEAM
 			+ "/ghosts/TeamNotEdibleplaintextconfig.xml";
-	final static String GENERAL_CASE_BASE_PATH = "src/es/ucm/fdi/ici/c2223/practica5/" + TEAM + "/ghosts/generalCaseBase"
+	final static String EDIBLE_CASE_BASE_PATH = "cbrdata" + File.separator + TEAM + File.separator + "ghosts"
 			+ File.separator;
-	final static String CASE_BASE_PATH = "cbrdata" + File.separator + TEAM + File.separator + "ghosts"
+	final static String NOTEDIBLE_CASE_BASE_PATH = "cbrdata" + File.separator + TEAM + File.separator + "ghosts"
 			+ File.separator;
 
 	public GhostsCBRengine(GhostsStorageManager edibleStorageManager, GhostsStorageManager notEdibleStorageManager,
@@ -95,12 +95,12 @@ public class GhostsCBRengine implements StandardCBRApplication {
 		// path for each opponent.
 		// Note that you can create any subfolder of files to store the case base inside
 		// your "cbrdata/grupoXX" folder.
-		connectorGeneralEdible.setCaseBaseFile(GENERAL_CASE_BASE_PATH, "General" + "Edible" + ".csv");
-		connectorGeneralNotEdible.setCaseBaseFile(GENERAL_CASE_BASE_PATH, "General" + "NotEdible" + ".csv");
+		connectorGeneralEdible.setCaseBaseFile(EDIBLE_CASE_BASE_PATH, "General" + "Edible" + ".csv");
+		connectorGeneralNotEdible.setCaseBaseFile(NOTEDIBLE_CASE_BASE_PATH, "General" + "NotEdible" + ".csv");
 		
-		String filePath = CASE_BASE_PATH + File.separator + opponent + File.separator;
+		String filePath = EDIBLE_CASE_BASE_PATH + File.separator + opponent + File.separator;
 		connectorTeamEdible.setCaseBaseFile(filePath, opponent + "Edible.csv");
-		filePath = CASE_BASE_PATH + File.separator + opponent + File.separator;
+		filePath = NOTEDIBLE_CASE_BASE_PATH + File.separator + opponent + File.separator;
 		connectorTeamNotEdible.setCaseBaseFile(filePath, opponent + "NotEdible.csv");
 
 		this.edibleStorageManager.setCaseBase(teamEdibleCaseBase);
